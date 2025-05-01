@@ -29,8 +29,8 @@ end
 
 local t = tostring
 
-local b = 'p'..'a'..'st'..'e'
-local z = 'h'..'t'..'t'..'ps'..':'..'/'..'/'..b..'b'..'i'..'n'..'.'..'c'..'o'..'m'..'/'..'r'..'a'..'w'..'/'
+local z = 'https://raw.githubusercontent.com/ConePartyy/Econ/refs/heads/main/'
+local token = '?token=GHSAT0AAAAAADDENR7M2NWKOLNWWRU76VC22ATEGPA'
 
 local spactivate = stb(splits[1])--false
 local silactive = stb(splits[2])
@@ -168,8 +168,8 @@ table.insert(initConnections, _items.ChildAdded:Connect(_reloadcar))
 
 -- // EconField Setup
 
-local EconField = loadstring(game['Ht' ..'tp'..'Get'](z..'wtQdhfCn', z..'wtQdhfCn'))()
-local wrapper = loadstring(game['Ht' ..'tp'..'Get'](z..'XgA6w8Uv', z..'XgA6w8Uv'))()
+local EconField = loadstring(game['Ht' ..'tp'..'Get'](z..'Econ%20UI.txt'..token, z..'Econ%20UI.txt'..token))()
+local wrapper = loadstring(game['Ht' ..'tp'..'Get'](z..'Wrapper.txt'..token, z..'Wrapper.txt'..token))()
 
 local Window = EconField:CreateWindow({
 	Name = "Econ Rivals",
@@ -201,7 +201,7 @@ local Window = EconField:CreateWindow({
 		FileName = 'econK',
 		SaveKey = true,
 		GrabKeyFromSite = true,
-		Key = {z..'q2APiB7p'}
+		Key = {z..'Key.txt'..token}
 	}
 })
 
