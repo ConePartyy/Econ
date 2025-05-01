@@ -1161,7 +1161,7 @@ local function createbox(player)
 				boxBox.Visible = false
 			end
 
-			if label.Enabled then
+			if label and label.Enabled then
 				upz()
 			end
 
