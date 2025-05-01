@@ -651,7 +651,7 @@ local boxNAC = Color3.fromRGB(150, 100, 100)
 local boxCOL = Color3.fromRGB(0, 0, 255)
 
 local boxColor = homeTab:CreateColorPicker({
-	Name = 'box Color',
+	Name = 'E'..'SP Color',
 	Color = Color3.fromRGB(0, 0, 255),
 	Flag = 'E'..'S'..'P'..'Color',
 	Callback = function(Value)
@@ -769,17 +769,8 @@ local visualSection = gameplayTab:CreateSection('Wrap Changer - Hold a weapon')
 
 local selectedWrap = 'None'
 local selectedWeapon = 'Assault Rifle'
-local weaponsX = {}
 local wrapsX = {'None'}
 local inverted = false
-
-local notallowed = {'Fists', 'Elixir', 'Scepter', 'Hand Gun'}
-
-for _, v in pairs(ps.ViewModels:GetChildren()) do
-	if v:IsA('Model') and not table.find(notallowed, v.Name) then
-		table.insert(weaponsX, v.Name)
-	end
-end
 
 for wrap, v in pairs(wrapper:getAll()) do
 	table.insert(wrapsX, wrap)
