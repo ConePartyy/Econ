@@ -916,7 +916,21 @@ function lerp(start, goal, alpha)
 end
 
 local slide = .7
-local fm
+
+local function sj()
+	task.spawn(function()
+		local plr = Players.LocalPlayer
+		local char = c or plr.Character
+		if char then
+			local fmz = char:FindFirstChild('FakeMass') or char:WaitForChild('FakeMass') :: Part
+			local fm2 = fmz :: Part
+
+			local c = fm2.CurrentPhysicalProperties
+			local z = PhysicalProperties.new(slide, c.Friction, c.Elasticity, c.FrictionWeight, c.ElasticityWeight)
+			fm2.CustomPhysicalProperties = z
+		end
+	end)
+end
 
 local slideJumpMult = movementTab:CreateSlider({
 	Name = 'Slide Jump Hack',
@@ -927,30 +941,10 @@ local slideJumpMult = movementTab:CreateSlider({
 	Flag = 'slideSlider',
 	Callback = function(Value)
 		slide = lerp(.7, .05, Value/100)
-		
-		if fm then
-			local c = fm.CurrentPhysicalProperties
-			fm.CustomPhysicalProperties = PhysicalProperties.new(slide, c.Friction, c.Elasticity)
-		end
 	end,
 })
 
-local function sj()
-	task.spawn(function()
-		local plr = Players.LocalPlayer
-		local char = plr.Character
-		if char then
-			local fm2 = char:WaitForChild('FakeMass') :: Part
-			fm = fm2
-			
-			local c = fm2.CurrentPhysicalProperties
-			fm2.CustomPhysicalProperties = PhysicalProperties.new(slide, c.Friction, c.Elasticity)
-		end
-	end)
-end
-
-sj()
-Players.LocalPlayer.CharacterAdded:Connect(sj)
+table.insert(initConnections, RunService.RenderStepped:Connect(sj))
 
 table.insert(initConnections, UserInputService.InputBegan:Connect(function(input, processed)
 	local b = table.find(keybinds, input.KeyCode.Name)
@@ -1087,7 +1081,7 @@ local function createbox(player)
 			table.insert(gui, label) 
 
 			task.spawn(function()
-				while char and char.Parent and label do
+				while char and char.Parent and label and label:FindFirstChild('Health') do
 					label.Health.Visible = plrHasLoadout(player)
 					wait()
 				end 
