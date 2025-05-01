@@ -6,8 +6,6 @@ local Workspace = game:GetService("Workspace")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ts = game:GetService('TweenService')
 
--- INIT
-
 local Camera = workspace.CurrentCamera
 local LocalPlayer = Players.LocalPlayer
 
@@ -173,8 +171,8 @@ local EconField = loadstring(game:HttpGet(z..'Econ%20UI.txt'))()
 local wrapper = loadstring(game:HttpGet(z..'Wrapper.txt'))()
 
 local Window = EconField:CreateWindow({
-	Name = "Econ Rivals",
-	Icon = 0,
+	Name = "Econ",
+	Icon = 'code-xml',
 	LoadingTitle = '',
 	LoadingSubtitle = "by ConePartyy",
 	Theme = "AmberGlow", 
@@ -880,8 +878,8 @@ table.insert(initConnections, vms.ChildRemoved:Connect(function(v)
 	end
 end))
 
-local environmentsTab = Window:CreateTab('Environments', 'map-pin')
-local environmentsSection = environmentsTab:CreateSection('Enabled Environments')
+local environmentsTab = Window:CreateTab('Places', 'map-pin')
+local environmentsSection = environmentsTab:CreateSection('Enabled Places')
 
 local shootingRange = environmentsTab:CreateToggle({
 	Name = 'Shooting Range',
@@ -910,6 +908,49 @@ local ingame_ = environmentsTab:CreateToggle({
 })
 
 local movementTab = Window:CreateTab('Movement', 'move')
+
+movementTab:CreateSection('Basic Movement')
+
+function lerp(start, goal, alpha)
+	return start + (goal - start) * alpha
+end
+
+local slide = .7
+local fm
+
+local slideJumpMult = movementTab:CreateSlider({
+	Name = 'Slide Jump Hack',
+	Range = {0, 100},
+	Increment = 1,
+	Suffix = '',
+	CurrentValue = 0,
+	Flag = 'slideSlider',
+	Callback = function(Value)
+		slide = lerp(.7, .05, Value/100)
+		
+		if fm then
+			local c = fm.CurrentPhysicalProperties
+			fm.CustomPhysicalProperties = PhysicalProperties.new(slide, c.Friction, c.Elasticity)
+		end
+	end,
+})
+
+local function sj()
+	task.spawn(function()
+		local plr = Players.LocalPlayer
+		local char = plr.Character
+		if char then
+			local fm2 = char:WaitForChild('FakeMass') :: Part
+			fm = fm2
+			
+			local c = fm2.CurrentPhysicalProperties
+			fm2.CustomPhysicalProperties = PhysicalProperties.new(slide, c.Friction, c.Elasticity)
+		end
+	end)
+end
+
+sj()
+Players.LocalPlayer.CharacterAdded:Connect(sj)
 
 table.insert(initConnections, UserInputService.InputBegan:Connect(function(input, processed)
 	local b = table.find(keybinds, input.KeyCode.Name)
