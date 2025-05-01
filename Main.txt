@@ -572,13 +572,11 @@ local function canPopup()
 	return evtype == 'Always' or evtype == 'With E'..'SP' and boxactive
 end
 
+local plrToG = {}
 local function popUpd()
 	local cp = canPopup()
 	for _, v in pairs(gui) do
 		v.Enabled = cp
-		--if v:FindFirstChild('Health') then
-		--	v.Health.Visible = cp
-		--end
 	end
 end
 
@@ -589,7 +587,7 @@ local boxEnabled = homeTab:CreateToggle({
 	Callback = function(Value, nosound)
 		boxactive = Value
 		write()
-		
+
 		popUpd()
 
 		if not nosound then
@@ -1005,10 +1003,10 @@ local function createbox(player)
 		local added = false
 		local addedNoMatch = false
 		local func = nil
-		
+
 		local label = nil :: BillboardGui
 		local hum = nil
-		
+
 		local function upz()
 			if hum and label then
 				local alpha = hum.Health / hum.MaxHealth
@@ -1032,16 +1030,24 @@ local function createbox(player)
 		local function x(char)
 			local root = char:WaitForChild('HumanoidRootPart')
 			local hum2 = char:WaitForChild('Humanoid')
-			
+
 			hum = hum2
 			label = nl:Clone()
 			label.MaxDistance = 350
 			label.Name = 'EnemyLabel'
 			label.Parent = root
 			label.Player.Visible = false
-                        label.Enabled = canPopup()
+			label.Enabled = canPopup()
+			plrToG[label] = player
 			table.insert(gui, label) 
 			
+			task.spawn(function()
+				while char and char.Parent and label do
+					label.Health.Visible = plrHasLoadout(player)
+					wait()
+				end 
+			end)
+
 			local function check()
 				local l = root:FindFirstChild('TeammateLabel')
 				if l and l.Enabled then
@@ -1100,11 +1106,11 @@ local function createbox(player)
 							boxBox.PointB = Vector2.new(rootPos.X + 15, rootPos.Y + 30)
 							boxBox.PointC = Vector2.new(headPos.X + 15, headPos.Y)
 							boxBox.PointD = Vector2.new(headPos.X - 15, headPos.Y)
-							
+
 							if char then
 								char.Parent = player:GetAttribute('IsTeam') and h.Team or h.Enemy
 							end
-							
+
 							boxBox.Transparency = 0
 							boxBox.Visible = true
 						else
@@ -1154,7 +1160,7 @@ local function createbox(player)
 				boxBox.Transparency = 1
 				boxBox.Visible = false
 			end
-			
+
 			if label.Enabled then
 				upz()
 			end
