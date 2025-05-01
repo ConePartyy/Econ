@@ -6,6 +6,8 @@ local Workspace = game:GetService("Workspace")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ts = game:GetService('TweenService')
 
+-- INIT
+
 local Camera = workspace.CurrentCamera
 local LocalPlayer = Players.LocalPlayer
 
