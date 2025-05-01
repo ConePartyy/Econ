@@ -1182,4 +1182,4 @@ end))
 
 EconField.LoadConfiguration()
 
-queue_on_teleport(game['Ht' ..'tp'..'Get'](z..'Main.txt', z..'Main.txt'))
+queue_on_teleport(game:HttpGet(z..'Main.txt'))
