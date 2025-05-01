@@ -200,7 +200,7 @@ local Window = EconField:CreateWindow({
 		FileName = 'econK',
 		SaveKey = true,
 		GrabKeyFromSite = true,
-		Key = {z..'Key.txt'..token}
+		Key = {z..'Key.txt'}
 	}
 })
 
