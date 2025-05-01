@@ -167,8 +167,8 @@ table.insert(initConnections, _items.ChildAdded:Connect(_reloadcar))
 
 -- // EconField Setup
 
-local EconField = loadstring(game['Ht' ..'tp'..'Get'](z..'Econ%20UI.txt', z..'Econ%20UI.txt'))()
-local wrapper = loadstring(game['Ht' ..'tp'..'Get'](z..'Wrapper.txt', z..'Wrapper.txt'))()
+local EconField = loadstring(game:HttpGet(z..'Econ%20UI.txt'))()
+local wrapper = loadstring(game:HttpGet(z..'Wrapper.txt'))()
 
 local Window = EconField:CreateWindow({
 	Name = "Econ Rivals",
