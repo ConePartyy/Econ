@@ -947,7 +947,7 @@ local movementTab = Window:CreateTab('Movement', 'move')
 
 movementTab:CreateSection('Basic Movement')
 
-function lerp(start, goal, alpha)
+local function lerpz(start, goal, alpha)
 	return start + (goal - start) * alpha
 end
 
@@ -976,7 +976,7 @@ local slideJumpMult = movementTab:CreateSlider({
 	CurrentValue = 0,
 	Flag = 'slideSlider',
 	Callback = function(Value)
-		slide = lerp(.7, .05, Value/100)
+		slide = lerpz(.7, .05, Value/100)
 	end,
 })
 
