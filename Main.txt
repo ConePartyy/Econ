@@ -878,7 +878,7 @@ table.insert(initConnections, vms.ChildRemoved:Connect(function(v)
 	end
 end))
 
-local environmentsTab = Window:CreateTab('Environments', 'house')
+local environmentsTab = Window:CreateTab('Environments', 'map-pin')
 local environmentsSection = environmentsTab:CreateSection('Enabled Environments')
 
 local shootingRange = environmentsTab:CreateToggle({
