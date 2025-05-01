@@ -956,7 +956,7 @@ local slide = .7
 local function sj()
 	task.spawn(function()
 		local plr = Players.LocalPlayer
-		local char = c or plr.Character
+		local char = plr.Character
 		if char then
 			local fmz = char:FindFirstChild('FakeMass') or char:WaitForChild('FakeMass') :: Part
 			local fm2 = fmz :: Part
