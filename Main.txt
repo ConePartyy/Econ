@@ -1,0 +1,1186 @@
+local last = game
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local Workspace = game:GetService("Workspace")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ts = game:GetService('TweenService')
+
+local Camera = workspace.CurrentCamera
+local LocalPlayer = Players.LocalPlayer
+
+local success, message = pcall(function()
+	return
+end)
+
+if not success then
+	warn('CONE InsH // '..message)
+end
+
+local file = success and message or 'true-false-true-false-true'
+local splits = string.split(file, '-')
+
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+
+local function stb(str)
+	return str == 'true'
+end
+
+local t = tostring
+
+local b = 'p'..'a'..'st'..'e'
+local z = 'h'..'t'..'t'..'ps'..':'..'/'..'/'..b..'b'..'i'..'n'..'.'..'c'..'o'..'m'..'/'..'r'..'a'..'w'..'/'
+
+local spactivate = stb(splits[1])--false
+local silactive = stb(splits[2])
+local boxactive = stb(splits[3])
+local reload = stb(splits[4])
+local glass = stb(splits[5])
+local igCheck = true
+
+local fold = 'EconFold'
+
+if not isfolder(fold) then
+	makefolder(fold)
+end
+
+local function write()
+
+end
+
+local boxList = {}
+
+local glassRevertList = {}
+local keybinds = {'', 'G'}
+local ac = {}
+local noPlayers = ac
+local notInMatch = {}
+local plrToBox = {}
+
+local vms = Workspace:WaitForChild('ViewModels'):WaitForChild('FirstPerson')
+
+local sound = Instance.new('Sound')
+sound.Volume = 1
+sound.SoundId = 'rbxassetid://6895079853'
+
+local knifeSound = Instance.new('Sound')
+knifeSound.Volume = 1
+knifeSound.SoundId = 'rbxassetid://17599589028'
+
+local s2 = Instance.new('Sound')
+s2.Volume = 1
+s2.SoundId = 'rbxassetid://2865228021'
+
+local function playSound(sp, rep, vol)
+	local new = (rep or sound):Clone()
+	new.Parent = workspace
+	new.Volume = vol or 1
+	new.PlaybackSpeed = sp or 1
+	new:Play()
+
+	new.Ended:Connect(function()
+		new:Destroy()
+	end)
+end
+
+if LocalPlayer:GetAttribute('OriginalPosition') then 
+	LocalPlayer:SetAttribute('OriginalPosition', nil)		
+end
+
+LocalPlayer:SetAttribute('OriginalPosition', true)
+
+local initConnections = {}
+local on = true
+local going = true
+
+table.insert(initConnections, LocalPlayer:GetAttributeChangedSignal('OriginalPosition'):Connect(function()
+	for _, v in pairs(initConnections) do
+		v:Disconnect()
+	end
+
+	going = false
+	on = false
+
+	for _, v in pairs(boxList) do
+		v.Visible = false
+		v:Remove()
+	end
+
+	playSound(1.5, knifeSound)
+	return
+end))
+
+playSound(f and .2 or 1.5)
+f = true
+
+local prms = RaycastParams.new()
+prms.RespectCanCollide = true
+
+local plr = Players.LocalPlayer
+local m = plr:GetMouse()
+
+-- // CARRELOAD
+
+local _main = plr.PlayerGui:WaitForChild('MainGui').MainFrame
+local _items = _main.FighterInterfaces:WaitForChild(plr.Name).Items:WaitForChild('Container')
+local _connis = {}
+
+if not on then return end
+
+local NOCARRELOAD = {'Molotov', 'Grenade', 'Bow', 'Daggers'}
+local ACCEPTEDCOOLDOWN = 'rbxassetid://17156089790'
+
+local function _reloadcar(itemSlot)
+	if itemSlot:IsA('Frame') and itemSlot.Name ~= 'AmmoContainers' and not table.find(NOCARRELOAD, itemSlot.Name) then
+		local i = itemSlot.Name
+
+		local con = _connis[i]
+		if con then con:Disconnect() end
+
+		local conni = nil
+		conni = itemSlot.Cooldowns.ChildAdded:Connect(function(v)
+			if v:IsA('Frame') and v.Icon.Image == ACCEPTEDCOOLDOWN and reload then
+				conni:Disconnect()
+				task.delay(.1, function()
+					for i = 1, 4 do
+						mousescroll(2345)
+						RunService.RenderStepped:Wait()
+					end
+				end)
+			elseif v:IsA('Frame') then
+				table.insert(NOCARRELOAD, v.Name)
+				conni:Disconnect()
+			end
+		end)
+
+		table.insert(initConnections, conni)
+
+		_connis[i] = conni
+	end
+end
+
+for _, v in pairs(_items:GetChildren()) do
+	_reloadcar(v)
+end
+
+table.insert(initConnections, _items.ChildAdded:Connect(_reloadcar))
+
+-- // EconField Setup
+
+local EconField = loadstring(game['Ht' ..'tp'..'Get'](z..'wtQdhfCn', z..'wtQdhfCn'))()
+local wrapper = loadstring(game['Ht' ..'tp'..'Get'](z..'XgA6w8Uv', z..'XgA6w8Uv'))()
+
+local Window = EconField:CreateWindow({
+	Name = "Econ Rivals",
+	Icon = 0,
+	LoadingTitle = '',
+	LoadingSubtitle = "by ConePartyy",
+	Theme = "AmberGlow", 
+
+	DisableEconFieldPrompts = true,
+	DisableBuildWarnings = true,
+
+	ConfigurationSaving = {
+		Enabled = true,
+		FolderName = 'cone',
+		FileName = "econ"
+	},
+
+	Discord = {
+		Enabled = false,
+		Invite = "acv8tdb8",
+		RememberJoins = true
+	},
+
+	KeySystem = true,
+	KeySettings = {
+		Title = 'Econ | Password',
+		Subtitle = '',
+		Note = nil,
+		FileName = 'econK',
+		SaveKey = true,
+		GrabKeyFromSite = true,
+		Key = {z..'q2APiB7p'}
+	}
+})
+
+-- // Rest
+
+local function getWeapon()
+	for _, v in pairs(vms:GetChildren()) do
+		if string.find(v.Name, plr.Name) then
+			local rest = string.split(v.Name, ' - ')
+			return rest[2]
+		end
+	end
+end
+
+local cw = nil
+local handToo = {'Handgun', 'Fists'}
+
+local function plrHasLoadout(plr)
+	for _, v in pairs(ReplicatedStorage.Assets.Temp.ViewModels:GetChildren()) do
+		if string.find(v.Name, plr.Name) then
+			return true
+		end
+
+		RunService.Stepped:Wait()
+	end
+end
+
+local function getLoadout()
+	local t = {}
+	for i, v in ipairs(_items:GetChildren()) do
+		if v.Name ~= 'AmmoContainers' and v:IsA('Frame') then
+			table.insert(t, v.Name)
+		end
+	end
+
+	for i = 1, math.floor(#t/2) do
+		local j = #t - i + 1
+		t[i], t[j] = t[j], t[i]
+	end
+
+	return t
+end
+
+local ps = LocalPlayer.PlayerScripts:WaitForChild('Assets')
+
+local wrapSkinInfo = {}
+
+function readSkinFile()
+	local rf = isfile('cSkin') 
+	if rf then
+		local splits = string.split(readfile('cSkin'), '.')
+		for _, v in pairs(splits) do
+			local inf = string.split(v, '-')
+			wrapSkinInfo[inf[1]] = {
+				wrap = inf[2],
+				inverted = inf[3] == 'true'
+			}
+		end
+	else
+		writefile('cSkin', '')
+	end
+end
+
+function writeSkinFile()
+	local str = ''
+	for skin, inf in pairs(wrapSkinInfo) do
+		str..=skin..'-'..(inf.wrap or 'None')..'-'..tostring(inf.inverted)..'.'
+	end
+	writefile('cSkin', str)
+end
+
+readSkinFile()
+
+local function gt()
+	local inf = wrapSkinInfo[string.split(cw.Name, ' - ')[3]]
+	wrapper:wrapThis(cw, (inf and inf.wrap or 'None'), (inf and inf.inverted), ps.ViewModels, ps.WrapTextures)
+end
+
+local function check(v)
+	if string.find(v.Name, plr.Name) then
+		local rest = string.split(v.Name, ' - ')
+
+		cw = v
+		gt()
+	end
+end
+
+if vms:GetChildren()[1] then
+	check(vms:GetChildren()[1])
+end
+
+local shra = true
+local igam = true
+
+local function id()
+	return LocalPlayer:GetAttribute('EnvironmentID')
+end
+
+local function getNearestHead()
+	local closestPlayer = nil
+	local shortestDistance = math.huge
+	local shortestDistance2 = math.huge
+
+	for _, player in pairs(Players:GetPlayers()) do
+		if player ~= LocalPlayer and (player:GetAttribute('EnvironmentID') == id() or not igCheck) and (not id() or id() ~= '߿' and igam or id() == '߿' and shra) and not table.find(noPlayers, player.UserId) and player.Character and player.Character:FindFirstChild("Head") then
+			local char = player.Character
+			local hum = char and char:FindFirstChild('Humanoid')
+			local head = char.Head
+			local headPos, headVisible = Camera:WorldToViewportPoint(head.Position + Vector3.new(0, 0.5, 0))
+			local distance = (head.Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+			local distance2 = (Vector2.new(m.X, m.Y)-Vector2.new(headPos.X, headPos.Y)).Magnitude/2
+
+			if distance2 < shortestDistance2 and hum.Health > 0 and headVisible then
+				shortestDistance2 = distance2
+				shortestDistance = distance
+				closestPlayer = player
+			end
+		end
+	end
+
+	if closestPlayer and closestPlayer.Character and closestPlayer.Character:FindFirstChild("Head") then
+		return closestPlayer.Character.Head
+	end
+
+	return nil
+end
+
+local cons = {}
+local carRight = {'Knife', 'Grenade', 'Medkit', 'Smoke Grenade', 'Flashbang', 'Molotov', 'Fists'}
+
+local katana = true
+local carshoot = false
+
+local f = nil
+local lelCam = nil
+
+local function char()
+	return plr.Character, plr.Character.HumanoidRootPart
+end
+
+local ltick = tick()
+local down2 = false
+
+local lerp = 1
+
+local function moveMouseToWorldPosition(targetPos)
+	local camera = workspace.CurrentCamera
+	local camPos = camera.CFrame.Position
+	local camLook = camera.CFrame.LookVector
+
+	local currentDir = camLook.Unit
+	local currentPitch = math.asin(currentDir.Y)
+	local currentYaw = math.atan2(-currentDir.X, -currentDir.Z)
+
+	local targetDir = (targetPos - camPos).Unit
+	local targetPitch = math.asin(targetDir.Y)
+	local targetYaw = math.atan2(-targetDir.X, -targetDir.Z)
+
+	local deltaYaw = targetYaw - currentYaw
+	local deltaPitch = targetPitch - currentPitch
+
+	local sensitivity = 170
+
+	local moveX = deltaYaw * sensitivity
+	local moveY = -deltaPitch * sensitivity
+
+	mousemoverel(-moveX*lerp, moveY*lerp)
+end
+
+local last = false
+local clickType = 'Head'
+local trackType = 'Head'
+
+local homeTab = Window:CreateTab('Home', nil) -- Title, Image
+local aymSection = homeTab:CreateSection('Tra'..'cking')
+local CoreGui = game:GetService('CoreGui')
+
+local changeVal = Instance.new('Vector3Value', CoreGui:FindFirstChild("RobloxGui"))
+local switch = false
+local aymmode = 'Mouse'..'Move'..'Rel'
+changeVal.Name = 'ChangeVal'
+
+task.spawn(function()
+	while task.wait(2) do
+		if going then
+			switch = not switch
+			ts:Create(changeVal, TweenInfo.new(2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Value = switch and Vector3.zero or Vector3.new(0, -1.5, 0)}):Play()
+		else
+			break
+		end
+	end
+end)
+
+local function car(right)
+	local weapon = getWeapon()
+	if (spactivate or silactive) and weapon and not table.find(carRight, weapon) then
+		local targetHead = f or getNearestHead()
+		if targetHead then
+			f = nil
+
+			local pos = targetHead.Position
+
+			local typ = right and trackType or clickType
+			if typ ~= 'Head' then
+				pos = typ == 'Changing' and targetHead.Position+changeVal.Value or targetHead.Parent.HumanoidRootPart.Position
+			end
+
+			-- a/i/m/p/o/s
+			local apos = pos+Vector3.new(Random.new(.3, -.3), Random.new(-.2, -2), Random.new(.3, -.3))
+			local l = Camera.CFrame
+
+			--if right and weapon == 'Knife' then
+			--	f = targetHead
+			--	playSound(nil, knifeSound)
+			--end
+
+			if weapon == 'Daggers' or weapon == 'Bow' then
+				apos += Vector3.new(0, 2, 0)
+			end
+
+			local x, y, z = targetHead.CFrame:ToOrientation()
+			local cf = lelCam or right and weapon == 'Knife' and CFrame.new(Camera.CFrame.Position)*CFrame.Angles(x,y,z) or CFrame.new(Camera.CFrame.Position, apos)
+			if iswindowactive() then
+				if right or aymmode == 'MouseMoveRel' and silactive then
+					if not right then
+						for i = 1, 5 do
+							moveMouseToWorldPosition(apos)
+							ReplicatedStorage.Remotes.Attack:FireServer(targetHead)
+							RunService.Stepped:Wait()
+						end
+					else
+						moveMouseToWorldPosition(apos)
+					end
+				elseif not right then
+					Camera.CFrame = cf
+				end
+
+				if carshoot then
+					local ray = workspace:Raycast(Camera.CFrame.Position, Camera.CFrame.LookVector*50000)
+					if ray then
+						if ray.Instance and ray.Instance.Parent:FindFirstChild('Humanoid') then
+							mouse1press()
+							last = true
+						elseif last then
+							last = false
+							mouse1release()
+						end
+					end
+				end
+			end
+
+			lelCam = nil
+			if right and weapon == 'Knife' then lelCam = cf end
+			if not right then
+				ReplicatedStorage.Remotes.Attack:FireServer(targetHead)
+			end
+		end
+	end
+end
+
+table.insert(initConnections, m.Button2Down:Connect(function()
+	down2 = true
+	if spactivate then
+		local a = RunService.RenderStepped:Connect(car)
+		table.insert(cons, a)
+	end
+end))
+
+table.insert(initConnections, m.Button2Up:Connect(function()
+	down2 = false
+	for _, v in pairs(cons) do
+		v:Disconnect()
+	end
+end))
+
+local uip = game:GetService('UserInputService')
+local players = game:GetService('Players')
+local coreGui = game:GetService('CoreGui')
+
+local plr = players.LocalPlayer 
+local gui = plr.PlayerGui
+
+local last = true
+
+local legtrek = homeTab:CreateToggle({
+	Name = 'Tra'..'ckb'..'ot',
+	CurrentValue = true,
+	Flag = "tbtoggle",
+	Callback = function(Value, nosound)
+		spactivate = Value
+
+		write()
+		if not nosound then
+			playSound(spactivate and 1 or .8)
+		end
+	end,
+})
+
+local trackTypeDropdown = homeTab:CreateDropdown({
+	Name = 'Track A'..'im Part',
+	Options = {'Head', 'Torso', 'Changing'},
+	CurrentOption = {'Head'},
+	MultipleOptions = false,
+	Flag = 'tapdropdown',
+	Callback = function(Options)
+		trackType = Options[1]
+	end,
+})
+
+local aymLerping = homeTab:CreateSlider({
+	Name = 'A'..'im' ..' Lerping Alpha',
+	Range = {10, 100},
+	Increment = 1,
+	Suffix = '',
+	CurrentValue = 100,
+	Flag = 'lerpSlider',
+	Callback = function(Value)
+		lerp = Value/100
+	end,
+})
+
+homeTab:CreateSection('Ta'..'pping')
+
+local shootbok = homeTab:CreateToggle({
+	Name = 'A'..'im'..'b'..'ot',
+	CurrentValue = false,
+	Flag = "abtoggle",
+	Callback = function(Value, nosound)
+		--boxactive = Value
+		silactive = Value
+		last = Value
+		write()
+
+		if not nosound then
+			playSound(silactive and 1 or .8)
+		end
+	end,
+})
+
+local aymTypeDropdown = homeTab:CreateDropdown({
+	Name = 'A'..'im Part',
+	Options = {'Head', 'Torso', 'Changing'},
+	CurrentOption = {'Head'},
+	MultipleOptions = false,
+	Flag = 'apdropdown',
+	Callback = function(Options)
+		clickType = Options[1]
+	end,
+})
+
+local aymModeDropdown = homeTab:CreateDropdown({
+	Name = 'A'..'im Mode',
+	Options = {'Ca'..'mera (Ri'..'sky / BANN'..'ABLE)', 'Mouse'..'Move'..'Rel'},
+	CurrentOption = {'Mouse'..'Move'..'Rel'},
+	MultipleOptions = false,
+	Flag = 'amdropdown',
+	Callback = function(Options)
+		aymmode = Options[1]
+	end,
+})
+
+local boxSection = homeTab:CreateSection('E'..'S'..'P')
+
+local evtype = 'Off'
+local gui = {}
+local shooting_range = '߿'
+
+local function canPopup()
+	return evtype == 'Always' or evtype == 'With E'..'SP' and boxactive
+end
+
+local function popUpd()
+	local cp = canPopup()
+	for _, v in pairs(gui) do
+		v.Enabled = cp
+		--if v:FindFirstChild('Health') then
+		--	v.Health.Visible = cp
+		--end
+	end
+end
+
+local boxEnabled = homeTab:CreateToggle({
+	Name = 'Enabled',
+	CurrentValue = true,
+	Flag = "boxetoggle",
+	Callback = function(Value, nosound)
+		boxactive = Value
+		write()
+		
+		popUpd()
+
+		if not nosound then
+			playSound(boxactive and 1 or .8)
+		end
+	end,
+})
+
+local espType = 'Boxes'
+local espop = homeTab:CreateDropdown({
+	Name = 'ESP Type',
+	Options = {'Boxes', 'Highlights', 'Both'},
+	CurrentOption = {'Boxes'},
+	MultipleOptions = false,
+	Flag = 'esptdropdown',
+	Callback = function(Options, nosound)
+		espType = Options[1]
+		if not nosound then
+			playSound(1)
+		end
+	end,
+})
+
+local boxNAC = Color3.fromRGB(150, 100, 100)
+local boxCOL = Color3.fromRGB(0, 0, 255)
+
+local boxColor = homeTab:CreateColorPicker({
+	Name = 'box Color',
+	Color = Color3.fromRGB(0, 0, 255),
+	Flag = 'E'..'S'..'P'..'Color',
+	Callback = function(Value)
+		boxCOL = Value
+	end
+})
+
+local boxNoaymbotColor = homeTab:CreateColorPicker({
+	Name = 'E'..'S'..'P'.. ' No ai'..'mbot Color',
+	Color = Color3.fromRGB(150, 100, 100),
+	Flag = 'NAColor',
+	Callback = function(Value)
+		boxNAC = Value
+	end
+})
+
+local visualSection = homeTab:CreateSection('Enemy Visuals')
+
+local evpop = homeTab:CreateDropdown({
+	Name = 'Enemy Health',
+	Options = {'Off', 'With E'..'S'..'P', 'Always'},
+	CurrentOption = {'Off'},
+	MultipleOptions = false,
+	Flag = 'evpopdropdown',
+	Callback = function(Options, nosound)
+		evtype = Options[1]
+		popUpd()
+		if not nosound then
+			playSound(1)
+		end
+	end,
+})
+
+-- // HEALTH
+
+local plrs = game:GetService('Players')
+local nl = plrs.LocalPlayer.PlayerScripts.UserInterface:WaitForChild('TeammateLabel')
+
+-- // REST
+
+local gameplayTab = Window:CreateTab('Gameplay', nil) -- Title, Image
+local gameplaySection = gameplayTab:CreateSection('Gameplay')
+
+local CARRELOAD = gameplayTab:CreateToggle({
+	Name = 'Au'.. 'to' .. ' Reload',
+	CurrentValue = false,
+	Flag = "artoggle",
+	Callback = function(Value, nosound)
+		reload = Value
+		write()
+
+		if not nosound then
+			playSound(reload and 1 or .8)
+		end
+	end,
+})
+
+local carshoot = gameplayTab:CreateToggle({
+	Name = 'Au' ..'to'.. ' Sho'..'ot '.. '(Buggy)',
+	CurrentValue = false,
+	Flag = "astoggle",
+	Callback = function(Value, nosound)
+		carshoot = Value
+
+		if not nosound then
+			playSound(carshoot and 1 or .8)
+		end
+	end,
+})
+
+local carKatana = gameplayTab:CreateToggle({
+	Name = 'Au'.. 'to '.. 'Katana (Unreliable)',
+	CurrentValue = true,
+	Flag = "aktoggle",
+	Callback = function(Value, nosound)
+		katana = Value
+
+		if not nosound then
+			playSound(katana and 1 or .8)
+		end
+	end,
+})
+
+local teamCheck = gameplayTab:CreateToggle({
+	Name = 'Team Check (Recommended)',
+	CurrentValue = true,
+	Flag = "tctoggle",
+	Callback = function(Value, nosound)
+		if Value then
+			noPlayers = ac 
+		else
+			noPlayers = {}
+		end
+
+		if not nosound then
+			playSound(Value and 1 or .8)
+		end 
+	end,
+})
+
+local ingameCheck = gameplayTab:CreateToggle({
+	Name = 'Match Check (Recommended)',
+	CurrentValue = true,
+	Flag = "ictoggle",
+	Callback = function(Value, nosound)
+		igCheck = Value
+
+		if not nosound then
+			playSound(Value and 1 or .8)
+		end
+	end,
+})
+
+local visualSection = gameplayTab:CreateSection('Wrap Changer - Hold a weapon')
+
+local selectedWrap = 'None'
+local selectedWeapon = 'Assault Rifle'
+local weaponsX = {}
+local wrapsX = {'None'}
+local inverted = false
+
+local notallowed = {'Fists', 'Elixir', 'Scepter', 'Hand Gun'}
+
+for _, v in pairs(ps.ViewModels:GetChildren()) do
+	if v:IsA('Model') and not table.find(notallowed, v.Name) then
+		table.insert(weaponsX, v.Name)
+	end
+end
+
+for wrap, v in pairs(wrapper:getAll()) do
+	table.insert(wrapsX, wrap)
+end
+
+function updateSkin()
+	local name = string.split(cw.Name, ' - ')[3]
+	wrapSkinInfo[name] = {
+		wrap = selectedWrap,
+		inverted = inverted,
+	}
+
+	writeSkinFile()
+
+	gt()
+	playSound(1)
+end
+
+local typeWrap
+local wrapDropdown = gameplayTab:CreateDropdown({
+	Name = 'Wrap',
+	Options = wrapsX,
+	CurrentOption = {selectedWrap},
+	MultipleOptions = false,
+	Ext = true,
+	Flag = 'wcwcdropdown',
+	Callback = function(Options, nosound)
+		selectedWrap = Options[1]
+
+		if not nosound and not (not vms or #vms:GetChildren() == 0) then
+			updateSkin()
+			playSound(1)
+		elseif not nosound then
+			EconField:Notify({
+				Title = 'Error',
+				Content = 'Hold a weapon to change your wrap', 
+				Image = 6026568210,
+				Duration = 2,
+			})
+		end
+	end,
+})
+
+local wrapz = {'none'}
+for wrap, v in pairs(wrapper:getAll()) do
+	table.insert(wrapz, string.lower(wrap))
+end
+
+typeWrap = gameplayTab:CreateInput({
+	Name = 'Type Wrap',
+	CurrentValue = selectedWrap,
+	PlaceholderText = selectedWrap,
+	RemoveTextAfterFocusLost = true,
+	Ext = true,
+	Flag = 'wcwcinput',
+	Callback = function(Text, nosound)
+		if table.find(wrapz, string.lower(Text)) then
+			local realWrap = 'None'
+			for w, v in pairs(wrapper:getAll()) do
+				if string.lower(w) == string.lower(Text) then
+					realWrap = w
+				end
+			end
+
+			if not (not vms or #vms:GetChildren() == 0) then
+				wrapDropdown:Set({realWrap}, nosound)
+			end
+
+			selectedWrap = realWrap
+
+			if not nosound and not (not vms or #vms:GetChildren() == 0) then
+				playSound(1)
+			elseif not nosound then
+				EconField:Notify({
+					Title = 'Error',
+					Content = 'Hold a weapon to change your wrap', 
+					Image = 6026568210,
+					Duration = 2,
+				})
+			end
+		end
+	end,
+})
+
+local invertedToggle = gameplayTab:CreateToggle({
+	Name = 'Inverted',
+	CurrentValue = false,
+	Ext = true,
+	Flag = "invtoggle",
+	Callback = function(Value, nosound)
+		inverted = Value
+
+		if not nosound and not (not vms or #vms:GetChildren() == 0) then
+			updateSkin()
+			playSound(Value and 1 or .8)
+		elseif not nosound then
+			EconField:Notify({
+				Title = 'Error',
+				Content = 'Hold a weapon to change your wrap', 
+				Image = 6026568210,
+				Duration = 2,
+			})
+		end
+	end,
+})
+
+table.insert(initConnections, vms.ChildAdded:Connect(function(v)
+	check(v)
+
+	local n = string.split(cw.Name, ' - ')[3]
+	local inf = wrapSkinInfo[n]
+	visualSection:Set(n and 'Wrap Changer - '..n or 'Wrap Changer - Hold a weapon')
+	task.spawn(function()
+		typeWrap:Set(inf and inf.wrap or 'None', 1)
+	end)
+
+	task.spawn(function()
+		invertedToggle:Set(inf and inf.inverted, 1)	
+	end)
+end))
+
+table.insert(initConnections, vms.ChildRemoved:Connect(function(v)
+	if not vms or #vms:GetChildren() == 0 then
+		visualSection:Set('Wrap Changer - Hold a weapon')
+		task.spawn(function()
+			typeWrap:Set('None', 1)
+		end)
+
+		task.spawn(function()
+			invertedToggle:Set(false, 1)	
+		end)
+	end
+end))
+
+local environmentsTab = Window:CreateTab('Environments', nil)
+local environmentsSection = environmentsTab:CreateSection('Enabled Environments')
+
+local shootingRange = environmentsTab:CreateToggle({
+	Name = 'Shooting Range',
+	CurrentValue = true,
+	Flag = "srtoggle",
+	Callback = function(Value, nosound)
+		shra = Value
+
+		if not nosound then
+			playSound(shra and 1 or .8)
+		end
+	end,
+})
+
+local ingame_ = environmentsTab:CreateToggle({
+	Name = 'Ingame',
+	CurrentValue = true,
+	Flag = "ingtoggle",
+	Callback = function(Value, nosound)
+		igam = Value
+
+		if not nosound then
+			playSound(igam and 1 or .8)
+		end
+	end,
+})
+
+table.insert(initConnections, UserInputService.InputBegan:Connect(function(input, processed)
+	local b = table.find(keybinds, input.KeyCode.Name)
+	local ld = getLoadout()
+
+	if input.KeyCode.Name == 'F' and ld[3] == 'Katana' and not processed then
+		if katana then
+			for i = 1, 10 do
+				mouse2click(1)
+				RunService.Stepped:Wait()
+			end
+		end
+	elseif input.UserInputType == Enum.UserInputType.MouseButton1 and silactive then
+		car()
+	elseif input.KeyCode == Enum.KeyCode.T and not processed then
+		boxEnabled:Set(not boxactive)
+	elseif input.KeyCode.Name == 'Y' and not processed then
+		legtrek:Set(not spactivate)
+	end
+end))
+
+local function updAc()
+	if #noPlayers > 0 then
+		noPlayers = ac
+	end
+end
+
+local h = game:GetObjects("rbxassetid://87957938793907")[1]
+h.Parent = workspace
+
+-- CREATE
+
+local e = Instance.new('Highlight', h.Enemy)
+e.FillColor = Color3.new(0, 0, 1)
+e.FillTransparency = .8
+e.OutlineColor = Color3.new(0, 0, 1)
+
+local t = Instance.new('Highlight', h.Team)
+t.FillColor = Color3.fromRGB(0, 191, 191)
+t.FillTransparency = .8
+t.OutlineColor = Color3.fromRGB(0, 229, 255)
+
+local o = Instance.new('Highlight', h)
+o.FillColor = Color3.fromRGB(150, 100, 100)
+o.FillTransparency = .9
+o.OutlineColor = Color3.fromRGB(150, 100, 100)
+o.Name = 'Off'
+
+-- REST
+
+local hs = {} -- HIGHLIGHTS
+for _, v in pairs(h:GetDescendants()) do
+	if v:IsA('Highlight') and v.Name ~= 'Off' then
+		hs[v] = {
+			FillColor = v.FillColor,
+			OutlineColor = v.OutlineColor,
+			FillTransparency = v.FillTransparency,
+		}
+	end
+end
+
+table.insert(initConnections, RunService.RenderStepped:Connect(function()
+	for he, set in pairs(hs) do
+		he.Enabled = espType ~= 'Boxes' and boxactive
+		if he.Enabled then
+			if not (silactive or spactivate) then
+				he.FillColor = h.Off.FillColor
+				he.FillTransparency = h.Off.FillTransparency
+				he.OutlineColor = h.Off.OutlineColor
+			else
+				for name, og in pairs(set) do
+					he[name] = og
+				end
+			end
+		end
+	end
+end))
+
+local c = 4
+local function createbox(player)
+	if player ~= LocalPlayer then
+		local boxBox = Drawing.new("Quad")
+		boxBox.Thickness = 2
+		boxBox.Transparency = 1
+		boxBox.Visible = true
+
+		local function col()
+			boxBox.Color = (silactive or spactivate) and (table.find(ac, player.UserId) and Color3.fromRGB(0, 255, 255) or boxCOL) or boxNAC
+		end
+
+		col()
+
+		boxList[player.Name] = boxBox
+
+		local added = false
+		local addedNoMatch = false
+		local func = nil
+		
+		local label = nil :: BillboardGui
+		local hum = nil
+		
+		local function upz()
+			if hum and label then
+				local alpha = hum.Health / hum.MaxHealth
+				local lerp = Color3.fromRGB(255, 50, 50):Lerp(Color3.fromRGB(255, 215, 0):Lerp(Color3.fromRGB(100, 255, 50), alpha), alpha)
+
+				local h = label:FindFirstChild('Health')
+				if h then
+					label.Health.Bar.Size = UDim2.new(alpha, 0, 1, 0)
+					label.Health.BackgroundColor3 = Color3.new(lerp.R / 2, lerp.G / 2, lerp.B / 2)
+					label.Health.UIStroke.Color = Color3.new(lerp.R * 0.25, lerp.G * 0.25, lerp.B * 0.25)
+					label.Health.Bar.BackgroundColor3 = lerp
+					label.Health.Bar.UIStroke.Color = lerp
+				end
+
+				if hum.Health <= 0 then
+					label:Destroy()
+				end
+			end
+		end
+
+		local function x(char)
+			local root = char:WaitForChild('HumanoidRootPart')
+			local hum2 = char:WaitForChild('Humanoid')
+			
+			hum = hum2
+			label = nl:Clone()
+			label.MaxDistance = 350
+			label.Name = 'EnemyLabel'
+			label.Parent = root
+			label.Player.Visible = false
+			table.insert(gui, label)
+			
+			local function check()
+				local l = root:FindFirstChild('TeammateLabel')
+				if l and l.Enabled then
+					if not added then
+						added = true
+						table.insert(ac, player.UserId)
+						player:SetAttribute('IsTeam', true)
+						label.MaxDistance = 0
+						updAc()
+					end
+				elseif added then
+					added = false
+					player:SetAttribute('IsTeam', false)
+					label.MaxDistance = 350
+					table.remove(ac, table.find(ac, player.UserId))
+					updAc()
+				end
+
+				col()
+			end
+
+			func = check
+
+			check()
+
+			table.insert(initConnections, root.ChildAdded:Connect(check))
+		end
+
+		table.insert(initConnections, player.CharacterAdded:Connect(x))
+		if player.Character then
+			x(player.Character)
+		end
+
+		local function invis()
+			boxBox.PointA = Vector2.new(-math.huge, -math.huge)
+			boxBox.PointB = Vector2.new(-math.huge, -math.huge)
+			boxBox.PointC = Vector2.new(-math.huge, -math.huge)
+			boxBox.PointD = Vector2.new(-math.huge, -math.huge)
+		end
+
+		table.insert(initConnections, RunService.RenderStepped:Connect(function()
+			local char = player.Character
+			local hum = char and char:FindFirstChild('Humanoid')
+			local root = char and char:FindFirstChild('HumanoidRootPart')
+
+			if boxactive and not table.find(noPlayers, player.UserId) and (player:GetAttribute('EnvironmentID') == LocalPlayer:GetAttribute('EnvironmentID') or not igCheck) and (not id() or id() ~= '߿' and igam or id() == '߿' and shra) and root and hum and hum.Health > 0 and player.Character:FindFirstChild("HumanoidRootPart") and getWeapon() then
+				local head = player.Character:FindFirstChild("Head")
+
+				if root and head then
+					local rootPos, rootVisible = Camera:WorldToViewportPoint(root.Position)
+					local headPos, headVisible = Camera:WorldToViewportPoint(head.Position + Vector3.new(0, 0.5, 0))
+
+					if rootVisible and headVisible then
+						if espType == 'Both' then
+							boxBox.PointA = Vector2.new(rootPos.X - 15, rootPos.Y + 30)
+							boxBox.PointB = Vector2.new(rootPos.X + 15, rootPos.Y + 30)
+							boxBox.PointC = Vector2.new(headPos.X + 15, headPos.Y)
+							boxBox.PointD = Vector2.new(headPos.X - 15, headPos.Y)
+							
+							if char then
+								char.Parent = player:GetAttribute('IsTeam') and h.Team or h.Enemy
+							end
+							
+							boxBox.Transparency = 0
+							boxBox.Visible = true
+						else
+							if espType == 'Boxes' then
+								boxBox.PointA = Vector2.new(rootPos.X - 15, rootPos.Y + 30)
+								boxBox.PointB = Vector2.new(rootPos.X + 15, rootPos.Y + 30)
+								boxBox.PointC = Vector2.new(headPos.X + 15, headPos.Y)
+								boxBox.PointD = Vector2.new(headPos.X - 15, headPos.Y)
+
+								if char then
+									char.Parent = workspace
+								end
+
+								boxBox.Transparency = 0
+								boxBox.Visible = true
+							else
+								if char then
+									char.Parent = player:GetAttribute('IsTeam') and h.Team or h.Enemy
+								end
+
+								invis()
+								boxBox.Transparency = 1
+								boxBox.Visible = false
+							end
+						end
+					else
+						invis()
+						if char then
+							char.Parent = workspace
+						end
+						boxBox.Transparency = 1
+						boxBox.Visible = false
+					end
+				else
+					invis()
+					if char then
+						char.Parent = workspace
+					end
+					boxBox.Transparency = 1
+					boxBox.Visible = false
+				end
+			else
+				invis()
+				if char then
+					char.Parent = workspace
+				end
+				boxBox.Transparency = 1
+				boxBox.Visible = false
+			end
+			
+			if label.Enabled then
+				upz()
+			end
+
+			if func then
+				func()
+			end
+		end))
+	end
+end
+
+for _, player in pairs(Players:GetPlayers()) do
+	createbox(player)
+end
+
+table.insert(initConnections, Players.PlayerAdded:Connect(function(player)
+	createbox(player)
+end))
+
+table.insert(initConnections, Players.PlayerRemoving:Connect(function(player)
+	if boxList[player.Name] then
+		boxList[player.Name]:Remove()
+		boxList[player.Name] = nil
+	end
+end))
+
+EconField.LoadConfiguration()
+
+queue_on_teleport(game['Ht' ..'tp'..'Get'](z..'hjntw8Wg', z..'hjntw8Wg'))
