@@ -1039,7 +1039,8 @@ local function createbox(player)
 			label.Name = 'EnemyLabel'
 			label.Parent = root
 			label.Player.Visible = false
-			table.insert(gui, label)
+                        label.Enabled = canPopup()
+			table.insert(gui, label) 
 			
 			local function check()
 				local l = root:FindFirstChild('TeammateLabel')
