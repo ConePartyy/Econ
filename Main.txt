@@ -374,7 +374,7 @@ local last = false
 local clickType = 'Head'
 local trackType = 'Head'
 
-local homeTab = Window:CreateTab('Home', nil) -- Title, Image
+local homeTab = Window:CreateTab('Home', 'crosshair') -- Title, Image
 local aymSection = homeTab:CreateSection('Tra'..'cking')
 local CoreGui = game:GetService('CoreGui')
 
@@ -656,7 +656,7 @@ local nl = plrs.LocalPlayer.PlayerScripts.UserInterface:WaitForChild('TeammateLa
 
 -- // REST
 
-local gameplayTab = Window:CreateTab('Gameplay', nil) -- Title, Image
+local gameplayTab = Window:CreateTab('Gameplay', 'swords') -- Title, Image
 local gameplaySection = gameplayTab:CreateSection('Gameplay')
 
 local CARRELOAD = gameplayTab:CreateToggle({
@@ -878,7 +878,7 @@ table.insert(initConnections, vms.ChildRemoved:Connect(function(v)
 	end
 end))
 
-local environmentsTab = Window:CreateTab('Environments', nil)
+local environmentsTab = Window:CreateTab('Environments', 'house')
 local environmentsSection = environmentsTab:CreateSection('Enabled Environments')
 
 local shootingRange = environmentsTab:CreateToggle({
@@ -906,6 +906,8 @@ local ingame_ = environmentsTab:CreateToggle({
 		end
 	end,
 })
+
+local movementTab = Window:CreateTab('Movement', 'move')
 
 table.insert(initConnections, UserInputService.InputBegan:Connect(function(input, processed)
 	local b = table.find(keybinds, input.KeyCode.Name)
@@ -1040,7 +1042,7 @@ local function createbox(player)
 			label.Enabled = canPopup()
 			plrToG[label] = player
 			table.insert(gui, label) 
-			
+
 			task.spawn(function()
 				while char and char.Parent and label do
 					label.Health.Visible = plrHasLoadout(player)
