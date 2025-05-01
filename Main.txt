@@ -204,6 +204,14 @@ local Window = EconField:CreateWindow({
 	}
 })
 
+-- // Settings
+
+local UGS = UserSettings():GetService("UserGameSettings")
+
+local function mousesens()
+	return UGS.MouseSensitivity
+end
+
 -- // Rest
 
 local function getWeapon()
@@ -345,6 +353,8 @@ local ltick = tick()
 local down2 = false
 
 local lerp = 1
+local sens = 1
+local ads = 1
 
 local function moveMouseToWorldPosition(targetPos)
 	local camera = workspace.CurrentCamera
@@ -362,7 +372,7 @@ local function moveMouseToWorldPosition(targetPos)
 	local deltaYaw = targetYaw - currentYaw
 	local deltaPitch = targetPitch - currentPitch
 
-	local sensitivity = 170
+	local sensitivity = 170*mousesens()*sens*ads
 
 	local moveX = deltaYaw * sensitivity
 	local moveY = -deltaPitch * sensitivity
@@ -559,6 +569,32 @@ local aymModeDropdown = homeTab:CreateDropdown({
 	Flag = 'amdropdown',
 	Callback = function(Options)
 		aymmode = Options[1]
+	end,
+})
+
+homeTab:CreateSection('Sensitivity - Improve Tracking')
+
+local sens = homeTab:CreateSlider({
+	Name = 'Sensitivity',
+	Range = {.05, 4},
+	Increment = .05,
+	Suffix = '',
+	CurrentValue = 1,
+	Flag = 'senslider',
+	Callback = function(Value)
+		sens = Value
+	end,
+})
+
+local sens = homeTab:CreateSlider({
+	Name = 'ADS Sensitivity Multiplier',
+	Range = {.05, 2},
+	Increment = .05,
+	Suffix = '',
+	CurrentValue = 1,
+	Flag = 'adsenseslider',
+	Callback = function(Value)
+		ads = Value
 	end,
 })
 
