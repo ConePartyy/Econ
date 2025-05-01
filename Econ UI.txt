@@ -1753,7 +1753,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 				if string.find(MKey, 'raw') then
 					MKey = game['Ht' ..'tp'..'Get'](MKey)
 				end
-				
+
 				if readfile(RayfieldFolder.."/Key System".."/"..Settings.KeySettings.FileName..ConfigurationExtension) == MKey then
 					Passthrough = true
 				end
@@ -1924,7 +1924,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 	if Settings.KeySystem then
 		repeat task.wait() until Passthrough
 	end
-	
+
 	RayfieldLibrary:Notify({Title = "Econ Loaded", Content = `To show the cone menu press {settingsTable.General.rayfieldOpen.Value or 'K'}.`, Duration = 1.5, Image = 4400697855})
 
 	Notifications.Template.Visible = false
@@ -3315,8 +3315,10 @@ function RayfieldLibrary:CreateWindow(Settings)
 			TweenService:Create(Slider, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {BackgroundTransparency = 0}):Play()
 			TweenService:Create(Slider.UIStroke, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {Transparency = 0}):Play()
 			TweenService:Create(Slider.Title, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {TextTransparency = 0}):Play()	
-
-			Slider.Main.Progress.Size =	UDim2.new(0, Slider.Main.AbsoluteSize.X * ((SliderSettings.CurrentValue + SliderSettings.Range[1]) / (SliderSettings.Range[2] - SliderSettings.Range[1])) > 5 and Slider.Main.AbsoluteSize.X * (SliderSettings.CurrentValue / (SliderSettings.Range[2] - SliderSettings.Range[1])) or 5, 1, 0)
+			
+			local Current = Slider.Main.AbsolutePosition.X + 5
+			Slider.Main.Progress.Size = UDim2.new(0, Current - Slider.Main.AbsolutePosition.X, 1, 0)
+		--	Slider.Main.Progress.Size =	UDim2.new(0, Slider.Main.AbsoluteSize.X * ((SliderSettings.CurrentValue + SliderSettings.Range[1]) / (SliderSettings.Range[2] - SliderSettings.Range[1])) > 5 and Slider.Main.AbsoluteSize.X * (SliderSettings.CurrentValue / (SliderSettings.Range[2] - SliderSettings.Range[1])) or 5, 1, 0)
 
 			if not SliderSettings.Suffix then
 				Slider.Main.Information.Text = tostring(SliderSettings.CurrentValue)
