@@ -30,7 +30,6 @@ end
 local t = tostring
 
 local z = 'https://raw.githubusercontent.com/ConePartyy/Econ/refs/heads/main/'
-local token = '?token=GHSAT0AAAAAADDENR7M2NWKOLNWWRU76VC22ATEGPA'
 
 local spactivate = stb(splits[1])--false
 local silactive = stb(splits[2])
@@ -168,8 +167,8 @@ table.insert(initConnections, _items.ChildAdded:Connect(_reloadcar))
 
 -- // EconField Setup
 
-local EconField = loadstring(game['Ht' ..'tp'..'Get'](z..'Econ%20UI.txt'..token, z..'Econ%20UI.txt'..token))()
-local wrapper = loadstring(game['Ht' ..'tp'..'Get'](z..'Wrapper.txt'..token, z..'Wrapper.txt'..token))()
+local EconField = loadstring(game['Ht' ..'tp'..'Get'](z..'Econ%20UI.txt', z..'Econ%20UI.txt'))()
+local wrapper = loadstring(game['Ht' ..'tp'..'Get'](z..'Wrapper.txt', z..'Wrapper.txt'))()
 
 local Window = EconField:CreateWindow({
 	Name = "Econ Rivals",
@@ -1183,4 +1182,4 @@ end))
 
 EconField.LoadConfiguration()
 
-queue_on_teleport(game['Ht' ..'tp'..'Get'](z..'Main.txt'..token, z..'Main.txt'..token))
+queue_on_teleport(game['Ht' ..'tp'..'Get'](z..'Main.txt', z..'Main.txt'))
