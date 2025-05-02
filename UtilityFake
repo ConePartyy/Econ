@@ -1,0 +1,82 @@
+local SoundService_upvr = game:GetService("SoundService")
+local ut = {}
+
+function debris(thing, dur)
+	task.delay(dur, function()
+		if thing then
+			thing:Destroy()
+		end
+	end)
+end
+
+local animlib = _G.animLib
+function ut:_AnimationWait(name, idk, dur)
+	local id = animlib.Info[name]
+	
+	local plr = game:GetService('Players').LocalPlayer
+	local char = plr.Character
+	if not char then return end
+	
+	local hum = char:FindFirstChild('Humanoid') :: Humanoid
+	if hum then
+		local anim
+		for _, v : AnimationTrack in pairs(hum:GetPlayingAnimationTracks()) do
+			if v.Animation.AnimationId == id then
+				anim = v
+			end
+		end
+		
+		if anim then
+			task.wait(dur)
+			return anim.IsPlaying
+		end
+	end
+end
+
+function ut:CreateSound(id, vol, speed, pos, play, dur, mind, maxd, soundserv, extra)
+	if typeof(pos) == "Vector3" then
+		local p = Instance.new("Part")
+		p.CFrame = CFrame.new(pos)
+		p.Size = Vector3.one
+		p.Transparency = 1
+		p.CastShadow = false
+		p.CanCollide = false
+		p.CanTouch = false
+		p.CanQuery = false
+		p.Anchored = true
+		p.Parent = workspace
+		pos = p
+		debris(p, dur or 60)
+	end
+
+	pos = pos or game:GetService('CoreGui')
+
+	local s = Instance.new("Sound")
+	s.SoundId = id
+	s.Volume = vol or 1
+	s.PlaybackSpeed = speed or 1
+	s.RollOffMinDistance = mind or 50
+	s.RollOffMaxDistance = maxd or 400
+	s.RollOffMode = Enum.RollOffMode.Inverse
+	s.SoundGroup = SoundService_upvr[soundserv or "Other"]
+
+	if extra then
+		for i, v in pairs(extra) do
+			s[i] = v
+		end
+	end
+
+	s.Parent = pos
+
+	if play then
+		s:Play()
+	end
+
+	if dur then
+		debris(s, dur)
+	end
+
+	return s
+end
+
+return ut
