@@ -1,6 +1,6 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local constants = require(ReplicatedStorage.Modules.CONSTANTS)
-local animlib = require(script.Animation)
+local animlib = loadstrings(game:HttpGet('https://raw.githubusercontent.com/ConePartyy/Econ/refs/heads/main/Anim'))()
 
 local mod = {
 	viewmodels = {},
