@@ -109,19 +109,65 @@ function mod:wrapThis(item : Model, wrapx, inverted, ogw, ogt)
 		end
 	end
 	
-	if wrapx == 'Neon Lights' then
-		local z
-		z = run.Heartbeat:Connect(function()
-			if #new > 0 then
-				local add = math.floor(tick() * 10) * 0.027 % 0.25
-				for _, v in pairs(new) do
-					v.OffsetStudsV = add
+	local funcs = {
+		['Neon Lights'] = function()
+			local z
+			z = run.Heartbeat:Connect(function()
+				if #new > 0 then
+					local add = math.floor(tick() * 10) * 0.027 % 0.25
+					for _, v in pairs(new) do
+						v.OffsetStudsV = add
+					end
+				else
+					z:Disconnect()
 				end
-			else
-				z:Disconnect()
+			end)
+		end,
+		
+		Solar = function()
+			local z
+			z = run.Heartbeat:Connect(function()
+				if #new > 0 then
+					for _, v in pairs(new) do
+						if v.Name == 'Wireframe' then
+							v.OffsetStudsU = (math.random() - 0.5) * 0.01
+							v.OffsetStudsV = (math.random() - 0.5) * 0.01
+						end
+					end
+				else
+					z:Disconnect()
+				end
+			end)
+		end,
+		
+		Celestial = function()
+			local z
+			z = run.Heartbeat:Connect(function()
+				if #new > 0 then
+					for i, v in pairs(new) do
+						local var9 = (tick() * 0.01 + (v.Name == 'Big' and .5 or 0)) % 1
+						local var10 = 0.05 + 1.075 * var9 ^ 2
+						i.Transparency = math.sin(math.pi * var9 - (math.pi/2)) ^ 20 * 0.75 + 0.25
+						i.StudsPerTileU = var10
+						i.StudsPerTileV = var10
+					end
+				else
+					z:Disconnect()
+				end
+			end)
+		end,
+		
+		Speed = function()
+			local _shift = 0
+			local arg2 = 1
+			_shift = (_shift + arg2 * (math.sin(tick() * 1) ^ 20 * 0.75 + 0.25)) % 0.2
+			for i, v in pairs(new) do
+				i.OffsetStudsU = _shift * (v.Name == 'Left' and 1 or -1)
 			end
-		end)
-	end
+		end,
+	}
+	
+	if funcs[wrapx] then funcs[wrapx]() end
 end
 
 mod:add_wrap("Unique", "Community", {Enum.Material.Glass, Color3.fromRGB(124, 17, 255), 0, 0.1, nil}, {Enum.Material.Glass, Color3.fromRGB(255, 213, 0), 0, 0.1, nil}, {nil, Color3.fromRGB(112, 181, 255), nil, nil, nil}, nil, "Earned by redeeming codes")
