@@ -27,6 +27,8 @@ function mod:findPartInModel(part, model)
 	end
 end
 
+_G.speed = .4
+
 function mod:wrapThis(item : Model, wrapx, inverted, ogw, ogt)
 	-- ONLY PARTS WITH WRAP GROUP ATTRIBUTE ARE AFFECTED
 	-- INVERTED: 2 > 1 | 1 > 2 | 3 > 3
@@ -166,7 +168,7 @@ function mod:wrapThis(item : Model, wrapx, inverted, ogw, ogt)
 				if #new > 0 and new[1].Parent then
 					_shift = (_shift + 1 * (math.sin(tick() * 1) ^ 20 * 0.75 + 0.25))-- % 0.2
 					for i, v in pairs(new) do
-						v.OffsetStudsU = _shift * (v.Name == 'Left' and 1 or -1)
+						v.OffsetStudsU = _shift * (v.Name == 'Left' and 1 or -1) * _G.speed
 					end
 				else
 					z:Disconnect()
