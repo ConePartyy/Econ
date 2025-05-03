@@ -1,6 +1,8 @@
 local mod = {}
 local wraps = {}
- 
+
+local run = game:GetService('RunService')
+
 function mod:add_wrap(rarity, name, group1, group2, group3, desc)
 	wraps[name] = {
 		rarity = rarity,
@@ -10,11 +12,11 @@ function mod:add_wrap(rarity, name, group1, group2, group3, desc)
 		g3 = group3,
 	}
 end
- 
+
 function mod:getAll()
 	return wraps
 end
- 
+
 function mod:findPartInModel(part, model)
 	for _, descendant in model:GetDescendants() do
 		if descendant:IsA("BasePart") and descendant.Name == part.Name then
@@ -24,85 +26,103 @@ function mod:findPartInModel(part, model)
 		end
 	end
 end
- 
+
 function mod:wrapThis(item : Model, wrapx, inverted, ogw, ogt)
 	-- ONLY PARTS WITH WRAP GROUP ATTRIBUTE ARE AFFECTED
 	-- INVERTED: 2 > 1 | 1 > 2 | 3 > 3
- 
+
 	local wrap = wraps[wrapx]
- 
+
 	if not wrap and wrapx ~= 'None' then return end
- 
+
 	local invertedT = {
 		2,
 		1,
 		3
 	}
- 
+
 	local spl = string.split(item.Parent.Name, ' - ')
- 
-    if not spl or not spl[3] then spl = string.split(item.Name, ' - ') end
- 
+
+	if not spl or not spl[3] then spl = string.split(item.Name, ' - ') end
+
 	local ogWeapon = ogw:FindFirstChild(spl[3], true)
 	local ind = 0
- 
+	
+	local new = {}
+
 	for _, v in pairs(item:GetDescendants()) do
 		local wg = v:GetAttribute('WrapGroup')
- 
+
 		if ogWeapon:FindFirstChild(v.Name, true) then
 			ind += 1
 		end
- 
+
 		if v:IsA('BasePart') and wg then
 			wg = tonumber(wg)
- 
+
 			local gd = mod:findPartInModel(v, ogWeapon) --ogWeapon:GetDescendants()[ind]
-            if gd then
-           			v.Material = gd.Material
-			v.Color = gd.Color
-			v.Transparency = gd.Transparency
-			v.Reflectance = gd.Reflectance
- 
-			for _, v in pairs(v:GetChildren()) do
-				if (v:IsA('Texture') or v:IsA('Decal') or v:IsA('ParticleEmitter')) and not ogWeapon:FindFirstChild(v.Name, true) then
-					v:Destroy()
+			if gd then
+				v.Material = gd.Material
+				v.Color = gd.Color
+				v.Transparency = gd.Transparency
+				v.Reflectance = gd.Reflectance
+
+				for _, v in pairs(v:GetChildren()) do
+					if (v:IsA('Texture') or v:IsA('Decal') or v:IsA('ParticleEmitter')) and not ogWeapon:FindFirstChild(v.Name, true) then
+						v:Destroy()
+					end
 				end
+
 			end
- 
-            end
- 
+
 			if wrapx ~= 'None' then
 				local part = v
 				if inverted then
 					wg = invertedT[wg]
 				end
- 
+
 				local info = wg == 1 and wrap.g1 or wg == 2 and wrap.g2 or wrap.g3
 				if info then
 					-- MATERIAL, COLOR, TRANSPARENCY, REFLECTANCE, TEXTURES (#TABLES ARE WRAP GROUPS 1-3)
- 
+
 					if typeof(info[1]) ~= 'string' then
 						part.Material = info[1] or part.Material
 					elseif info[1] then
 						part.MaterialVariant = info[1]
 						part.Material = game:GetService('MaterialService'):FindFirstChild(info[1], true).BaseMaterial
 					end
- 
+
 					part.Color = info[2] or part.Color
 					part.Transparency = info[3] or part.Transparency
 					part.Reflectance = info[4] or part.Reflectance
- 
+
 					if info[5] then
 						for _, v in pairs(ogt[info[5]]:GetChildren()) do
-							v:Clone().Parent = part
+							local c = v:Clone()
+							c.Parent = part
+							table.insert(new, c)
 						end
 					end
 				end
 			end
 		end
 	end
+	
+	if wrapx == 'Neon Lights' then
+		local z
+		z = run.Heartbeat:Connect(function()
+			if #new > 0 then
+				local add = math.floor(tick() * 10) * 0.027 % 0.25
+				for _, v in pairs(new) do
+					v.OffsetStudsV = add
+				end
+			else
+				z:Disconnect()
+			end
+		end)
+	end
 end
- 
+
 mod:add_wrap("Unique", "Community", {Enum.Material.Glass, Color3.fromRGB(124, 17, 255), 0, 0.1, nil}, {Enum.Material.Glass, Color3.fromRGB(255, 213, 0), 0, 0.1, nil}, {nil, Color3.fromRGB(112, 181, 255), nil, nil, nil}, nil, "Earned by redeeming codes")
 mod:add_wrap("Unique", "1B Visits", {Enum.Material.Glass, Color3.fromRGB(48, 38, 0), 0, 0.4, "1BVisits"}, {Enum.Material.Glass, Color3.fromRGB(127, 100, 0), 0, 0.4, "1BVisits"}, {Enum.Material.Neon, Color3.fromRGB(173, 155, 123), 0, 0, nil}, nil, "Earned by redeeming a code when the game (RIVALS) reached 1,000,000,000 visits")
 mod:add_wrap("Unique", "Cream", {nil, Color3.fromRGB(255, 209, 157), 0, 0, nil}, {nil, Color3.fromRGB(62, 55, 48), 0, 0, nil}, nil, nil, "Earned by inviting friends to the game (RIVALS)")
@@ -364,5 +384,5 @@ mod:add_wrap("Unobtainable", "Scribble", {"Scribble", Color3.fromRGB(255, 255, 2
 mod:add_wrap("Unobtainable", "Net", {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 255, 255), 0.75, 0, "Net1"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(165, 114, 55), 0, 0, "Net2"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 255, 255), 1, 0, "Net3"}, true, "Given to bug hunters, thank you for helping us improve the game (RIVALS)")
 mod:add_wrap("Unobtainable", "Accretion", {Enum.Material.SmoothPlastic, Color3.fromRGB(149, 167, 248), 0, 0.4, nil}, {Enum.Material.Neon, Color3.fromRGB(0, 0, 0), 0, 0, "Accretion2"}, {Enum.Material.Neon, Color3.fromRGB(0, 0, 0), 0, 0, "Accretion3"}, true, "im like hey whats up hello")
 mod:add_wrap("Unobtainable", "Eruption", {Enum.Material.Neon, Color3.fromRGB(255, 112, 69), 0, 0, "Eruption1"}, {Enum.Material.Neon, Color3.fromRGB(218, 96, 9), 0, 0, "Eruption2"}, {Enum.Material.Neon, Color3.fromRGB(168, 92, 69), 0, 0, nil}, true, "RAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
- 
+
 return mod
