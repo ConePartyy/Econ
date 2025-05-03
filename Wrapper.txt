@@ -147,9 +147,9 @@ function mod:wrapThis(item : Model, wrapx, inverted, ogw, ogt)
 					for i, v in pairs(new) do
 						local var9 = (tick() * 0.01 + (v.Name == 'Big' and .5 or 0)) % 1
 						local var10 = 0.05 + 1.075 * var9 ^ 2
-						i.Transparency = math.sin(math.pi * var9 - (math.pi/2)) ^ 20 * 0.75 + 0.25
-						i.StudsPerTileU = var10
-						i.StudsPerTileV = var10
+						v.Transparency = math.sin(math.pi * var9 - (math.pi/2)) ^ 20 * 0.75 + 0.25
+						v.StudsPerTileU = var10
+						v.StudsPerTileV = var10
 					end
 				else
 					z:Disconnect()
@@ -162,7 +162,7 @@ function mod:wrapThis(item : Model, wrapx, inverted, ogw, ogt)
 			local arg2 = 1
 			_shift = (_shift + arg2 * (math.sin(tick() * 1) ^ 20 * 0.75 + 0.25)) % 0.2
 			for i, v in pairs(new) do
-				i.OffsetStudsU = _shift * (v.Name == 'Left' and 1 or -1)
+				v.OffsetStudsU = _shift * (v.Name == 'Left' and 1 or -1)
 			end
 		end,
 	}
