@@ -86,9 +86,10 @@ function mod:wrapThis(item : Model, wrapx, inverted, ogw, ogt)
 					-- MATERIAL, COLOR, TRANSPARENCY, REFLECTANCE, TEXTURES (#TABLES ARE WRAP GROUPS 1-3)
 
 					if typeof(info[1]) ~= 'string' then
+						part.MaterialVariant = ''
 						part.Material = info[1] or part.Material
 					elseif info[1] then
-						part.MaterialVariant = info[1]
+						part.MaterialVariant = info[1] or ''
 						part.Material = game:GetService('MaterialService'):FindFirstChild(info[1], true).BaseMaterial
 					end
 
