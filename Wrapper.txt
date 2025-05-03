@@ -113,7 +113,7 @@ function mod:wrapThis(item : Model, wrapx, inverted, ogw, ogt)
 		['Neon Lights'] = function()
 			local z
 			z = run.Heartbeat:Connect(function()
-				if #new > 0 then
+				if #new > 0 and new[1].Parent then
 					local add = math.floor(tick() * 10) * 0.027 % 0.25
 					for _, v in pairs(new) do
 						v.OffsetStudsV = add
@@ -127,7 +127,7 @@ function mod:wrapThis(item : Model, wrapx, inverted, ogw, ogt)
 		Solar = function()
 			local z
 			z = run.Heartbeat:Connect(function()
-				if #new > 0 then
+				if #new > 0 and new[1].Parent then
 					for _, v in pairs(new) do
 						if v.Name == 'Wireframe' then
 							v.OffsetStudsU = (math.random() - 0.5) * 0.01
@@ -143,7 +143,7 @@ function mod:wrapThis(item : Model, wrapx, inverted, ogw, ogt)
 		Celestial = function()
 			local z
 			z = run.Heartbeat:Connect(function()
-				if #new > 0 then
+				if #new > 0 and new[1].Parent then
 					for i, v in pairs(new) do
 						local var9 = (tick() * 0.01 + (v.Name == 'Big' and .5 or 0)) % 1
 						local var10 = 0.05 + 1.075 * var9 ^ 2
@@ -158,12 +158,19 @@ function mod:wrapThis(item : Model, wrapx, inverted, ogw, ogt)
 		end,
 		
 		Speed = function()
-			local _shift = 0
-			local arg2 = 1
-			_shift = (_shift + arg2 * (math.sin(tick() * 1) ^ 20 * 0.75 + 0.25)) % 0.2
-			for i, v in pairs(new) do
-				v.OffsetStudsU = _shift * (v.Name == 'Left' and 1 or -1)
-			end
+			local z
+			z = run.Heartbeat:Connect(function()
+				if #new > 0 and new[1].Parent then
+					local _shift = 0
+					local arg2 = 1
+					_shift = (_shift + arg2 * (math.sin(tick() * 1) ^ 20 * 0.75 + 0.25)) % 0.2
+					for i, v in pairs(new) do
+						v.OffsetStudsU = _shift * (v.Name == 'Left' and 1 or -1)
+					end
+				else
+					z:Disconnect()
+				end
+			end)
 		end,
 	}
 	
