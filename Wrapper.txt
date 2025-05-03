@@ -64,7 +64,7 @@ function mod:wrapThis(item : Model, wrapx, inverted, ogw, ogt)
 			v.Reflectance = gd.Reflectance
  
 			for _, v in pairs(v:GetChildren()) do
-				if v:IsA('Texture') or v:IsA('Decal') and not ogWeapon:FindFirstChild(v.Name, true) then
+				if (v:IsA('Texture') or v:IsA('Decal') or v:IsA('ParticleEmitter')) and not ogWeapon:FindFirstChild(v.Name, true) then
 					v:Destroy()
 				end
 			end
