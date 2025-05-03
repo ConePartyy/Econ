@@ -27,7 +27,7 @@ function mod:findPartInModel(part, model)
 	end
 end
 
-_G.speed = .4
+_G.speed = .008
 
 function mod:wrapThis(item : Model, wrapx, inverted, ogw, ogt)
 	-- ONLY PARTS WITH WRAP GROUP ATTRIBUTE ARE AFFECTED
