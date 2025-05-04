@@ -57,7 +57,7 @@ local function add_animation(name, id, length, speed, idkserver, stamp, extraInf
 		ExtraInformation = extraInfo
 	}
 	
-	if isskin(name) then
+	if not isskin(name) then
 		mod.InfoReverse[id] = {
 			Name = name,
 			Speed = speed,
