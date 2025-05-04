@@ -1,5 +1,6 @@
 local mod = {
-	Info = {}
+	Info = {},
+	InfoReverse = {}
 }
 
 local CONSTANTS_upvr = require(game:GetService("ReplicatedStorage").Modules.CONSTANTS)
@@ -9,6 +10,15 @@ local function add_animation(name, id, length, speed, idkserver, stamp, extraInf
 	speed = speed or 1
 	mod.Info[name] = {
 		AnimationID = id,
+		Speed = speed,
+		Length = (length and length / speed),
+		ActionTimestamp = (stamp and stamp / speed),
+		SoundCallback = require(relAnim:WaitForChild(name)),
+		ExtraInformation = extraInfo
+	}
+	
+	mod.InfoReverse[id] = {
+		Name = name,
 		Speed = speed,
 		Length = (length and length / speed),
 		ActionTimestamp = (stamp and stamp / speed),
