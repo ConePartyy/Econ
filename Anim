@@ -19,14 +19,16 @@ local function add_animation(name, id, length, speed, idkserver, stamp, extraInf
 		ExtraInformation = extraInfo
 	}
 	
-	mod.InfoReverse[id] = {
-		Name = name,
-		Speed = speed,
-		Length = (length and length / speed),
-		ActionTimestamp = (stamp and stamp / speed),
-		SoundCallback = rel and require(rel),
-		ExtraInformation = extraInfo
-	}
+	if #string.split(name, '_') == 2 then
+		mod.InfoReverse[id] = {
+			Name = name,
+			Speed = speed,
+			Length = (length and length / speed),
+			ActionTimestamp = (stamp and stamp / speed),
+			SoundCallback = rel and require(rel),
+			ExtraInformation = extraInfo
+		}
+	end
 end
 
 add_animation("fists_equip", "rbxassetid://12557487419", 0.55, nil, true)
