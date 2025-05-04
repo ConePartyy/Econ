@@ -38,8 +38,8 @@ local function add_viewmodel(name, icon, iconhigh, imagecenter, elimImg, elimImg
 	
 	if itemSpecAnims then
 		for name, anim in pairs(itemSpecAnims) do
-			itbl.anims[anim] = name
-			itbl.animsReverse[name] = anim
+			itbl.animsReverse[anim] = name
+			itbl.anims[name] = anim
 		end
 	end
 	
