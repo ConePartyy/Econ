@@ -8,12 +8,15 @@ local relAnim = game:GetService('ReplicatedStorage').Modules.AnimationLibrary
 
 local function add_animation(name, id, length, speed, idkserver, stamp, extraInfo) 
 	speed = speed or 1
+	
+	local rel = relAnim:FindFirstChild(name) or nil
+	
 	mod.Info[name] = {
 		AnimationID = id,
 		Speed = speed,
 		Length = (length and length / speed),
 		ActionTimestamp = (stamp and stamp / speed),
-		SoundCallback = require(relAnim:WaitForChild(name)),
+		SoundCallback = rel and require(rel),
 		ExtraInformation = extraInfo
 	}
 	
@@ -22,7 +25,7 @@ local function add_animation(name, id, length, speed, idkserver, stamp, extraInf
 		Speed = speed,
 		Length = (length and length / speed),
 		ActionTimestamp = (stamp and stamp / speed),
-		SoundCallback = require(relAnim:WaitForChild(name)),
+		SoundCallback = rel and require(rel),
 		ExtraInformation = extraInfo
 	}
 end
