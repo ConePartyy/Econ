@@ -19,7 +19,7 @@ local function add_animation(name, id, length, speed, idkserver, stamp, extraInf
 		ExtraInformation = extraInfo
 	}
 	
-	if #string.split(name, '_') == 1 then
+	if #string.split(name, '_') == 2 then
 		mod.InfoReverse[id] = {
 			Name = name,
 			Speed = speed,
