@@ -3,7 +3,6 @@ local mod = {
 	InfoReverse = {}
 }
 
-local CONSTANTS_upvr = require(game:GetService("ReplicatedStorage").Modules.CONSTANTS)
 local relAnim = game:GetService('ReplicatedStorage').Modules.AnimationLibrary
 
 local function add_animation(name, id, length, speed, idkserver, stamp, extraInfo) 
