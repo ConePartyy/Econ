@@ -26,11 +26,11 @@ local function add_viewmodel(name, icon, iconhigh, imagecenter, elimImg, elimImg
 		},
 		
 		animsReverse = {
-			_equip = 'equip',
-			_idle = 'idle',
-			_sprint = 'sprint',
-			_inspect = 'inspect',
-			_rareinspect = 'rareinspect'
+			[_equip] = 'equip',
+			[_idle] = 'idle',
+			[_sprint] = 'sprint',
+			[_inspect] = 'inspect',
+			[_rareinspect] = 'rareinspect'
 		},
 	}
 	
