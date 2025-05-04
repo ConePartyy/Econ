@@ -1,6 +1,6 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local constants = require(ReplicatedStorage.Modules.CONSTANTS)
-local animlib = loadstrings(game:HttpGet('https://raw.githubusercontent.com/ConePartyy/Econ/refs/heads/main/Anim'))()
+local animlib = require(script.Animation)
 
 local mod = {
 	viewmodels = {},
@@ -10,7 +10,7 @@ local mod = {
 _G.animLib = animlib
 
 local qtbl = {}
-local function add(name, icon, iconhigh, imagecenter, elimImg, elimImgScale, rootOffset, _equip, _idle, _sprint, _inspect, _rareinspect, itemSpecAnims, infoTbl)
+local function add_viewmodel(name, icon, iconhigh, imagecenter, elimImg, elimImgScale, rootOffset, _equip, _idle, _sprint, _inspect, _rareinspect, itemSpecAnims, infoTbl)
 	local itbl = {
 		image = icon,
 		imagehighres = iconhigh,
@@ -77,44 +77,50 @@ local function add(name, icon, iconhigh, imagecenter, elimImg, elimImgScale, roo
 	end
 end
 
-add("Medkit", "rbxassetid://17160800734", "rbxassetid://13717497368", nil, "rbxassetid://113536105409271", 1.5, nil, "medkit_equip", "medkit_idle", "medkit_sprint", "medkit_inspect", nil, {
+add_viewmodel("Medkit", "rbxassetid://17160800734", "rbxassetid://13717497368", nil, "rbxassetid://113536105409271", 1.5, nil, "medkit_equip", "medkit_idle", "medkit_sprint", "medkit_inspect", nil, {
 	Use = "medkit_use";
 	UseQuick = "medkit_use_quick";
 })
-add("Briefcase", "rbxassetid://18142172067", "rbxassetid://18142174697", nil, nil, nil, nil, "medkit_equip", "medkit_idle", "medkit_sprint", "medkit_inspect", nil, {
+add_viewmodel("Briefcase", "rbxassetid://18142172067", "rbxassetid://18142174697", nil, nil, nil, nil, "medkit_equip", "medkit_idle", "medkit_sprint", "medkit_inspect", nil, {
 	Use = "medkit_use";
 	UseQuick = "medkit_use_quick";
 })
-add("Sandwich", "rbxassetid://17838232333", "rbxassetid://17838233196", nil, nil, nil, nil, "medkit_sandwich_equip", "medkit_sandwich_idle", "medkit_sandwich_sprint", "medkit_sandwich_inspect", nil, {
+add_viewmodel("Sandwich", "rbxassetid://17838232333", "rbxassetid://17838233196", nil, nil, nil, nil, "medkit_sandwich_equip", "medkit_sandwich_idle", "medkit_sandwich_sprint", "medkit_sandwich_inspect", nil, {
 	Use = "medkit_sandwich_use";
 	UseQuick = "medkit_sandwich_use_quick";
 })
-add("Laptop", "rbxassetid://18770164868", "rbxassetid://18766906510", nil, nil, nil, nil, "medkit_laptop_equip", "medkit_laptop_idle", "medkit_laptop_sprint", "medkit_laptop_inspect", "medkit_laptop_inspect_rare", {
+add_viewmodel("Laptop", "rbxassetid://18770164868", "rbxassetid://18766906510", nil, nil, nil, nil, "medkit_laptop_equip", "medkit_laptop_idle", "medkit_laptop_sprint", "medkit_laptop_inspect", "medkit_laptop_inspect_rare", {
 	Use = "medkit_laptop_use";
 	UseQuick = "medkit_laptop_use_quick";
 })
-add("Bucket of Candy", "rbxassetid://93791981490691", "rbxassetid://95706110401359", nil, nil, nil, nil, "medkit_bucketofcandy_equip", "medkit_bucketofcandy_idle", "medkit_bucketofcandy_sprint", "medkit_bucketofcandy_inspect", nil, {
+add_viewmodel("Bucket of Candy", "rbxassetid://93791981490691", "rbxassetid://95706110401359", nil, nil, nil, nil, "medkit_bucketofcandy_equip", "medkit_bucketofcandy_idle", "medkit_bucketofcandy_sprint", "medkit_bucketofcandy_inspect", nil, {
 	Use = "medkit_bucketofcandy_use";
 	UseQuick = "medkit_bucketofcandy_use_quick";
 })
-add("Milk & Cookies", "rbxassetid://99156135330432", "rbxassetid://73601847002267", nil, nil, nil, nil, "medkit_milkcookies_equip", "medkit_milkcookies_idle", "medkit_milkcookies_sprint", "medkit_milkcookies_inspect", nil, {
+add_viewmodel("Milk & Cookies", "rbxassetid://99156135330432", "rbxassetid://73601847002267", nil, nil, nil, nil, "medkit_milkcookies_equip", "medkit_milkcookies_idle", "medkit_milkcookies_sprint", "medkit_milkcookies_inspect", nil, {
 	Use = "medkit_milkcookies_use";
 	UseQuick = "medkit_milkcookies_use_quick";
 })
-add("Subspace Tripmine", "rbxassetid://17160799418", "rbxassetid://17098773688", nil, "rbxassetid://132898234292756", 1.25, nil, "medkit_equip", "medkit_idle", "medkit_sprint", "medkit_inspect", nil)
-add("Don't Press", "rbxassetid://17821233203", "rbxassetid://17821264419", nil, nil, nil, nil, "medkit_equip", "medkit_idle", "medkit_sprint", "medkit_inspect", nil)
-add("Spring", "rbxassetid://18766860615", "rbxassetid://18766904035", nil, nil, nil, nil, "medkit_equip", "medkit_idle", "medkit_sprint", "medkit_inspect", nil)
-add("Trick or Treat", "rbxassetid://117744348873156", "rbxassetid://127947887082975", nil, nil, nil, nil, "medkit_equip", "medkit_idle", "medkit_sprint", "medkit_inspect", nil)
-add("Dev-in-the-Box", "rbxassetid://125056115146240", "rbxassetid://93100882010950", nil, nil, nil, nil, "medkit_equip", "medkit_idle", "medkit_sprint", "medkit_inspect", nil)
-add("Flamethrower", "rbxassetid://17256341393", "rbxassetid://17256343886", nil, "rbxassetid://122303907626596", 3.25, CFrame.new(0.4, -0.2, -0.2) * CFrame.Angles(0.17453292519943295, 0, -0.4363323129985824), "flamethrower_equip", "flamethrower_idle", nil, "flamethrower_inspect", nil)
-add("Pixel Flamethrower", "rbxassetid://17771752104", "rbxassetid://17771753119", nil, nil, nil, CFrame.new(0.4, -0.2, -0.2) * CFrame.Angles(0.17453292519943295, 0, -0.4363323129985824), "flamethrower_pixelflamethrower_equip", "flamethrower_pixelflamethrower_idle", nil, "flamethrower_pixelflamethrower_inspect", nil, nil, {
+add_viewmodel("Medkitty", "rbxassetid://125732280509514", "rbxassetid://126646607101307", nil, nil, nil, CFrame.new(0, 0.25, -0.25), "medkit_medkitty_equip", "medkit_medkitty_idle", "medkit_medkitty_sprint", "medkit_medkitty_inspect", nil, {
+	Use = "medkit_medkitty_use";
+	UseQuick = "medkit_medkitty_use_quick";
+})
+add_viewmodel("Subspace Tripmine", "rbxassetid://17160799418", "rbxassetid://17098773688", nil, "rbxassetid://132898234292756", 1.25, nil, "medkit_equip", "medkit_idle", "medkit_sprint", "medkit_inspect", nil)
+add_viewmodel("Don't Press", "rbxassetid://17821233203", "rbxassetid://17821264419", nil, nil, nil, nil, "medkit_equip", "medkit_idle", "medkit_sprint", "medkit_inspect", nil)
+add_viewmodel("Spring", "rbxassetid://18766860615", "rbxassetid://18766904035", nil, nil, nil, nil, "medkit_equip", "medkit_idle", "medkit_sprint", "medkit_inspect", nil)
+add_viewmodel("Trick or Treat", "rbxassetid://117744348873156", "rbxassetid://127947887082975", nil, nil, nil, nil, "medkit_equip", "medkit_idle", "medkit_sprint", "medkit_inspect", nil)
+add_viewmodel("Dev-in-the-Box", "rbxassetid://125056115146240", "rbxassetid://93100882010950", nil, nil, nil, nil, "medkit_equip", "medkit_idle", "medkit_sprint", "medkit_inspect", nil)
+add_viewmodel("DIY Tripmine", "rbxassetid://85747991601740", "rbxassetid://105200997776122", nil, nil, nil, nil, "medkit_equip", "medkit_idle", "medkit_sprint", "medkit_inspect", nil)
+add_viewmodel("Flamethrower", "rbxassetid://17256341393", "rbxassetid://17256343886", nil, "rbxassetid://122303907626596", 3.25, CFrame.new(0.4, -0.2, -0.2) * CFrame.Angles(0.17453292519943295, 0, -0.4363323129985824), "flamethrower_equip", "flamethrower_idle", nil, "flamethrower_inspect", nil)
+add_viewmodel("Pixel Flamethrower", "rbxassetid://17771752104", "rbxassetid://17771753119", nil, nil, nil, CFrame.new(0.4, -0.2, -0.2) * CFrame.Angles(0.17453292519943295, 0, -0.4363323129985824), "flamethrower_pixelflamethrower_equip", "flamethrower_pixelflamethrower_idle", nil, "flamethrower_pixelflamethrower_inspect", nil, nil, {
 	FramesPerSecond = 2;
 	PlayAnimationsInstantly = true;
 })
-add("Lamethrower", "rbxassetid://18766862822", "rbxassetid://18766906741", nil, nil, nil, CFrame.new(0, -0.2, -0.2), "flamethrower_equip", "flamethrower_idle", nil, "flamethrower_inspect", nil)
-add("Jack O'Thrower", "rbxassetid://104541194418168", "rbxassetid://101320270788451", nil, nil, nil, CFrame.new(0.4, -0.2, -0.2) * CFrame.Angles(0.17453292519943295, 0, -0.4363323129985824), "flamethrower_equip", "flamethrower_idle", nil, "flamethrower_inspect", nil)
-add("Snowblower", "rbxassetid://128743586418880", "rbxassetid://80434566532022", nil, nil, nil, CFrame.new(0, 0, -0.2) * CFrame.Angles(0.08726646259971647, 0, 0), "flamethrower_snowblower_equip", "flamethrower_snowblower_idle", nil, "flamethrower_snowblower_inspect", nil)
-add("Grenade", "rbxassetid://17160801411", "rbxassetid://14526777692", nil, "rbxassetid://132057045886696", 1.5, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
+add_viewmodel("Lamethrower", "rbxassetid://18766862822", "rbxassetid://18766906741", nil, nil, nil, CFrame.new(0, -0.2, -0.2), "flamethrower_equip", "flamethrower_idle", nil, "flamethrower_inspect", nil)
+add_viewmodel("Jack O'Thrower", "rbxassetid://104541194418168", "rbxassetid://101320270788451", nil, nil, nil, CFrame.new(0.4, -0.2, -0.2) * CFrame.Angles(0.17453292519943295, 0, -0.4363323129985824), "flamethrower_equip", "flamethrower_idle", nil, "flamethrower_inspect", nil)
+add_viewmodel("Snowblower", "rbxassetid://128743586418880", "rbxassetid://80434566532022", nil, nil, nil, CFrame.new(0, 0, -0.2) * CFrame.Angles(0.08726646259971647, 0, 0), "flamethrower_snowblower_equip", "flamethrower_snowblower_idle", nil, "flamethrower_snowblower_inspect", nil)
+add_viewmodel("Glitterthrower", "rbxassetid://88920581735649", "rbxassetid://83419562243412", nil, nil, nil, CFrame.new(0, -0.2, -0.2) * CFrame.Angles(0.17453292519943295, 0, 0), "flamethrower_equip", "flamethrower_idle", nil, "flamethrower_inspect", nil)
+add_viewmodel("Grenade", "rbxassetid://17160801411", "rbxassetid://14526777692", nil, "rbxassetid://132057045886696", 1.5, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
 	ThrowStart = "grenade_throw_start_pinpull";
 	ThrowIdle = "grenade_throw_idle";
 	ThrowFinish = "grenade_throw_finish";
@@ -122,7 +128,7 @@ add("Grenade", "rbxassetid://17160801411", "rbxassetid://14526777692", nil, "rbx
 	LobIdle = "grenade_lob_idle";
 	LobFinish = "grenade_lob_finish";
 })
-add("Whoopee Cushion", "rbxassetid://17672062933", "rbxassetid://17672086704", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
+add_viewmodel("Whoopee Cushion", "rbxassetid://17672062933", "rbxassetid://17672086704", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
 	ThrowStart = "grenade_throw_start";
 	ThrowIdle = "grenade_throw_idle";
 	ThrowFinish = "grenade_throw_finish";
@@ -130,7 +136,7 @@ add("Whoopee Cushion", "rbxassetid://17672062933", "rbxassetid://17672086704", n
 	LobIdle = "grenade_lob_idle";
 	LobFinish = "grenade_lob_finish";
 })
-add("Water Balloon", "rbxassetid://18766859819", "rbxassetid://18769001397", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
+add_viewmodel("Water Balloon", "rbxassetid://18766859819", "rbxassetid://18769001397", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
 	ThrowStart = "grenade_throw_start";
 	ThrowIdle = "grenade_throw_idle";
 	ThrowFinish = "grenade_throw_finish";
@@ -138,7 +144,7 @@ add("Water Balloon", "rbxassetid://18766859819", "rbxassetid://18769001397", nil
 	LobIdle = "grenade_lob_idle";
 	LobFinish = "grenade_lob_finish";
 })
-add("Soul Grenade", "rbxassetid://81573963967496", "rbxassetid://84824324478059", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
+add_viewmodel("Soul Grenade", "rbxassetid://81573963967496", "rbxassetid://84824324478059", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
 	ThrowStart = "grenade_throw_start_pinpull";
 	ThrowIdle = "grenade_throw_idle";
 	ThrowFinish = "grenade_throw_finish";
@@ -146,7 +152,7 @@ add("Soul Grenade", "rbxassetid://81573963967496", "rbxassetid://84824324478059"
 	LobIdle = "grenade_lob_idle";
 	LobFinish = "grenade_lob_finish";
 })
-add("Jingle Grenade", "rbxassetid://97646859596860", "rbxassetid://117226824301607", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_jinglegrenade_equip", "grenade_idle", "grenade_sprint", "grenade_jinglegrenade_inspect", nil, {
+add_viewmodel("Jingle Grenade", "rbxassetid://97646859596860", "rbxassetid://117226824301607", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_jinglegrenade_equip", "grenade_idle", "grenade_sprint", "grenade_jinglegrenade_inspect", nil, {
 	ThrowStart = "grenade_jinglegrenade_throw_start";
 	ThrowIdle = "grenade_throw_idle";
 	ThrowFinish = "grenade_jinglegrenade_throw_finish";
@@ -154,7 +160,7 @@ add("Jingle Grenade", "rbxassetid://97646859596860", "rbxassetid://1172268243016
 	LobIdle = "grenade_lob_idle";
 	LobFinish = "grenade_jinglegrenade_lob_finish";
 })
-add("Molotov", "rbxassetid://17160800583", "rbxassetid://16848736298", nil, "rbxassetid://72190971541032", 1.25, CFrame.new(0, -0.25, -0.375), "grenade_equip", "molotov_idle", "grenade_sprint", "grenade_inspect", nil, {
+add_viewmodel("Dynamite", "rbxassetid://119066463640901", "rbxassetid://97225646481020", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
 	ThrowStart = "grenade_throw_start";
 	ThrowIdle = "grenade_throw_idle";
 	ThrowFinish = "grenade_throw_finish";
@@ -162,7 +168,7 @@ add("Molotov", "rbxassetid://17160800583", "rbxassetid://16848736298", nil, "rbx
 	LobIdle = "grenade_lob_idle";
 	LobFinish = "grenade_lob_finish";
 })
-add("Coffee", "rbxassetid://17672061538", "rbxassetid://17672089358", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "molotov_coffee_inspect", nil, {
+add_viewmodel("Molotov", "rbxassetid://17160800583", "rbxassetid://16848736298", nil, "rbxassetid://72190971541032", 1.25, CFrame.new(0, -0.25, -0.375), "grenade_equip", "molotov_idle", "grenade_sprint", "grenade_inspect", nil, {
 	ThrowStart = "grenade_throw_start";
 	ThrowIdle = "grenade_throw_idle";
 	ThrowFinish = "grenade_throw_finish";
@@ -170,7 +176,7 @@ add("Coffee", "rbxassetid://17672061538", "rbxassetid://17672089358", nil, nil, 
 	LobIdle = "grenade_lob_idle";
 	LobFinish = "grenade_lob_finish";
 })
-add("Torch", "rbxassetid://85244356150596", "rbxassetid://93091692383329", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "molotov_idle", "grenade_sprint", "grenade_inspect", nil, {
+add_viewmodel("Coffee", "rbxassetid://17672061538", "rbxassetid://17672089358", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "molotov_coffee_inspect", nil, {
 	ThrowStart = "grenade_throw_start";
 	ThrowIdle = "grenade_throw_idle";
 	ThrowFinish = "grenade_throw_finish";
@@ -178,7 +184,7 @@ add("Torch", "rbxassetid://85244356150596", "rbxassetid://93091692383329", nil, 
 	LobIdle = "grenade_lob_idle";
 	LobFinish = "grenade_lob_finish";
 })
-add("Vexed Candle", "rbxassetid://84613910102839", "rbxassetid://135115204101965", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "molotov_idle", "grenade_sprint", "grenade_inspect", nil, {
+add_viewmodel("Torch", "rbxassetid://85244356150596", "rbxassetid://93091692383329", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "molotov_idle", "grenade_sprint", "grenade_inspect", nil, {
 	ThrowStart = "grenade_throw_start";
 	ThrowIdle = "grenade_throw_idle";
 	ThrowFinish = "grenade_throw_finish";
@@ -186,7 +192,15 @@ add("Vexed Candle", "rbxassetid://84613910102839", "rbxassetid://135115204101965
 	LobIdle = "grenade_lob_idle";
 	LobFinish = "grenade_lob_finish";
 })
-add("Hot Coals", "rbxassetid://110423024723304", "rbxassetid://98070129509602", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "molotov_hotcoals_equip", "molotov_hotcoals_idle", nil, nil, nil, {
+add_viewmodel("Vexed Candle", "rbxassetid://84613910102839", "rbxassetid://135115204101965", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "molotov_idle", "grenade_sprint", "grenade_inspect", nil, {
+	ThrowStart = "grenade_throw_start";
+	ThrowIdle = "grenade_throw_idle";
+	ThrowFinish = "grenade_throw_finish";
+	LobStart = "grenade_lob_start";
+	LobIdle = "grenade_lob_idle";
+	LobFinish = "grenade_lob_finish";
+})
+add_viewmodel("Hot Coals", "rbxassetid://110423024723304", "rbxassetid://98070129509602", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "molotov_hotcoals_equip", "molotov_hotcoals_idle", nil, nil, nil, {
 	ThrowStart = "molotov_hotcoals_throw_start";
 	ThrowIdle = "molotov_hotcoals_throw_idle";
 	ThrowFinish = "molotov_hotcoals_throw_finish";
@@ -196,7 +210,15 @@ add("Hot Coals", "rbxassetid://110423024723304", "rbxassetid://98070129509602", 
 }, {
 	DisableProceduralSprinting = true;
 })
-add("Flashbang", "rbxassetid://17160801529", "rbxassetid://14664488253", nil, "rbxassetid://129373270164561", 1.5, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
+add_viewmodel("Lava Lamp", "rbxassetid://79616583726432", "rbxassetid://76191080417885", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "molotov_lavalamp_idle", "grenade_sprint", "grenade_inspect", nil, {
+	ThrowStart = "grenade_throw_start";
+	ThrowIdle = "grenade_throw_idle";
+	ThrowFinish = "grenade_throw_finish";
+	LobStart = "grenade_lob_start";
+	LobIdle = "grenade_lob_idle";
+	LobFinish = "grenade_lob_finish";
+})
+add_viewmodel("Flashbang", "rbxassetid://17160801529", "rbxassetid://14664488253", nil, "rbxassetid://129373270164561", 1.5, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
 	ThrowStart = "grenade_throw_start_pinpull";
 	ThrowIdle = "grenade_throw_idle";
 	ThrowFinish = "grenade_throw_finish";
@@ -204,7 +226,7 @@ add("Flashbang", "rbxassetid://17160801529", "rbxassetid://14664488253", nil, "r
 	LobIdle = "grenade_lob_idle";
 	LobFinish = "grenade_lob_finish";
 })
-add("Disco Ball", "rbxassetid://17672061796", "rbxassetid://17672089136", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
+add_viewmodel("Disco Ball", "rbxassetid://17672061796", "rbxassetid://17672089136", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
 	ThrowStart = "grenade_throw_start";
 	ThrowIdle = "grenade_throw_idle";
 	ThrowFinish = "grenade_throw_finish";
@@ -212,7 +234,7 @@ add("Disco Ball", "rbxassetid://17672061796", "rbxassetid://17672089136", nil, n
 	LobIdle = "grenade_lob_idle";
 	LobFinish = "grenade_lob_finish";
 })
-add("Camera", "rbxassetid://18766865640", "rbxassetid://18766908915", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
+add_viewmodel("Camera", "rbxassetid://18766865640", "rbxassetid://18766908915", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
 	ThrowStart = "grenade_throw_start";
 	ThrowIdle = "grenade_throw_idle";
 	ThrowFinish = "grenade_throw_finish";
@@ -220,7 +242,7 @@ add("Camera", "rbxassetid://18766865640", "rbxassetid://18766908915", nil, nil, 
 	LobIdle = "grenade_lob_idle";
 	LobFinish = "grenade_lob_finish";
 })
-add("Pixel Flashbang", "rbxassetid://132815625474597", "rbxassetid://82894448978638", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_pixelgrenade_equip", "grenade_pixelgrenade_idle", "grenade_pixelgrenade_sprint", "grenade_pixelgrenade_inspect", nil, {
+add_viewmodel("Pixel Flashbang", "rbxassetid://132815625474597", "rbxassetid://82894448978638", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_pixelgrenade_equip", "grenade_pixelgrenade_idle", "grenade_pixelgrenade_sprint", "grenade_pixelgrenade_inspect", nil, {
 	ThrowStart = "grenade_pixelgrenade_throw_start_pinpull";
 	ThrowIdle = "grenade_pixelgrenade_throw_idle";
 	ThrowFinish = "grenade_pixelgrenade_throw_finish";
@@ -231,7 +253,7 @@ add("Pixel Flashbang", "rbxassetid://132815625474597", "rbxassetid://82894448978
 	FramesPerSecond = 2;
 	PlayAnimationsInstantly = true;
 })
-add("Skullbang", "rbxassetid://73796957224972", "rbxassetid://94894233513600", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
+add_viewmodel("Skullbang", "rbxassetid://73796957224972", "rbxassetid://94894233513600", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
 	ThrowStart = "grenade_throw_start";
 	ThrowIdle = "grenade_throw_idle";
 	ThrowFinish = "grenade_throw_finish";
@@ -239,7 +261,7 @@ add("Skullbang", "rbxassetid://73796957224972", "rbxassetid://94894233513600", n
 	LobIdle = "grenade_lob_idle";
 	LobFinish = "grenade_lob_finish";
 })
-add("Shining Star", "rbxassetid://108392227354212", "rbxassetid://73486952957582", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
+add_viewmodel("Shining Star", "rbxassetid://108392227354212", "rbxassetid://73486952957582", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
 	ThrowStart = "grenade_throw_start";
 	ThrowIdle = "grenade_throw_idle";
 	ThrowFinish = "grenade_throw_finish";
@@ -247,7 +269,7 @@ add("Shining Star", "rbxassetid://108392227354212", "rbxassetid://73486952957582
 	LobIdle = "grenade_lob_idle";
 	LobFinish = "grenade_lob_finish";
 })
-add("Smoke Grenade", "rbxassetid://17160799767", "rbxassetid://16373283577", nil, "rbxassetid://107823376688548", 1.5, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
+add_viewmodel("Lightbulb", "rbxassetid://125489177573287", "rbxassetid://78421244256536", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
 	ThrowStart = "grenade_throw_start_pinpull";
 	ThrowIdle = "grenade_throw_idle";
 	ThrowFinish = "grenade_throw_finish";
@@ -255,7 +277,15 @@ add("Smoke Grenade", "rbxassetid://17160799767", "rbxassetid://16373283577", nil
 	LobIdle = "grenade_lob_idle";
 	LobFinish = "grenade_lob_finish";
 })
-add("Emoji Cloud", "rbxassetid://17821234077", "rbxassetid://17821265237", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
+add_viewmodel("Smoke Grenade", "rbxassetid://17160799767", "rbxassetid://16373283577", nil, "rbxassetid://107823376688548", 1.5, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
+	ThrowStart = "grenade_throw_start_pinpull";
+	ThrowIdle = "grenade_throw_idle";
+	ThrowFinish = "grenade_throw_finish";
+	LobStart = "grenade_lob_start_pinpull";
+	LobIdle = "grenade_lob_idle";
+	LobFinish = "grenade_lob_finish";
+})
+add_viewmodel("Emoji Cloud", "rbxassetid://17821234077", "rbxassetid://17821265237", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
 	ThrowStart = "grenade_throw_start";
 	ThrowIdle = "grenade_throw_idle";
 	ThrowFinish = "grenade_throw_finish";
@@ -263,7 +293,7 @@ add("Emoji Cloud", "rbxassetid://17821234077", "rbxassetid://17821265237", nil, 
 	LobIdle = "grenade_lob_idle";
 	LobFinish = "grenade_lob_finish";
 })
-add("Balance", "rbxassetid://18766866168", "rbxassetid://18766909964", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
+add_viewmodel("Balance", "rbxassetid://18766866168", "rbxassetid://18766909964", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
 	ThrowStart = "grenade_throw_start";
 	ThrowIdle = "grenade_throw_idle";
 	ThrowFinish = "grenade_throw_finish";
@@ -271,7 +301,7 @@ add("Balance", "rbxassetid://18766866168", "rbxassetid://18766909964", nil, nil,
 	LobIdle = "grenade_lob_idle";
 	LobFinish = "grenade_lob_finish";
 })
-add("Eyeball", "rbxassetid://135911399763146", "rbxassetid://103493376163318", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
+add_viewmodel("Eyeball", "rbxassetid://135911399763146", "rbxassetid://103493376163318", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
 	ThrowStart = "grenade_throw_start";
 	ThrowIdle = "grenade_throw_idle";
 	ThrowFinish = "grenade_throw_finish";
@@ -279,7 +309,7 @@ add("Eyeball", "rbxassetid://135911399763146", "rbxassetid://103493376163318", n
 	LobIdle = "grenade_lob_idle";
 	LobFinish = "grenade_lob_finish";
 })
-add("Snowglobe", "rbxassetid://119390465944051", "rbxassetid://86696224913566", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
+add_viewmodel("Snowglobe", "rbxassetid://119390465944051", "rbxassetid://86696224913566", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
 	ThrowStart = "grenade_throw_start";
 	ThrowIdle = "grenade_throw_idle";
 	ThrowFinish = "grenade_throw_finish";
@@ -287,92 +317,117 @@ add("Snowglobe", "rbxassetid://119390465944051", "rbxassetid://86696224913566", 
 	LobIdle = "grenade_lob_idle";
 	LobFinish = "grenade_lob_finish";
 })
-add("Fists", "rbxassetid://17160801745", "rbxassetid://16560051320", nil, "rbxassetid://99106504223200", 1.5, nil, "fists_equip", "fists_idle", "fists_sprint", "fists_inspect", nil, {
+add_viewmodel("Hourglass", "rbxassetid://108311418974073", "rbxassetid://70423041582442", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "grenade_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
+	ThrowStart = "grenade_throw_start";
+	ThrowIdle = "grenade_throw_idle";
+	ThrowFinish = "grenade_throw_finish";
+	LobStart = "grenade_lob_start";
+	LobIdle = "grenade_lob_idle";
+	LobFinish = "grenade_lob_finish";
+})
+add_viewmodel("Fists", "rbxassetid://17160801745", "rbxassetid://16560051320", nil, "rbxassetid://99106504223200", 1.5, nil, "fists_equip", "fists_idle", "fists_sprint", "fists_inspect", nil, {
 	Attack1 = "fists_attack1";
 	Attack2 = "fists_attack2";
 })
-add("Boxing Gloves", "rbxassetid://17672060486", "rbxassetid://17672089761", nil, nil, nil, CFrame.new(0, 0, -0.375), "fists_equip", "fists_idle", "fists_sprint", "fists_inspect", nil, {
+add_viewmodel("Boxing Gloves", "rbxassetid://17672060486", "rbxassetid://17672089761", nil, nil, nil, CFrame.new(0, 0, -0.375), "fists_equip", "fists_idle", "fists_sprint", "fists_boxinggloves_inspect", nil, {
 	Attack1 = "fists_attack1";
 	Attack2 = "fists_attack2";
 })
-add("Brass Knuckles", "rbxassetid://18766866012", "rbxassetid://18766909587", nil, nil, nil, CFrame.new(0, 0, -0.375), "fists_equip", "fists_idle", "fists_sprint", "fists_inspect", nil, {
+add_viewmodel("Brass Knuckles", "rbxassetid://18766866012", "rbxassetid://18766909587", nil, nil, nil, CFrame.new(0, 0, -0.375), "fists_equip", "fists_idle", "fists_sprint", "fists_inspect", nil, {
 	Attack1 = "fists_attack1";
 	Attack2 = "fists_attack2";
 })
-add("Pumpkin Claws", "rbxassetid://90996407819750", "rbxassetid://110587168549532", nil, nil, nil, CFrame.new(0, 0, -0.375), "fists_equip", "fists_idle", "fists_sprint", "fists_inspect", nil, {
+add_viewmodel("Pumpkin Claws", "rbxassetid://90996407819750", "rbxassetid://110587168549532", nil, nil, nil, CFrame.new(0, 0, -0.375), "fists_equip", "fists_idle", "fists_sprint", "fists_inspect", nil, {
 	Attack1 = "fists_attack1";
 	Attack2 = "fists_attack2";
 })
-add("Festive Fists", "rbxassetid://102757458529795", "rbxassetid://98061476050478", nil, nil, nil, CFrame.new(0, 0, -0.375), "fists_equip", "fists_idle", "fists_sprint", "fists_inspect", nil, {
+add_viewmodel("Festive Fists", "rbxassetid://102757458529795", "rbxassetid://98061476050478", nil, nil, nil, CFrame.new(0, 0, -0.375), "fists_equip", "fists_idle", "fists_sprint", "fists_inspect", nil, {
 	Attack1 = "fists_attack1";
 	Attack2 = "fists_attack2";
 })
-add("Knife", "rbxassetid://17160800983", "rbxassetid://13197583583", nil, "rbxassetid://86335100734691", 2, nil, "knife_equip", "knife_idle", "knife_sprint", "knife_inspect", "knife_inspect_rare", {
+add_viewmodel("Fists of Hurt", "rbxassetid://140103672289959", "rbxassetid://71585039030211", nil, nil, nil, nil, "fists_equip", "fists_idle", "fists_sprint", "fists_fistsofhurt_inspect", nil, {
+	Attack1 = "fists_fistsofhurt_attack1";
+	Attack2 = "fists_fistsofhurt_attack2";
+})
+add_viewmodel("Knife", "rbxassetid://17160800983", "rbxassetid://13197583583", nil, "rbxassetid://86335100734691", 2, nil, "knife_equip", "knife_idle", "knife_sprint", "knife_inspect", "knife_inspect_rare", {
 	Attack1 = "knife_attack1";
 	Attack2 = "knife_attack2";
 	HeavyAttack1 = "knife_heavyattack1";
 	HeavyAttackAnimationHit = nil;
 })
-add("Chancla", "rbxassetid://17672060795", "rbxassetid://17672089600", nil, nil, nil, nil, "knife_equip", "knife_idle", "knife_sprint", "knife_inspect", "knife_inspect_rare", {
+add_viewmodel("Chancla", "rbxassetid://17672060795", "rbxassetid://17672089600", nil, nil, nil, nil, "knife_equip", "knife_idle", "knife_sprint", "knife_inspect", "knife_inspect_rare", {
 	Attack1 = "knife_attack1";
 	Attack2 = "knife_attack2";
 	HeavyAttack1 = "knife_heavyattack1";
 	HeavyAttackAnimationHit = nil;
 })
-add("Karambit", "rbxassetid://18766863586", "rbxassetid://18766907079", nil, nil, nil, nil, "knife_karambit_equip", "knife_karambit_idle", "knife_karambit_sprint", "knife_karambit_inspect", nil, {
+add_viewmodel("Karambit", "rbxassetid://18766863586", "rbxassetid://18766907079", nil, nil, nil, nil, "knife_karambit_equip", "knife_karambit_idle", "knife_karambit_sprint", "knife_karambit_inspect", nil, {
 	Attack1 = "knife_karambit_attack1";
 	Attack2 = "knife_karambit_attack2";
 	HeavyAttack1 = "knife_karambit_heavyattack1";
 	HeavyAttackAnimationHit = "knife_karambit_heavyattack_hit";
 })
-add("Machete", "rbxassetid://84364955819899", "rbxassetid://90332754966135", nil, nil, nil, nil, "knife_equip", "knife_idle", "knife_sprint", "knife_inspect", "knife_inspect_rare", {
+add_viewmodel("Machete", "rbxassetid://84364955819899", "rbxassetid://90332754966135", nil, nil, nil, nil, "knife_equip", "knife_idle", "knife_sprint", "knife_inspect", "knife_inspect_rare", {
 	Attack1 = "knife_attack1";
 	Attack2 = "knife_attack2";
 	HeavyAttack1 = "knife_heavyattack1";
 	HeavyAttackAnimationHit = nil;
 })
-add("Candy Cane", "rbxassetid://124021545052910", "rbxassetid://84302121354096", nil, nil, nil, nil, "knife_karambit_equip", "knife_karambit_idle", "knife_karambit_sprint", "knife_karambit_inspect", nil, {
+add_viewmodel("Candy Cane", "rbxassetid://124021545052910", "rbxassetid://84302121354096", nil, nil, nil, nil, "knife_karambit_equip", "knife_karambit_idle", "knife_karambit_sprint", "knife_karambit_inspect", nil, {
 	Attack1 = "knife_karambit_attack1";
 	Attack2 = "knife_karambit_attack2";
 	HeavyAttack1 = "knife_karambit_heavyattack1";
 	HeavyAttackAnimationHit = "knife_karambit_heavyattack_hit";
 })
-add("Chainsaw", "rbxassetid://17160801873", "rbxassetid://13717445410", nil, "rbxassetid://81316332892810", 2.75, nil, "chainsaw_equip", "chainsaw_idle", "chainsaw_sprint", "chainsaw_inspect", nil, {
+add_viewmodel("Balisong", "rbxassetid://93303458333011", "rbxassetid://114825371645118", nil, nil, nil, nil, "knife_balisong_equip", "knife_balisong_idle", "knife_balisong_sprint", "knife_balisong_inspect", nil, {
+	Attack1 = "knife_balisong_attack1";
+	Attack2 = "knife_balisong_attack2";
+	HeavyAttack1 = "knife_balisong_heavyattack1";
+	HeavyAttackAnimationHit = "knife_balisong_heavyattack_hit";
+})
+add_viewmodel("Chainsaw", "rbxassetid://17160801873", "rbxassetid://13717445410", nil, "rbxassetid://81316332892810", 2.75, nil, "chainsaw_equip", "chainsaw_idle", "chainsaw_sprint", "chainsaw_inspect", nil, {
 	Attack1 = "chainsaw_attack1";
 	Attack2 = "chainsaw_attack2";
 	HoldStart = "chainsaw_hold_start";
 	HoldLoop = "chainsaw_hold_loop";
 	HoldFinish = "chainsaw_hold_finish";
 })
-add("Blobsaw", "rbxassetid://17825963589", "rbxassetid://17825961425", nil, nil, nil, nil, "chainsaw_equip", "chainsaw_idle", "chainsaw_sprint", "chainsaw_inspect", nil, {
+add_viewmodel("Blobsaw", "rbxassetid://17825963589", "rbxassetid://17825961425", nil, nil, nil, nil, "chainsaw_equip", "chainsaw_idle", "chainsaw_sprint", "chainsaw_inspect", nil, {
 	Attack1 = "chainsaw_attack1";
 	Attack2 = "chainsaw_attack2";
 	HoldStart = "chainsaw_hold_start";
 	HoldLoop = "chainsaw_hold_loop";
 	HoldFinish = "chainsaw_hold_finish";
 })
-add("Handsaws", "rbxassetid://18766864583", "rbxassetid://18769002596", nil, nil, nil, CFrame.new(0, 0, -0.5), "chainsaw_handsaws_equip", "chainsaw_handsaws_idle", "chainsaw_handsaws_sprint", "chainsaw_handsaws_inspect", nil, {
+add_viewmodel("Handsaws", "rbxassetid://18766864583", "rbxassetid://18769002596", nil, nil, nil, CFrame.new(0, 0, -0.5), "chainsaw_handsaws_equip", "chainsaw_handsaws_idle", "chainsaw_handsaws_sprint", "chainsaw_handsaws_inspect", nil, {
 	Attack1 = "chainsaw_handsaws_attack1";
 	Attack2 = "chainsaw_handsaws_attack2";
 	HoldStart = "chainsaw_handsaws_hold_start";
 	HoldLoop = "chainsaw_handsaws_hold_loop";
 	HoldFinish = "chainsaw_handsaws_hold_finish";
 })
-add("Buzzsaw", "rbxassetid://74057448201836", "rbxassetid://128354991167944", nil, nil, nil, CFrame.new(0, 0.125, -0.125), "chainsaw_buzzsaw_equip", "chainsaw_buzzsaw_idle", "chainsaw_buzzsaw_sprint", "chainsaw_buzzsaw_inspect", nil, {
+add_viewmodel("Buzzsaw", "rbxassetid://74057448201836", "rbxassetid://128354991167944", nil, nil, nil, CFrame.new(0, 0.125, -0.125), "chainsaw_buzzsaw_equip", "chainsaw_buzzsaw_idle", "chainsaw_buzzsaw_sprint", "chainsaw_buzzsaw_inspect", nil, {
 	Attack1 = "chainsaw_buzzsaw_attack1";
 	Attack2 = "chainsaw_buzzsaw_attack2";
 	HoldStart = "chainsaw_buzzsaw_hold_start";
 	HoldLoop = "chainsaw_buzzsaw_hold_loop";
 	HoldFinish = "chainsaw_buzzsaw_hold_finish";
 })
-add("Festive Buzzsaw", "rbxassetid://80811854818775", "rbxassetid://111566667788893", nil, nil, nil, CFrame.new(0, 0.125, -0.125), "chainsaw_buzzsaw_equip", "chainsaw_buzzsaw_idle", "chainsaw_buzzsaw_sprint", "chainsaw_buzzsaw_inspect", nil, {
+add_viewmodel("Festive Buzzsaw", "rbxassetid://80811854818775", "rbxassetid://111566667788893", nil, nil, nil, CFrame.new(0, 0.125, -0.125), "chainsaw_buzzsaw_equip", "chainsaw_buzzsaw_idle", "chainsaw_buzzsaw_sprint", "chainsaw_buzzsaw_inspect", nil, {
 	Attack1 = "chainsaw_buzzsaw_attack1";
 	Attack2 = "chainsaw_buzzsaw_attack2";
 	HoldStart = "chainsaw_buzzsaw_hold_start";
 	HoldLoop = "chainsaw_buzzsaw_hold_loop";
 	HoldFinish = "chainsaw_buzzsaw_hold_finish";
 })
-add("Katana", "rbxassetid://17160801158", "rbxassetid://13968137196", nil, "rbxassetid://94254432866649", 3, CFrame.new(0, -0.125, -0.25), "katana_equip", "katana_idle", "katana_sprint2", "katana_inspect", "katana_inspect_rare", {
+add_viewmodel("Mega Drill", "rbxassetid://76663867023998", "rbxassetid://78828669740807", nil, nil, nil, CFrame.new(0, 0, -0.25), "chainsaw_megadrill_equip", "chainsaw_megadrill_idle", "chainsaw_megadrill_sprint", "chainsaw_megadrill_inspect", nil, {
+	Attack1 = "chainsaw_megadrill_attack1";
+	Attack2 = "chainsaw_megadrill_attack2";
+	HoldStart = "chainsaw_megadrill_hold_start";
+	HoldLoop = "chainsaw_megadrill_hold_loop";
+	HoldFinish = "chainsaw_megadrill_hold_finish";
+})
+add_viewmodel("Katana", "rbxassetid://17160801158", "rbxassetid://13968137196", nil, "rbxassetid://94254432866649", 3, CFrame.new(0, -0.125, -0.25), "katana_equip", "katana_idle", "katana_sprint2", "katana_inspect", "katana_inspect_rare", {
 	Attack1 = "katana_attack1";
 	Attack2 = "katana_attack2";
 	DeflectIdle = "katana_deflect_idle";
@@ -382,7 +437,7 @@ add("Katana", "rbxassetid://17160801158", "rbxassetid://13968137196", nil, "rbxa
 	Deflect4 = "katana_deflect4";
 	Deflect5 = "katana_deflect5";
 })
-add("Saber", "rbxassetid://17672062341", "rbxassetid://17672087756", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "katana_saber_equip", "katana_idle", "katana_sprint2", "katana_saber_inspect", "katana_saber_inspect_rare", {
+add_viewmodel("Saber", "rbxassetid://17672062341", "rbxassetid://17672087756", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "katana_saber_equip", "katana_idle", "katana_sprint2", "katana_saber_inspect", "katana_saber_inspect_rare", {
 	Attack1 = "katana_saber_attack1";
 	Attack2 = "katana_saber_attack2";
 	DeflectIdle = "katana_saber_deflect_idle";
@@ -392,7 +447,7 @@ add("Saber", "rbxassetid://17672062341", "rbxassetid://17672087756", nil, nil, n
 	Deflect4 = "katana_deflect4";
 	Deflect5 = "katana_deflect5";
 })
-add("Lightning Bolt", "rbxassetid://18768968241", "rbxassetid://18769002278", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "katana_lightningbolt_equip", "katana_idle", "katana_sprint2", "katana_inspect", "katana_lightningbolt_inspect_rare", {
+add_viewmodel("Lightning Bolt", "rbxassetid://18768968241", "rbxassetid://18769002278", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "katana_lightningbolt_equip", "katana_idle", "katana_sprint2", "katana_inspect", "katana_lightningbolt_inspect_rare", {
 	Attack1 = "katana_lightningbolt_attack1";
 	Attack2 = "katana_lightningbolt_attack2";
 	DeflectIdle = "katana_lightningbolt_deflect_idle";
@@ -402,7 +457,7 @@ add("Lightning Bolt", "rbxassetid://18768968241", "rbxassetid://18769002278", ni
 	Deflect4 = "katana_deflect4";
 	Deflect5 = "katana_deflect5";
 })
-add("Pixel Katana", "rbxassetid://127922483074145", "rbxassetid://83686692916164", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "katana_pixelkatana_equip", "katana_pixelkatana_idle", "katana_pixelkatana_sprint2", "katana_pixelkatana_inspect", "katana_pixelkatana_inspect_rare", {
+add_viewmodel("Pixel Katana", "rbxassetid://127922483074145", "rbxassetid://83686692916164", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "katana_pixelkatana_equip", "katana_pixelkatana_idle", "katana_pixelkatana_sprint2", "katana_pixelkatana_inspect", "katana_pixelkatana_inspect_rare", {
 	Attack1 = "katana_pixelkatana_attack1";
 	Attack2 = "katana_pixelkatana_attack2";
 	DeflectIdle = "katana_pixelkatana_deflect_idle";
@@ -415,7 +470,7 @@ add("Pixel Katana", "rbxassetid://127922483074145", "rbxassetid://83686692916164
 	FramesPerSecond = 2;
 	PlayAnimationsInstantly = true;
 })
-add("Devil's Trident", "rbxassetid://101234805269080", "rbxassetid://91973056969213", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "katana_equip", "katana_idle", "katana_sprint2", "katana_inspect", "katana_inspect_rare", {
+add_viewmodel("Devil's Trident", "rbxassetid://101234805269080", "rbxassetid://91973056969213", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "katana_equip", "katana_idle", "katana_sprint2", "katana_inspect", "katana_inspect_rare", {
 	Attack1 = "katana_devilstrident_attack1";
 	Attack2 = "katana_devilstrident_attack2";
 	DeflectIdle = "katana_deflect_idle";
@@ -425,7 +480,7 @@ add("Devil's Trident", "rbxassetid://101234805269080", "rbxassetid://91973056969
 	Deflect4 = "katana_deflect4";
 	Deflect5 = "katana_deflect5";
 })
-add("2025 Katana", "rbxassetid://102866488046710", "rbxassetid://79288379571855", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "katana_equip", "katana_idle", "katana_sprint2", "katana_inspect", "katana_inspect_rare", {
+add_viewmodel("2025 Katana", "rbxassetid://102866488046710", "rbxassetid://79288379571855", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "katana_equip", "katana_idle", "katana_sprint2", "katana_inspect", "katana_inspect_rare", {
 	Attack1 = "katana_attack1";
 	Attack2 = "katana_attack2";
 	DeflectIdle = "katana_deflect_idle";
@@ -435,7 +490,7 @@ add("2025 Katana", "rbxassetid://102866488046710", "rbxassetid://79288379571855"
 	Deflect4 = "katana_deflect4";
 	Deflect5 = "katana_deflect5";
 })
-add("Keytana", "rbxassetid://118899310989170", "rbxassetid://120478111112813", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "katana_keytana_equip", "katana_keytana_idle", "katana_keytana_sprint2", "katana_keytana_inspect", "katana_keytana_inspect_rare", {
+add_viewmodel("Keytana", "rbxassetid://118899310989170", "rbxassetid://120478111112813", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "katana_keytana_equip", "katana_keytana_idle", "katana_keytana_sprint2", "katana_keytana_inspect", "katana_keytana_inspect_rare", {
 	Attack1 = "katana_keytana_attack1";
 	Attack2 = "katana_keytana_attack2";
 	DeflectIdle = "katana_keytana_deflect_idle";
@@ -443,150 +498,185 @@ add("Keytana", "rbxassetid://118899310989170", "rbxassetid://120478111112813", n
 	Deflect2 = "katana_keytana_deflect2";
 	Deflect3 = "katana_keytana_deflect3";
 })
-add("Scythe", "rbxassetid://17160800186", "rbxassetid://13834995858", "rbxassetid://18200943790", "rbxassetid://129311929685726", 2, nil, "scythe_equip", "scythe_idle", "scythe_sprint", "scythe_inspect", nil, {
+add_viewmodel("Stellar Katana", "rbxassetid://72617738655198", "rbxassetid://90901679194899", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "katana_equip", "katana_idle", "katana_sprint2", "katana_inspect", "katana_inspect_rare", {
+	Attack1 = "katana_attack1";
+	Attack2 = "katana_attack2";
+	DeflectIdle = "katana_deflect_idle";
+	Deflect1 = "katana_deflect1";
+	Deflect2 = "katana_deflect2";
+	Deflect3 = "katana_deflect3";
+	Deflect4 = "katana_deflect4";
+	Deflect5 = "katana_deflect5";
+})
+add_viewmodel("Scythe", "rbxassetid://17160800186", "rbxassetid://13834995858", "rbxassetid://18200943790", "rbxassetid://129311929685726", 2, nil, "scythe_equip", "scythe_idle", "scythe_sprint", "scythe_inspect", nil, {
 	Attack1 = "scythe_attack1";
 	Attack2 = "scythe_attack2";
 })
-add("Scythe of Death", "rbxassetid://17825996537", "rbxassetid://17825961272", nil, nil, nil, nil, "scythe_equip", "scythe_idle", "scythe_sprint", "scythe_inspect", nil, {
+add_viewmodel("Scythe of Death", "rbxassetid://17825996537", "rbxassetid://17825961272", nil, nil, nil, nil, "scythe_equip", "scythe_idle", "scythe_sprint", "scythe_inspect", nil, {
 	Attack1 = "scythe_attack1";
 	Attack2 = "scythe_attack2";
 })
-add("Anchor", "rbxassetid://18766866743", "rbxassetid://18769023932", nil, nil, nil, nil, "scythe_equip", "scythe_idle", "scythe_sprint", "scythe_inspect", nil, {
+add_viewmodel("Anchor", "rbxassetid://18766866743", "rbxassetid://18769023932", nil, nil, nil, nil, "scythe_equip", "scythe_idle", "scythe_sprint", "scythe_inspect", nil, {
 	Attack1 = "scythe_anchor_attack1";
 	Attack2 = "scythe_anchor_attack2";
 })
-add("Keythe", "rbxassetid://114560926055433", "rbxassetid://75967374711732", nil, nil, nil, nil, "scythe_keythe_equip", "scythe_idle", "scythe_sprint", "scythe_inspect", nil, {
+add_viewmodel("Keythe", "rbxassetid://114560926055433", "rbxassetid://75967374711732", nil, nil, nil, nil, "scythe_keythe_equip", "scythe_idle", "scythe_sprint", "scythe_inspect", nil, {
 	Attack1 = "scythe_keythe_attack1";
 	Attack2 = "scythe_keythe_attack2";
 })
-add("Bat Scythe", "rbxassetid://131711174838548", "rbxassetid://104168535403995", nil, nil, nil, nil, "scythe_equip", "scythe_idle", "scythe_sprint", "scythe_inspect", nil, {
+add_viewmodel("Bat Scythe", "rbxassetid://131711174838548", "rbxassetid://104168535403995", nil, nil, nil, nil, "scythe_equip", "scythe_idle", "scythe_sprint", "scythe_inspect", nil, {
 	Attack1 = "scythe_batscythe_attack1";
 	Attack2 = "scythe_batscythe_attack2";
 })
-add("Cryo Scythe", "rbxassetid://119930754357379", "rbxassetid://84690820919174", nil, nil, nil, nil, "scythe_cryoscythe_equip", "scythe_idle", "scythe_sprint", "scythe_inspect", nil, {
+add_viewmodel("Cryo Scythe", "rbxassetid://119930754357379", "rbxassetid://84690820919174", nil, nil, nil, nil, "scythe_cryoscythe_equip", "scythe_idle", "scythe_sprint", "scythe_inspect", nil, {
 	Attack1 = "scythe_cryoscythe_attack1";
 	Attack2 = "scythe_cryoscythe_attack2";
 })
-add("Bug Net", "rbxassetid://115620701626004", "rbxassetid://99173928762511", nil, nil, nil, nil, "scythe_bugnet_equip", "scythe_bugnet_idle", "scythe_bugnet_sprint", "scythe_bugnet_inspect", nil, {
+add_viewmodel("Bug Net", "rbxassetid://115620701626004", "rbxassetid://99173928762511", nil, nil, nil, nil, "scythe_bugnet_equip", "scythe_bugnet_idle", "scythe_bugnet_sprint", "scythe_bugnet_inspect", nil, {
 	Attack1 = "scythe_bugnet_attack1";
 	Attack2 = "scythe_bugnet_attack2";
 })
-add("Trowel", "rbxassetid://17160799172", "rbxassetid://16560547384", nil, "rbxassetid://103642431355604", 1.5, CFrame.new(0, -0.25, -0.375), "trowel_equip", "trowel_idle", "trowel_sprint", "trowel_inspect", nil, {
+add_viewmodel("Sakura Scythe", "rbxassetid://133811689655966", "rbxassetid://115063494552764", nil, nil, nil, nil, "scythe_equip", "scythe_idle", "scythe_sprint", "scythe_inspect", nil, {
+	Attack1 = "scythe_attack1";
+	Attack2 = "scythe_attack2";
+})
+add_viewmodel("Trowel", "rbxassetid://17160799172", "rbxassetid://16560547384", nil, "rbxassetid://103642431355604", 1.5, CFrame.new(0, -0.25, -0.375), "trowel_equip", "trowel_idle", "trowel_sprint", "trowel_inspect", nil, {
 	Attack1 = "trowel_attack1";
 	Attack2 = "trowel_attack2";
 	Build = "trowel_build";
 })
-add("Plastic Shovel", "rbxassetid://17672062201", "rbxassetid://17672088012", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "trowel_equip", "trowel_idle", "trowel_sprint", "trowel_inspect", nil, {
+add_viewmodel("Plastic Shovel", "rbxassetid://17672062201", "rbxassetid://17672088012", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "trowel_equip", "trowel_idle", "trowel_sprint", "trowel_inspect", nil, {
 	Attack1 = "trowel_attack1";
 	Attack2 = "trowel_attack2";
 	Build = "trowel_build";
 })
-add("Garden Shovel", "rbxassetid://18766864873", "rbxassetid://18766908058", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "trowel_equip", "trowel_idle", "trowel_sprint", "trowel_inspect", nil, {
+add_viewmodel("Garden Shovel", "rbxassetid://18766864873", "rbxassetid://18766908058", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "trowel_equip", "trowel_idle", "trowel_sprint", "trowel_inspect", nil, {
 	Attack1 = "trowel_attack1";
 	Attack2 = "trowel_attack2";
 	Build = "trowel_build";
 })
-add("Pumpkin Carver", "rbxassetid://78827307308671", "rbxassetid://130169648063116", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "trowel_equip", "trowel_idle", "trowel_sprint", "trowel_inspect", nil, {
+add_viewmodel("Pumpkin Carver", "rbxassetid://78827307308671", "rbxassetid://130169648063116", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "trowel_equip", "trowel_idle", "trowel_sprint", "trowel_inspect", nil, {
 	Attack1 = "trowel_attack1";
 	Attack2 = "trowel_attack2";
 	Build = "trowel_build";
 })
-add("Snow Shovel", "rbxassetid://78271338778848", "rbxassetid://96400887574950", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "trowel_equip", "trowel_idle", "trowel_sprint", "trowel_inspect", nil, {
+add_viewmodel("Snow Shovel", "rbxassetid://78271338778848", "rbxassetid://96400887574950", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "trowel_equip", "trowel_idle", "trowel_sprint", "trowel_inspect", nil, {
 	Attack1 = "trowel_attack1";
 	Attack2 = "trowel_attack2";
 	Build = "trowel_build";
 })
-add("Flare Gun", "rbxassetid://17160801627", "rbxassetid://13197583892", nil, "rbxassetid://113217458668564", 1.5, CFrame.new(0.125, -0.25, 0.125), "flaregun_equip", "flaregun_idle", "flaregun_sprint", "flaregun_inspect", nil, {
+add_viewmodel("Paintbrush", "rbxassetid://84687920829755", "rbxassetid://83196688094998", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "trowel_equip", "trowel_idle", "trowel_sprint", "trowel_inspect", nil, {
+	Attack1 = "trowel_attack1";
+	Attack2 = "trowel_attack2";
+	Build = "trowel_build";
+})
+add_viewmodel("Flare Gun", "rbxassetid://17160801627", "rbxassetid://13197583892", nil, "rbxassetid://113217458668564", 1.5, CFrame.new(0, -0.125, -0.25), "flaregun_equip", "flaregun_idle", "flaregun_sprint", "flaregun_inspect", nil, {
 	Shoot1 = "flaregun_shoot1";
 	FinalShoot = nil;
 	Reload = "flaregun_reload";
 	EmptyReload = nil;
 })
-add("Firework Gun", "rbxassetid://17691132917", "rbxassetid://17691136322", nil, nil, nil, CFrame.new(0.125, -0.25, 0.125), "flaregun_equip", "flaregun_idle", "flaregun_sprint", "flaregun_inspect", nil, {
+add_viewmodel("Firework Gun", "rbxassetid://17691132917", "rbxassetid://17691136322", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "flaregun_equip", "flaregun_idle", "flaregun_sprint", "flaregun_inspect", nil, {
 	Shoot1 = "flaregun_shoot1";
 	FinalShoot = nil;
 	Reload = "flaregun_reload";
 	EmptyReload = nil;
 })
-add("Dynamite Gun", "rbxassetid://18766865384", "rbxassetid://18766908547", nil, nil, nil, CFrame.new(0.125, -0.25, 0.125), "flaregun_equip", "flaregun_idle", "flaregun_sprint", "flaregun_inspect", nil, {
+add_viewmodel("Dynamite Gun", "rbxassetid://18766865384", "rbxassetid://18766908547", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "flaregun_equip", "flaregun_idle", "flaregun_sprint", "flaregun_inspect", nil, {
 	Shoot1 = "flaregun_dynamitegun_shoot1";
 	FinalShoot = nil;
 	Reload = "flaregun_reload";
 	EmptyReload = nil;
 })
-add("Vexed Flare Gun", "rbxassetid://134333782958114", "rbxassetid://79654804348036", nil, nil, nil, CFrame.new(0.125, -0.25, 0.125), "flaregun_equip", "flaregun_idle", "flaregun_sprint", "flaregun_inspect", nil, {
+add_viewmodel("Vexed Flare Gun", "rbxassetid://134333782958114", "rbxassetid://79654804348036", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "flaregun_equip", "flaregun_idle", "flaregun_sprint", "flaregun_inspect", nil, {
 	Shoot1 = "flaregun_shoot1";
 	FinalShoot = nil;
 	Reload = "flaregun_reload";
 	EmptyReload = nil;
 })
-add("Wrapped Flare Gun", "rbxassetid://135638020129378", "rbxassetid://135904023852615", nil, nil, nil, CFrame.new(0.125, -0.25, 0.125), "flaregun_wrappedflaregun_equip", "flaregun_idle", "flaregun_sprint", "flaregun_inspect", nil, {
+add_viewmodel("Wrapped Flare Gun", "rbxassetid://135638020129378", "rbxassetid://135904023852615", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "flaregun_wrappedflaregun_equip", "flaregun_idle", "flaregun_sprint", "flaregun_inspect", nil, {
 	Shoot1 = "flaregun_shoot1";
 	FinalShoot = nil;
 	Reload = "flaregun_reload";
 	EmptyReload = nil;
 })
-add("Assault Rifle", "rbxassetid://17160682738", "rbxassetid://13197584241", nil, "rbxassetid://101393097640802", 2.5, CFrame.new(0, -0.125, -0.125) * CFrame.Angles(0.04363323129985824, 0, 0), "assaultrifle_equip", "assaultrifle_idle", "assaultrifle_sprint", "assaultrifle_inspect", nil, {
+add_viewmodel("Banana Flare", "rbxassetid://123589213761955", "rbxassetid://135246839855870", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "flaregun_bananaflare_equip", "flaregun_bananaflare_idle", "flaregun_bananaflare_sprint", "flaregun_bananaflare_inspect", "flaregun_bananaflare_inspect_rare", {
+	Shoot1 = "flaregun_bananaflare_shoot1";
+	FinalShoot = nil;
+	Reload = "flaregun_bananaflare_reload";
+	EmptyReload = nil;
+})
+add_viewmodel("Assault Rifle", "rbxassetid://17160682738", "rbxassetid://13197584241", nil, "rbxassetid://101393097640802", 2.5, CFrame.new(0, -0.125, -0.125) * CFrame.Angles(0.04363323129985824, 0, 0), "assaultrifle_equip", "assaultrifle_idle", "assaultrifle_sprint", "assaultrifle_inspect", nil, {
 	Shoot1 = "assaultrifle_shoot1";
 	FinalShoot = nil;
 	Reload = "assaultrifle_reload";
 	EmptyReload = nil;
 })
-add("AK-47", "rbxassetid://17691132793", "rbxassetid://17691136128", nil, nil, nil, CFrame.new(0, -0.125, -0.125) * CFrame.Angles(0.04363323129985824, 0, 0), "assaultrifle_equip", "assaultrifle_idle", "assaultrifle_sprint", "assaultrifle_inspect", nil, {
+add_viewmodel("AK-47", "rbxassetid://17691132793", "rbxassetid://17691136128", nil, nil, nil, CFrame.new(0, -0.125, -0.125) * CFrame.Angles(0.04363323129985824, 0, 0), "assaultrifle_equip", "assaultrifle_idle", "assaultrifle_sprint", "assaultrifle_inspect", nil, {
 	Shoot1 = "assaultrifle_ak47_shoot1";
 	FinalShoot = nil;
 	Reload = "assaultrifle_reload";
 	EmptyReload = nil;
 })
-add("AUG", "rbxassetid://18770192853", "rbxassetid://18770201102", nil, nil, nil, CFrame.new(0.15, -0.2, -0.25) * CFrame.Angles(0, -0.05235987755982989, 0), "assaultrifle_aug_equip", "assaultrifle_aug_idle", "assaultrifle_aug_sprint", "assaultrifle_aug_inspect", nil, {
+add_viewmodel("AUG", "rbxassetid://18770192853", "rbxassetid://18770201102", nil, nil, nil, CFrame.new(0.15, -0.2, -0.25) * CFrame.Angles(0, -0.05235987755982989, 0), "assaultrifle_aug_equip", "assaultrifle_aug_idle", "assaultrifle_aug_sprint", "assaultrifle_aug_inspect", nil, {
 	Shoot1 = "assaultrifle_aug_shoot1";
 	FinalShoot = nil;
 	Reload = "assaultrifle_aug_reload";
 	EmptyReload = nil;
 })
-add("Boneclaw Rifle", "rbxassetid://100015754284323", "rbxassetid://116725320040796", nil, nil, nil, CFrame.new(0, -0.125, -0.125) * CFrame.Angles(0.04363323129985824, 0, 0), "assaultrifle_equip", "assaultrifle_idle", "assaultrifle_sprint", "assaultrifle_inspect", nil, {
+add_viewmodel("Boneclaw Rifle", "rbxassetid://100015754284323", "rbxassetid://116725320040796", nil, nil, nil, CFrame.new(0, -0.125, -0.125) * CFrame.Angles(0.04363323129985824, 0, 0), "assaultrifle_equip", "assaultrifle_idle", "assaultrifle_sprint", "assaultrifle_inspect", nil, {
 	Shoot1 = "assaultrifle_boneclawrifle_shoot1";
 	FinalShoot = nil;
 	Reload = "assaultrifle_reload";
 	EmptyReload = nil;
 })
-add("AKEY-47", "rbxassetid://80017496220683", "rbxassetid://77244120212187", nil, nil, nil, CFrame.new(0, -0.125, -0.125) * CFrame.Angles(0.04363323129985824, 0, 0), "assaultrifle_akey47_equip", "assaultrifle_idle", "assaultrifle_sprint", "assaultrifle_akey47_inspect", nil, {
+add_viewmodel("AKEY-47", "rbxassetid://80017496220683", "rbxassetid://77244120212187", nil, nil, nil, CFrame.new(0, -0.125, -0.125) * CFrame.Angles(0.04363323129985824, 0, 0), "assaultrifle_akey47_equip", "assaultrifle_idle", "assaultrifle_sprint", "assaultrifle_akey47_inspect", nil, {
 	Shoot1 = "assaultrifle_akey47_shoot1";
 	FinalShoot = nil;
 	Reload = "assaultrifle_akey47_reload";
 	EmptyReload = nil;
 })
-add("Gingerbread AUG", "rbxassetid://85584922619813", "rbxassetid://108476862508992", nil, nil, nil, CFrame.new(0.15, -0.2, -0.25) * CFrame.Angles(0, -0.05235987755982989, 0), "assaultrifle_gingerbreadaug_equip", "assaultrifle_gingerbreadaug_idle", "assaultrifle_gingerbreadaug_sprint", "assaultrifle_gingerbreadaug_inspect", nil, {
+add_viewmodel("Gingerbread AUG", "rbxassetid://85584922619813", "rbxassetid://108476862508992", nil, nil, nil, CFrame.new(0.15, -0.2, -0.25) * CFrame.Angles(0, -0.05235987755982989, 0), "assaultrifle_gingerbreadaug_equip", "assaultrifle_gingerbreadaug_idle", "assaultrifle_gingerbreadaug_sprint", "assaultrifle_gingerbreadaug_inspect", nil, {
 	Shoot1 = "assaultrifle_gingerbreadaug_shoot1";
 	FinalShoot = nil;
 	Reload = "assaultrifle_gingerbreadaug_reload";
 	EmptyReload = nil;
 })
-add("Phoenix Rifle", "rbxassetid://140228738718621", "rbxassetid://115604025497445", nil, nil, nil, CFrame.new(0, -0.125, -0.125) * CFrame.Angles(0.04363323129985824, 0, 0), "assaultrifle_equip", "assaultrifle_idle", "assaultrifle_sprint", "assaultrifle_inspect", nil, {
+add_viewmodel("Phoenix Rifle", "rbxassetid://140228738718621", "rbxassetid://115604025497445", nil, nil, nil, CFrame.new(0, -0.125, -0.125) * CFrame.Angles(0.04363323129985824, 0, 0), "assaultrifle_equip", "assaultrifle_idle", "assaultrifle_sprint", "assaultrifle_inspect", nil, {
 	Shoot1 = "assaultrifle_shoot1";
 	FinalShoot = nil;
 	Reload = "assaultrifle_reload";
 	EmptyReload = nil;
 })
-add("Handgun", "rbxassetid://17160801282", "rbxassetid://13197583693", nil, "rbxassetid://113347796650411", 1.5, CFrame.new(0.25, -0.125, -0.125) * CFrame.Angles(0, 0.08726646259971647, -0.17453292519943295), "handgun_equip", "handgun_idle", "handgun_sprint", "handgun_inspect", nil, {
+add_viewmodel("Tommy Gun", "rbxassetid://111251887761435", "rbxassetid://84369917689099", nil, nil, nil, CFrame.new(0, -0.125, -0.125) * CFrame.Angles(0.04363323129985824, 0, 0), "assaultrifle_tommygun_equip", "assaultrifle_tommygun_idle", "assaultrifle_tommygun_sprint", "assaultrifle_tommygun_inspect", nil, {
+	Shoot1 = "assaultrifle_tommygun_shoot1";
+	FinalShoot = "assaultrifle_tommygun_shoot_final";
+	Reload = "assaultrifle_tommygun_reload";
+	EmptyReload = "assaultrifle_tommygun_reload_empty";
+	EquipEmpty = "assaultrifle_tommygun_equip_empty";
+	IdleEmpty = "assaultrifle_tommygun_idle_empty";
+	SprintEmpty = "assaultrifle_tommygun_sprint_empty";
+	InspectEmpty = "assaultrifle_tommygun_inspect_empty";
+})
+add_viewmodel("Handgun", "rbxassetid://17160801282", "rbxassetid://13197583693", nil, "rbxassetid://113347796650411", 1.5, CFrame.new(0.25, -0.125, -0.125) * CFrame.Angles(0, 0.08726646259971647, -0.17453292519943295), "handgun_equip", "handgun_idle", "handgun_sprint", "handgun_inspect", nil, {
 	Shoot1 = "handgun_shoot1";
 	FinalShoot = "handgun_shoot_final";
 	Reload = "handgun_reload";
 	EmptyReload = "handgun_reload_empty";
 })
-add("Blaster", "rbxassetid://17821234554", "rbxassetid://17821265750", nil, nil, nil, CFrame.new(0.25, -0.125, -0.125) * CFrame.Angles(0, 0.08726646259971647, -0.17453292519943295), "handgun_equip", "handgun_idle", "handgun_sprint", "handgun_inspect", nil, {
+add_viewmodel("Blaster", "rbxassetid://17821234554", "rbxassetid://17821265750", nil, nil, nil, CFrame.new(0.25, -0.125, -0.125) * CFrame.Angles(0, 0.08726646259971647, -0.17453292519943295), "handgun_equip", "handgun_idle", "handgun_sprint", "handgun_inspect", nil, {
 	Shoot1 = "handgun_blaster_shoot1";
 	FinalShoot = "handgun_blaster_shoot_final";
 	Reload = "handgun_reload";
 	EmptyReload = "handgun_reload_empty";
 })
-add("Hand Gun", "rbxassetid://18837670624", "rbxassetid://18837677423", nil, nil, nil, CFrame.new(0.25, 0, -0.5) * CFrame.Angles(0, 0.08726646259971647, -0.17453292519943295), "handgun_handgun_equip", "handgun_handgun_idle", "handgun_handgun_sprint", "handgun_handgun_inspect", "handgun_handgun_inspect_rare", {
+add_viewmodel("Hand Gun", "rbxassetid://18837670624", "rbxassetid://18837677423", nil, nil, nil, CFrame.new(0.25, 0, -0.5) * CFrame.Angles(0, 0.08726646259971647, -0.17453292519943295), "handgun_handgun_equip", "handgun_handgun_idle", "handgun_handgun_sprint", "handgun_handgun_inspect", "handgun_handgun_inspect_rare", {
 	Shoot1 = "handgun_handgun_shoot1";
 	FinalShoot = "handgun_handgun_shoot_final";
 	Reload = "handgun_handgun_reload";
 	EmptyReload = "handgun_handgun_reload_empty";
 })
-add("Pixel Handgun", "rbxassetid://82199841278177", "rbxassetid://72665687846028", nil, nil, nil, CFrame.new(0.25, -0.125, -0.125) * CFrame.Angles(0, 0.08726646259971647, -0.17453292519943295), "handgun_pixelhandgun_equip", "handgun_pixelhandgun_idle", "handgun_pixelhandgun_sprint", "handgun_pixelhandgun_inspect", nil, {
+add_viewmodel("Pixel Handgun", "rbxassetid://82199841278177", "rbxassetid://72665687846028", nil, nil, nil, CFrame.new(0.25, -0.125, -0.125) * CFrame.Angles(0, 0.08726646259971647, -0.17453292519943295), "handgun_pixelhandgun_equip", "handgun_pixelhandgun_idle", "handgun_pixelhandgun_sprint", "handgun_pixelhandgun_inspect", nil, {
 	Shoot1 = "handgun_pixelhandgun_shoot1";
 	FinalShoot = "handgun_pixelhandgun_shoot_final";
 	Reload = "handgun_pixelhandgun_reload";
@@ -595,37 +685,43 @@ add("Pixel Handgun", "rbxassetid://82199841278177", "rbxassetid://72665687846028
 	FramesPerSecond = 2;
 	PlayAnimationsInstantly = true;
 })
-add("Pumpkin Handgun", "rbxassetid://88495685924653", "rbxassetid://92824393890642", nil, nil, nil, CFrame.new(0.25, -0.125, -0.125) * CFrame.Angles(0, 0.08726646259971647, -0.17453292519943295), "handgun_equip", "handgun_idle", "handgun_sprint", "handgun_inspect", nil, {
+add_viewmodel("Pumpkin Handgun", "rbxassetid://88495685924653", "rbxassetid://92824393890642", nil, nil, nil, CFrame.new(0.25, -0.125, -0.125) * CFrame.Angles(0, 0.08726646259971647, -0.17453292519943295), "handgun_equip", "handgun_idle", "handgun_sprint", "handgun_inspect", nil, {
 	Shoot1 = "handgun_shoot1";
 	FinalShoot = "handgun_shoot_final";
 	Reload = "handgun_reload";
 	EmptyReload = "handgun_reload_empty";
 })
-add("Gingerbread Handgun", "rbxassetid://95881238590412", "rbxassetid://72714528734588", nil, nil, nil, CFrame.new(0.25, -0.125, -0.125) * CFrame.Angles(0, 0.08726646259971647, -0.17453292519943295), "handgun_equip", "handgun_idle", "handgun_sprint", "handgun_inspect", nil, {
+add_viewmodel("Gingerbread Handgun", "rbxassetid://95881238590412", "rbxassetid://72714528734588", nil, nil, nil, CFrame.new(0.25, -0.125, -0.125) * CFrame.Angles(0, 0.08726646259971647, -0.17453292519943295), "handgun_equip", "handgun_idle", "handgun_sprint", "handgun_inspect", nil, {
 	Shoot1 = "handgun_shoot1";
 	FinalShoot = "handgun_shoot_final";
 	Reload = "handgun_reload";
 	EmptyReload = "handgun_reload_empty";
 })
-add("Burst Rifle", "rbxassetid://17160801983", "rbxassetid://13482243466", nil, "rbxassetid://98231967024816", 2.5, CFrame.new(0, -0.125, 0), "burstrifle_equip", "burstrifle_idle", "burstrifle_sprint", "burstrifle_inspect", nil, {
+add_viewmodel("Gumball Handgun", "rbxassetid://106890990556815", "rbxassetid://138794077251754", nil, nil, nil, CFrame.new(0.25, -0.125, -0.125) * CFrame.Angles(0, 0.08726646259971647, -0.17453292519943295), "handgun_equip", "handgun_idle", "handgun_sprint", "handgun_inspect", nil, {
+	Shoot1 = "handgun_gumballhandgun_shoot1";
+	FinalShoot = "handgun_gumballhandgun_shoot_final";
+	Reload = "handgun_reload";
+	EmptyReload = "handgun_reload_empty";
+})
+add_viewmodel("Burst Rifle", "rbxassetid://17160801983", "rbxassetid://13482243466", nil, "rbxassetid://98231967024816", 2.5, CFrame.new(0, -0.125, 0), "burstrifle_equip", "burstrifle_idle", "burstrifle_sprint", "burstrifle_inspect", nil, {
 	Shoot1 = "burstrifle_shoot1";
 	FinalShoot = nil;
 	Reload = "burstrifle_reload";
 	EmptyReload = nil;
 })
-add("Electro Rifle", "rbxassetid://132227459821018", "rbxassetid://87621360986223", nil, nil, nil, CFrame.new(0, -0.125, 0), "burstrifle_equip", "burstrifle_idle", "burstrifle_sprint", "burstrifle_inspect", nil, {
+add_viewmodel("Electro Rifle", "rbxassetid://132227459821018", "rbxassetid://87621360986223", nil, nil, nil, CFrame.new(0, -0.125, 0), "burstrifle_equip", "burstrifle_idle", "burstrifle_sprint", "burstrifle_inspect", nil, {
 	Shoot1 = "burstrifle_electrorifle_shoot1";
 	FinalShoot = nil;
 	Reload = "burstrifle_electrorifle_reload";
 	EmptyReload = nil;
 })
-add("Aqua Burst", "rbxassetid://18837670807", "rbxassetid://18837677725", nil, nil, nil, CFrame.new(0, -0.125, 0), "burstrifle_equip", "burstrifle_idle", "burstrifle_sprint", "burstrifle_inspect", nil, {
+add_viewmodel("Aqua Burst", "rbxassetid://18837670807", "rbxassetid://18837677725", nil, nil, nil, CFrame.new(0, -0.125, 0), "burstrifle_equip", "burstrifle_idle", "burstrifle_sprint", "burstrifle_inspect", nil, {
 	Shoot1 = "burstrifle_aquaburst_shoot1";
 	FinalShoot = nil;
 	Reload = "burstrifle_reload";
 	EmptyReload = nil;
 })
-add("Pixel Burst", "rbxassetid://102648809593259", "rbxassetid://81440970309830", nil, nil, nil, CFrame.new(0, -0.125, 0), "burstrifle_pixelburst_equip", "burstrifle_pixelburst_idle", "burstrifle_pixelburst_sprint", "burstrifle_pixelburst_inspect", nil, {
+add_viewmodel("Pixel Burst", "rbxassetid://102648809593259", "rbxassetid://81440970309830", nil, nil, nil, CFrame.new(0, -0.125, 0), "burstrifle_pixelburst_equip", "burstrifle_pixelburst_idle", "burstrifle_pixelburst_sprint", "burstrifle_pixelburst_inspect", nil, {
 	Shoot1 = "burstrifle_pixelburst_shoot1";
 	FinalShoot = nil;
 	Reload = "burstrifle_pixelburst_reload";
@@ -634,25 +730,31 @@ add("Pixel Burst", "rbxassetid://102648809593259", "rbxassetid://81440970309830"
 	FramesPerSecond = 2;
 	PlayAnimationsInstantly = true;
 })
-add("Spectral Burst", "rbxassetid://135012309412679", "rbxassetid://135650382469411", nil, nil, nil, CFrame.new(0, -0.125, 0), "burstrifle_equip", "burstrifle_idle", "burstrifle_sprint", "burstrifle_inspect", nil, {
+add_viewmodel("Spectral Burst", "rbxassetid://135012309412679", "rbxassetid://135650382469411", nil, nil, nil, CFrame.new(0, -0.125, 0), "burstrifle_equip", "burstrifle_idle", "burstrifle_sprint", "burstrifle_inspect", nil, {
 	Shoot1 = "burstrifle_spectralburst_shoot1";
 	FinalShoot = nil;
 	Reload = "burstrifle_reload";
 	EmptyReload = nil;
 })
-add("Pine Burst", "rbxassetid://132753732294083", "rbxassetid://100589243117991", nil, nil, nil, CFrame.new(0, -0.125, 0), "burstrifle_equip", "burstrifle_idle", "burstrifle_sprint", "burstrifle_inspect", nil, {
+add_viewmodel("Pine Burst", "rbxassetid://132753732294083", "rbxassetid://100589243117991", nil, nil, nil, CFrame.new(0, -0.125, 0), "burstrifle_equip", "burstrifle_idle", "burstrifle_sprint", "burstrifle_inspect", nil, {
 	Shoot1 = "burstrifle_shoot1";
 	FinalShoot = nil;
 	Reload = "burstrifle_reload";
 	EmptyReload = nil;
 })
-add("Sniper", "rbxassetid://17160799574", "rbxassetid://13197583098", nil, "rbxassetid://132853334508822", 3.25, CFrame.new(0, -0.125, -0.125), "sniper_equip", "sniper_idle", "sniper_sprint", "sniper_inspect", nil, {
+add_viewmodel("FAMAS", "rbxassetid://74974560606812", "rbxassetid://110423034763836", nil, nil, nil, CFrame.new(0.25, -0.125, -0.25) * CFrame.Angles(0, -0.08726646259971647, 0), "burstrifle_famas_equip", "burstrifle_famas_idle", "burstrifle_famas_sprint", "burstrifle_famas_inspect", nil, {
+	Shoot1 = "burstrifle_famas_shoot1";
+	FinalShoot = nil;
+	Reload = "burstrifle_famas_reload";
+	EmptyReload = "burstrifle_famas_reload_empty";
+})
+add_viewmodel("Sniper", "rbxassetid://17160799574", "rbxassetid://13197583098", nil, "rbxassetid://132853334508822", 3.25, CFrame.new(0, -0.125, -0.125), "sniper_equip", "sniper_idle", "sniper_sprint", "sniper_inspect", nil, {
 	Shoot1 = "sniper_shoot1";
 	FinalShoot = nil;
 	Reload = "sniper_reload";
 	EmptyReload = "sniper_reload_empty";
 })
-add("Pixel Sniper", "rbxassetid://17676081196", "rbxassetid://17676083400", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "sniper_pixelsniper_equip", "sniper_pixelsniper_idle", "sniper_pixelsniper_sprint", "sniper_pixelsniper_inspect", nil, {
+add_viewmodel("Pixel Sniper", "rbxassetid://17676081196", "rbxassetid://17676083400", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "sniper_pixelsniper_equip", "sniper_pixelsniper_idle", "sniper_pixelsniper_sprint", "sniper_pixelsniper_inspect", nil, {
 	Shoot1 = "sniper_pixelsniper_shoot1";
 	FinalShoot = nil;
 	Reload = "sniper_pixelsniper_reload";
@@ -661,103 +763,127 @@ add("Pixel Sniper", "rbxassetid://17676081196", "rbxassetid://17676083400", nil,
 	FramesPerSecond = 2;
 	PlayAnimationsInstantly = true;
 })
-add("Hyper Sniper", "rbxassetid://18766864081", "rbxassetid://18766907266", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "sniper_equip", "sniper_idle", "sniper_sprint", "sniper_inspect", nil, {
+add_viewmodel("Hyper Sniper", "rbxassetid://18766864081", "rbxassetid://18766907266", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "sniper_equip", "sniper_idle", "sniper_sprint", "sniper_inspect", nil, {
 	Shoot1 = "sniper_hypersniper_shoot1";
 	FinalShoot = nil;
 	Reload = "sniper_reload";
 	EmptyReload = "sniper_reload_empty";
 })
-add("Keyper", "rbxassetid://85472935605264", "rbxassetid://122634584511896", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "sniper_keyper_equip", "sniper_idle", "sniper_sprint", "sniper_inspect", nil, {
+add_viewmodel("Keyper", "rbxassetid://85472935605264", "rbxassetid://122634584511896", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "sniper_keyper_equip", "sniper_idle", "sniper_sprint", "sniper_inspect", nil, {
 	Shoot1 = "sniper_keyper_shoot1";
 	FinalShoot = nil;
 	Reload = "sniper_reload";
 	EmptyReload = "sniper_reload_empty";
 })
-add("Eyething Sniper", "rbxassetid://103915302076013", "rbxassetid://96377501719526", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "sniper_equip", "sniper_idle", "sniper_sprint", "sniper_inspect", nil, {
+add_viewmodel("Eyething Sniper", "rbxassetid://103915302076013", "rbxassetid://96377501719526", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "sniper_equip", "sniper_idle", "sniper_sprint", "sniper_inspect", nil, {
 	Shoot1 = "sniper_eyethingsniper_shoot1";
 	FinalShoot = nil;
 	Reload = "sniper_reload";
 	EmptyReload = "sniper_reload_empty";
 })
-add("Gingerbread Sniper", "rbxassetid://99943841952995", "rbxassetid://120163896680390", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "sniper_equip", "sniper_idle", "sniper_sprint", "sniper_inspect", nil, {
+add_viewmodel("Gingerbread Sniper", "rbxassetid://99943841952995", "rbxassetid://120163896680390", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "sniper_equip", "sniper_idle", "sniper_sprint", "sniper_inspect", nil, {
 	Shoot1 = "sniper_shoot1";
 	FinalShoot = nil;
 	Reload = "sniper_reload";
 	EmptyReload = "sniper_reload_empty";
 })
-add("RPG", "rbxassetid://17160802243", "rbxassetid://13197583434", nil, "rbxassetid://95169761396387", 3.5, CFrame.new(0, -0.125, -0.25), "rpg_equip", "rpg_idle", "rpg_sprint", "rpg_inspect", "rpg_inspect_rare", {
+add_viewmodel("Event Horizon", "rbxassetid://80749667426815", "rbxassetid://82446563771968", nil, nil, nil, CFrame.new(0, 0, -0.25), "sniper_eventhorizon_equip", "sniper_eventhorizon_idle", "sniper_eventhorizon_sprint", "sniper_eventhorizon_inspect", nil, {
+	Shoot1 = "sniper_eventhorizon_shoot1";
+	FinalShoot = nil;
+	Reload = "sniper_eventhorizon_reload";
+	EmptyReload = "sniper_eventhorizon_reload_empty";
+})
+add_viewmodel("RPG", "rbxassetid://17160802243", "rbxassetid://13197583434", nil, "rbxassetid://95169761396387", 3.5, CFrame.new(0, -0.125, -0.25), "rpg_equip", "rpg_idle", "rpg_sprint", "rpg_inspect", "rpg_inspect_rare", {
 	Shoot1 = "rpg_shoot1";
 	FinalShoot = nil;
 	Reload = "rpg_reload";
 	EmptyReload = nil;
 })
-add("Nuke Launcher", "rbxassetid://17672061995", "rbxassetid://17672088925", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "rpg_equip", "rpg_idle", "rpg_sprint", "rpg_inspect", "rpg_inspect_rare", {
+add_viewmodel("Nuke Launcher", "rbxassetid://17672061995", "rbxassetid://17672088925", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "rpg_equip", "rpg_idle", "rpg_sprint", "rpg_inspect", "rpg_inspect_rare", {
 	Shoot1 = "rpg_shoot1";
 	FinalShoot = nil;
 	Reload = "rpg_reload";
 	EmptyReload = nil;
 })
-add("RPKEY", "rbxassetid://108438721125410", "rbxassetid://122750504849596", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "rpg_rpkey_equip", "rpg_idle", "rpg_sprint", "rpg_inspect", "rpg_inspect_rare", {
+add_viewmodel("RPKEY", "rbxassetid://108438721125410", "rbxassetid://122750504849596", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "rpg_rpkey_equip", "rpg_idle", "rpg_sprint", "rpg_inspect", "rpg_inspect_rare", {
 	Shoot1 = "rpg_shoot1";
 	FinalShoot = nil;
 	Reload = "rpg_reload";
 	EmptyReload = nil;
 })
-add("Spaceship Launcher", "rbxassetid://18766860860", "rbxassetid://18766904375", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "rpg_equip", "rpg_idle", "rpg_sprint", "rpg_inspect", "rpg_inspect_rare", {
+add_viewmodel("Spaceship Launcher", "rbxassetid://18766860860", "rbxassetid://18766904375", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "rpg_equip", "rpg_idle", "rpg_sprint", "rpg_inspect", "rpg_inspect_rare", {
 	Shoot1 = "rpg_shoot1";
 	FinalShoot = nil;
 	Reload = "rpg_reload";
 	EmptyReload = nil;
 })
-add("Pumpkin Launcher", "rbxassetid://94648176067808", "rbxassetid://130301464984534", nil, nil, nil, CFrame.new(0.375, -0.5, -0.75), "rpg_equip", "rpg_idle", "rpg_sprint", "rpg_inspect", "rpg_inspect_rare", {
+add_viewmodel("Pumpkin Launcher", "rbxassetid://94648176067808", "rbxassetid://130301464984534", nil, nil, nil, CFrame.new(0.375, -0.5, -0.75), "rpg_equip", "rpg_idle", "rpg_sprint", "rpg_inspect", "rpg_inspect_rare", {
 	Shoot1 = "rpg_shoot1";
 	FinalShoot = nil;
 	Reload = "rpg_reload";
 	EmptyReload = nil;
 })
-add("Firework Launcher", "rbxassetid://75233372670156", "rbxassetid://93131277391830", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "rpg_equip", "rpg_idle", "rpg_sprint", "rpg_inspect", "rpg_inspect_rare", {
+add_viewmodel("Firework Launcher", "rbxassetid://75233372670156", "rbxassetid://93131277391830", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "rpg_equip", "rpg_idle", "rpg_sprint", "rpg_inspect", "rpg_inspect_rare", {
 	Shoot1 = "rpg_shoot1";
 	FinalShoot = nil;
 	Reload = "rpg_reload";
 	EmptyReload = nil;
 })
-add("Shorty", "rbxassetid://17160800091", "rbxassetid://13255103172", nil, "rbxassetid://89929289810261", 2, CFrame.new(0, -0.125, -0.25), "shorty_equip", "shorty_idle", "shorty_sprint", "shorty_inspect", "shorty_inspect_rare", {
+add_viewmodel("Squid Launcher", "rbxassetid://130764310743404", "rbxassetid://80877003243435", nil, nil, nil, CFrame.new(0.125, -0.25, -0.5) * CFrame.Angles(0, 0.08726646259971647, 0), "rpg_equip", "rpg_idle", "rpg_sprint", "rpg_inspect", "rpg_inspect_rare", {
+	Shoot1 = "rpg_shoot1";
+	FinalShoot = nil;
+	Reload = "rpg_reload";
+	EmptyReload = nil;
+})
+add_viewmodel("Pencil Launcher", "rbxassetid://106934516693548", "rbxassetid://74125168400547", nil, nil, nil, CFrame.new(0, -0.25, -0.5) * CFrame.Angles(0, 0.08726646259971647, 0), "rpg_equip", "rpg_idle", "rpg_sprint", "rpg_inspect", "rpg_inspect_rare", {
+	Shoot1 = "rpg_shoot1";
+	FinalShoot = nil;
+	Reload = "rpg_reload";
+	EmptyReload = nil;
+})
+add_viewmodel("Shorty", "rbxassetid://17160800091", "rbxassetid://13255103172", nil, "rbxassetid://89929289810261", 2, CFrame.new(0, -0.125, -0.25), "shorty_equip", "shorty_idle", "shorty_sprint", "shorty_inspect", "shorty_inspect_rare", {
 	Shoot1 = "shorty_shoot1";
 	FinalShoot = nil;
 	Reload = "shorty_reload";
 	EmptyReload = "shorty_reload_empty";
 })
-add("Not So Shorty", "rbxassetid://17672062572", "rbxassetid://17672087325", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "shorty_equip", "shorty_idle", "shorty_sprint", "shorty_inspect", "shorty_inspect_rare", {
+add_viewmodel("Not So Shorty", "rbxassetid://17672062572", "rbxassetid://17672087325", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "shorty_equip", "shorty_idle", "shorty_sprint", "shorty_inspect", "shorty_inspect_rare", {
 	Shoot1 = "shorty_shoot1";
 	FinalShoot = nil;
 	Reload = "shorty_reload";
 	EmptyReload = "shorty_reload_empty";
 })
-add("Too Shorty", "rbxassetid://18129531276", "rbxassetid://18129532343", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "shorty_equip", "shorty_idle", "shorty_sprint", "shorty_inspect", "shorty_inspect_rare", {
+add_viewmodel("Too Shorty", "rbxassetid://18129531276", "rbxassetid://18129532343", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "shorty_equip", "shorty_idle", "shorty_sprint", "shorty_inspect", "shorty_inspect_rare", {
 	Shoot1 = "shorty_shoot1";
 	FinalShoot = nil;
 	Reload = "shorty_reload";
 	EmptyReload = "shorty_reload_empty";
 })
-add("Lovely Shorty", "rbxassetid://18766862000", "rbxassetid://18766906011", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "shorty_equip", "shorty_idle", "shorty_sprint", "shorty_inspect", "shorty_inspect_rare", {
+add_viewmodel("Lovely Shorty", "rbxassetid://18766862000", "rbxassetid://18766906011", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "shorty_equip", "shorty_idle", "shorty_sprint", "shorty_inspect", "shorty_inspect_rare", {
 	Shoot1 = "shorty_shoot1";
 	FinalShoot = nil;
 	Reload = "shorty_reload";
 	EmptyReload = "shorty_reload_empty";
 })
-add("Demon Shorty", "rbxassetid://116443498278384", "rbxassetid://110819203451709", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "shorty_equip", "shorty_idle", "shorty_sprint", "shorty_inspect", "shorty_inspect_rare", {
+add_viewmodel("Demon Shorty", "rbxassetid://116443498278384", "rbxassetid://110819203451709", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "shorty_equip", "shorty_idle", "shorty_sprint", "shorty_inspect", "shorty_inspect_rare", {
 	Shoot1 = "shorty_demonshorty_shoot1";
 	FinalShoot = nil;
 	Reload = "shorty_reload";
 	EmptyReload = "shorty_reload_empty";
 })
-add("Wrapped Shorty", "rbxassetid://136522183669611", "rbxassetid://85255622402845", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "shorty_wrappedshorty_equip", "shorty_idle", "shorty_sprint", "shorty_inspect", "shorty_inspect_rare", {
+add_viewmodel("Wrapped Shorty", "rbxassetid://136522183669611", "rbxassetid://85255622402845", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "shorty_wrappedshorty_equip", "shorty_idle", "shorty_sprint", "shorty_inspect", "shorty_inspect_rare", {
 	Shoot1 = "shorty_shoot1";
 	FinalShoot = nil;
 	Reload = "shorty_reload";
 	EmptyReload = "shorty_reload_empty";
 })
-add("Shotgun", "rbxassetid://17160800007", "rbxassetid://13197583302", nil, "rbxassetid://102792045452343", 2.75, CFrame.new(0, -0.25, -0.55), "shotgun_equip", "shotgun_idle", "shotgun_sprint", "shotgun_inspect", "shotgun_inspect_rare", {
+add_viewmodel("Balloon Shorty", "rbxassetid://75590262133322", "rbxassetid://87872312114961", nil, nil, nil, CFrame.new(0, -0.125, -0.25), "shorty_equip", "shorty_idle", "shorty_sprint", "shorty_inspect", "shorty_balloonshorty_inspect_rare", {
+	Shoot1 = "shorty_balloonshorty_shoot1";
+	FinalShoot = nil;
+	Reload = "shorty_balloonshorty_reload";
+	EmptyReload = "shorty_balloonshorty_reload_empty";
+})
+add_viewmodel("Shotgun", "rbxassetid://17160800007", "rbxassetid://13197583302", nil, "rbxassetid://102792045452343", 2.75, CFrame.new(0, -0.25, -0.55), "shotgun_equip", "shotgun_idle", "shotgun_sprint", "shotgun_inspect", "shotgun_inspect_rare", {
 	Shoot1 = "shotgun_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
@@ -769,7 +895,7 @@ add("Shotgun", "rbxassetid://17160800007", "rbxassetid://13197583302", nil, "rbx
 	EmptyReloadSegment = "shotgun_reload_segment";
 	EmptyReloadFinish = "shotgun_reload_empty_finish2";
 })
-add("Balloon Shotgun", "rbxassetid://17821234823", "rbxassetid://17821266090", nil, nil, nil, CFrame.new(0, -0.25, -0.55), "shotgun_balloonshotgun_equip", "shotgun_idle", "shotgun_sprint", "shotgun_balloonshotgun_inspect", "shotgun_balloonshotgun_inspect_rare", {
+add_viewmodel("Balloon Shotgun", "rbxassetid://17821234823", "rbxassetid://17821266090", nil, nil, nil, CFrame.new(0, -0.25, -0.55), "shotgun_balloonshotgun_equip", "shotgun_idle", "shotgun_sprint", "shotgun_balloonshotgun_inspect", "shotgun_balloonshotgun_inspect_rare", {
 	Shoot1 = "shotgun_balloonshotgun_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
@@ -781,7 +907,7 @@ add("Balloon Shotgun", "rbxassetid://17821234823", "rbxassetid://17821266090", n
 	EmptyReloadSegment = "shotgun_balloonshotgun_reload_segment";
 	EmptyReloadFinish = "shotgun_balloonshotgun_reload_empty_finish2";
 })
-add("Hyper Shotgun", "rbxassetid://18768968419", "rbxassetid://18768974410", nil, nil, nil, CFrame.new(0, -0.25, -0.55), "shotgun_equip", "shotgun_idle", "shotgun_sprint", "shotgun_inspect", "shotgun_inspect_rare", {
+add_viewmodel("Hyper Shotgun", "rbxassetid://18768968419", "rbxassetid://18768974410", nil, nil, nil, CFrame.new(0, -0.25, -0.55), "shotgun_equip", "shotgun_idle", "shotgun_sprint", "shotgun_inspect", "shotgun_inspect_rare", {
 	Shoot1 = "shotgun_hypershotgun_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
@@ -793,7 +919,7 @@ add("Hyper Shotgun", "rbxassetid://18768968419", "rbxassetid://18768974410", nil
 	EmptyReloadSegment = "shotgun_reload_segment";
 	EmptyReloadFinish = "shotgun_reload_empty_finish2";
 })
-add("Broomstick", "rbxassetid://118061559757082", "rbxassetid://126607371232554", nil, nil, nil, CFrame.new(0, -0.125, -0.5), "shotgun_broomstick_equip", "shotgun_idle", "shotgun_sprint", "shotgun_inspect", "shotgun_inspect_rare", {
+add_viewmodel("Broomstick", "rbxassetid://118061559757082", "rbxassetid://126607371232554", nil, nil, nil, CFrame.new(0, -0.125, -0.5), "shotgun_broomstick_equip", "shotgun_idle", "shotgun_sprint", "shotgun_inspect", "shotgun_inspect_rare", {
 	Shoot1 = "shotgun_broomstick_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
@@ -805,7 +931,7 @@ add("Broomstick", "rbxassetid://118061559757082", "rbxassetid://126607371232554"
 	EmptyReloadSegment = "shotgun_reload_segment";
 	EmptyReloadFinish = "shotgun_reload_empty_finish2";
 })
-add("Wrapped Shotgun", "rbxassetid://74894345245237", "rbxassetid://122560535811833", nil, nil, nil, CFrame.new(0, -0.125, -0.5), "shotgun_wrappedshotgun_equip", "shotgun_idle", "shotgun_sprint", "shotgun_inspect", "shotgun_inspect_rare", {
+add_viewmodel("Wrapped Shotgun", "rbxassetid://74894345245237", "rbxassetid://122560535811833", nil, nil, nil, CFrame.new(0, -0.125, -0.5), "shotgun_wrappedshotgun_equip", "shotgun_idle", "shotgun_sprint", "shotgun_inspect", "shotgun_inspect_rare", {
 	Shoot1 = "shotgun_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
@@ -817,7 +943,19 @@ add("Wrapped Shotgun", "rbxassetid://74894345245237", "rbxassetid://122560535811
 	EmptyReloadSegment = "shotgun_reload_segment";
 	EmptyReloadFinish = "shotgun_reload_empty_finish2";
 })
-add("Bow", "rbxassetid://17160802080", "rbxassetid://13717212331", nil, "rbxassetid://108384017179119", 2, nil, "bow_equip", "bow_idle", "bow_sprint", "bow_inspect", nil, {
+add_viewmodel("Cactus Shotgun", "rbxassetid://93417974931687", "rbxassetid://104012179691270", nil, nil, nil, CFrame.new(0, -0.25, -0.55), "shotgun_equip", "shotgun_idle", "shotgun_sprint", "shotgun_inspect", "shotgun_inspect_rare", {
+	Shoot1 = "shotgun_cactusshotgun_shoot1";
+	FinalShoot = nil;
+	Reload = nil;
+	EmptyReload = nil;
+	ReloadStart = "shotgun_reload_start";
+	ReloadSegment = "shotgun_reload_segment";
+	ReloadFinish = "shotgun_reload_finish";
+	EmptyReloadStart = "shotgun_reload_empty_start";
+	EmptyReloadSegment = "shotgun_reload_segment";
+	EmptyReloadFinish = "shotgun_reload_empty_finish2";
+})
+add_viewmodel("Bow", "rbxassetid://17160802080", "rbxassetid://13717212331", nil, "rbxassetid://108384017179119", 2, nil, "bow_equip", "bow_idle", "bow_sprint", "bow_inspect", nil, {
 	Shoot1 = "bow_shoot1";
 	FinalShoot = nil;
 	Reload = "bow_reload";
@@ -826,7 +964,7 @@ add("Bow", "rbxassetid://17160802080", "rbxassetid://13717212331", nil, "rbxasse
 	ChargeLoop = "bow_charge_loop";
 	ChargeRelease = "bow_charge_release";
 })
-add("Compound Bow", "rbxassetid://17672234242", "rbxassetid://17672229023", nil, nil, nil, nil, "bow_equip", "bow_idle", "bow_sprint", "bow_inspect", nil, {
+add_viewmodel("Compound Bow", "rbxassetid://17672234242", "rbxassetid://17672229023", nil, nil, nil, nil, "bow_equip", "bow_idle", "bow_sprint", "bow_inspect", nil, {
 	Shoot1 = "bow_shoot1";
 	FinalShoot = nil;
 	Reload = "bow_reload";
@@ -835,7 +973,7 @@ add("Compound Bow", "rbxassetid://17672234242", "rbxassetid://17672229023", nil,
 	ChargeLoop = "bow_charge_loop";
 	ChargeRelease = "bow_charge_release";
 })
-add("Raven Bow", "rbxassetid://18766861627", "rbxassetid://18766905321", nil, nil, nil, nil, "bow_equip", "bow_idle", "bow_sprint", "bow_inspect", nil, {
+add_viewmodel("Raven Bow", "rbxassetid://18766861627", "rbxassetid://18766905321", nil, nil, nil, nil, "bow_equip", "bow_idle", "bow_sprint", "bow_inspect", nil, {
 	Shoot1 = "bow_shoot1";
 	FinalShoot = nil;
 	Reload = "bow_reload";
@@ -844,7 +982,7 @@ add("Raven Bow", "rbxassetid://18766861627", "rbxassetid://18766905321", nil, ni
 	ChargeLoop = "bow_charge_loop";
 	ChargeRelease = "bow_charge_release";
 })
-add("Bat Bow", "rbxassetid://108984987378619", "rbxassetid://71508472340303", nil, nil, nil, nil, "bow_equip", "bow_idle", "bow_sprint", "bow_inspect", nil, {
+add_viewmodel("Bat Bow", "rbxassetid://108984987378619", "rbxassetid://71508472340303", nil, nil, nil, nil, "bow_equip", "bow_idle", "bow_sprint", "bow_inspect", nil, {
 	Shoot1 = "bow_batbow_shoot1";
 	FinalShoot = nil;
 	Reload = "bow_reload";
@@ -853,7 +991,7 @@ add("Bat Bow", "rbxassetid://108984987378619", "rbxassetid://71508472340303", ni
 	ChargeLoop = "bow_charge_loop";
 	ChargeRelease = "bow_batbow_charge_release";
 })
-add("Frostbite Bow", "rbxassetid://121895626623160", "rbxassetid://82246935699705", nil, nil, nil, nil, "bow_frostbitebow_equip", "bow_idle", "bow_sprint", "bow_inspect", nil, {
+add_viewmodel("Frostbite Bow", "rbxassetid://121895626623160", "rbxassetid://82246935699705", nil, nil, nil, nil, "bow_frostbitebow_equip", "bow_idle", "bow_sprint", "bow_inspect", nil, {
 	Shoot1 = "bow_frostbitebow_shoot1";
 	FinalShoot = nil;
 	Reload = "bow_reload";
@@ -862,72 +1000,87 @@ add("Frostbite Bow", "rbxassetid://121895626623160", "rbxassetid://8224693569970
 	ChargeLoop = "bow_charge_loop";
 	ChargeRelease = "bow_frostbitebow_charge_release";
 })
-add("Uzi", "rbxassetid://17160798908", "rbxassetid://14020829706", nil, "rbxassetid://83641084870257", 1.5, CFrame.new(0, -0.125, 0.125), "uzi_equip", "uzi_idle", "uzi_sprint", "uzi_inspect", nil, {
+add_viewmodel("Dream Bow", "rbxassetid://101089313144218", "rbxassetid://104571173348964", nil, nil, nil, nil, "bow_dreambow_equip", "bow_idle", "bow_sprint", "bow_inspect", nil, {
+	Shoot1 = "bow_dreambow_shoot1";
+	FinalShoot = nil;
+	Reload = "bow_reload";
+	EmptyReload = nil;
+	Charge = "bow_charge";
+	ChargeLoop = "bow_charge_loop";
+	ChargeRelease = "bow_dreambow_charge_release";
+})
+add_viewmodel("Uzi", "rbxassetid://17160798908", "rbxassetid://14020829706", nil, "rbxassetid://83641084870257", 1.5, CFrame.new(0, -0.125, 0.125), "uzi_equip", "uzi_idle", "uzi_sprint", "uzi_inspect", nil, {
 	Shoot1 = "uzi_shoot1";
 	FinalShoot = nil;
 	Reload = "uzi_reload";
 	EmptyReload = nil;
 })
-add("Water Uzi", "rbxassetid://17821233590", "rbxassetid://17821264784", nil, nil, nil, CFrame.new(-0.125, -0.25, -0.375), "uzi_equip", "uzi_idle", "uzi_sprint", "uzi_inspect", nil, {
+add_viewmodel("Water Uzi", "rbxassetid://17821233590", "rbxassetid://17821264784", nil, nil, nil, CFrame.new(-0.125, -0.25, -0.375), "uzi_equip", "uzi_idle", "uzi_sprint", "uzi_inspect", nil, {
 	Shoot1 = "uzi_wateruzi_shoot1";
 	FinalShoot = nil;
 	Reload = "uzi_reload";
 	EmptyReload = nil;
 })
-add("Electro Uzi", "rbxassetid://96806694653207", "rbxassetid://98294074022488", nil, nil, nil, CFrame.new(0, -0.125, 0.125), "uzi_equip", "uzi_idle", "uzi_sprint", "uzi_inspect", nil, {
+add_viewmodel("Electro Uzi", "rbxassetid://96806694653207", "rbxassetid://98294074022488", nil, nil, nil, CFrame.new(0, -0.125, 0.125), "uzi_equip", "uzi_idle", "uzi_sprint", "uzi_inspect", nil, {
 	Shoot1 = "uzi_electrouzi_shoot1";
 	FinalShoot = nil;
 	Reload = "uzi_electrouzi_reload";
 	EmptyReload = nil;
 })
-add("Demon Uzi", "rbxassetid://132973040482576", "rbxassetid://81076572654230", nil, nil, nil, CFrame.new(0, -0.125, 0.125), "uzi_equip", "uzi_idle", "uzi_sprint", "uzi_inspect", nil, {
+add_viewmodel("Demon Uzi", "rbxassetid://132973040482576", "rbxassetid://81076572654230", nil, nil, nil, CFrame.new(0, -0.125, 0.125), "uzi_equip", "uzi_idle", "uzi_sprint", "uzi_inspect", nil, {
 	Shoot1 = "uzi_demonuzi_shoot1";
 	FinalShoot = nil;
 	Reload = "uzi_reload";
 	EmptyReload = nil;
 })
-add("Pine Uzi", "rbxassetid://82545206964916", "rbxassetid://80778273701013", nil, nil, nil, CFrame.new(0, -0.125, 0.125), "uzi_equip", "uzi_idle", "uzi_sprint", "uzi_inspect", nil, {
+add_viewmodel("Pine Uzi", "rbxassetid://82545206964916", "rbxassetid://80778273701013", nil, nil, nil, CFrame.new(0, -0.125, 0.125), "uzi_equip", "uzi_idle", "uzi_sprint", "uzi_inspect", nil, {
 	Shoot1 = "uzi_shoot1";
 	FinalShoot = nil;
 	Reload = "uzi_reload";
 	EmptyReload = nil;
 })
-add("Revolver", "rbxassetid://17160800299", "rbxassetid://14020829500", nil, "rbxassetid://122164679882999", 1.5, CFrame.new(0, -0.125, -0.125), "revolver_equip", "revolver_idle", "revolver_sprint", "revolver_inspect", nil, {
+add_viewmodel("Money Gun", "rbxassetid://100705725115757", "rbxassetid://73092203311844", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "uzi_moneygun_equip", "uzi_moneygun_idle", "uzi_moneygun_sprint", "uzi_moneygun_inspect", nil, {
+	Shoot1 = "uzi_moneygun_shoot1";
+	FinalShoot = nil;
+	Reload = "uzi_moneygun_reload";
+	EmptyReload = nil;
+})
+add_viewmodel("Revolver", "rbxassetid://17160800299", "rbxassetid://14020829500", nil, "rbxassetid://122164679882999", 1.5, CFrame.new(0, -0.125, -0.125), "revolver_equip", "revolver_idle", "revolver_sprint", "revolver_inspect", nil, {
 	Shoot1 = "revolver_shoot1";
 	FinalShoot = nil;
 	Reload = "revolver_reload";
 	EmptyReload = "revolver_reload_empty";
 	QuickShot = "revolver_quickshot";
 })
-add("Desert Eagle", "rbxassetid://17821234372", "rbxassetid://17821265603", nil, nil, nil, CFrame.new(0.25, -0.125, -0.125) * CFrame.Angles(0, 0.08726646259971647, -0.17453292519943295), "revolver_deserteagle_equip", "handgun_idle", "handgun_sprint", "handgun_inspect", nil, {
+add_viewmodel("Desert Eagle", "rbxassetid://17821234372", "rbxassetid://17821265603", nil, nil, nil, CFrame.new(0.25, -0.125, -0.125) * CFrame.Angles(0, 0.08726646259971647, -0.17453292519943295), "revolver_deserteagle_equip", "handgun_idle", "handgun_sprint", "handgun_inspect", nil, {
 	Shoot1 = "revolver_deserteagle_shoot1";
 	FinalShoot = "revolver_deserteagle_shoot_final";
 	Reload = "revolver_deserteagle_reload";
 	EmptyReload = "revolver_deserteagle_reload_empty";
 	QuickShot = "revolver_deserteagle_shoot1";
 })
-add("Sheriff", "rbxassetid://18770192507", "rbxassetid://18770200449", nil, nil, nil, CFrame.new(0.25, -0.125, -0.375) * CFrame.Angles(0, 0.08726646259971647, -0.17453292519943295), "revolver_sheriff_equip", "revolver_sheriff_idle", "revolver_sheriff_sprint", "revolver_sheriff_inspect", nil, {
+add_viewmodel("Sheriff", "rbxassetid://18770192507", "rbxassetid://18770200449", nil, nil, nil, CFrame.new(0.25, -0.125, -0.375) * CFrame.Angles(0, 0.08726646259971647, -0.17453292519943295), "revolver_sheriff_equip", "revolver_sheriff_idle", "revolver_sheriff_sprint", "revolver_sheriff_inspect", nil, {
 	Shoot1 = "revolver_sheriff_shoot1";
 	FinalShoot = nil;
 	Reload = "revolver_sheriff_reload";
 	EmptyReload = "revolver_sheriff_reload_empty";
 	QuickShot = "revolver_sheriff_quickshot";
 })
-add("Boneclaw Revolver", "rbxassetid://119174697609264", "rbxassetid://134217952089145", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "revolver_equip", "revolver_idle", "revolver_sprint", "revolver_inspect", nil, {
+add_viewmodel("Boneclaw Revolver", "rbxassetid://119174697609264", "rbxassetid://134217952089145", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "revolver_equip", "revolver_idle", "revolver_sprint", "revolver_inspect", nil, {
 	Shoot1 = "revolver_boneclawrevolver_shoot1";
 	FinalShoot = nil;
 	Reload = "revolver_reload";
 	EmptyReload = "revolver_reload_empty";
 	QuickShot = "revolver_boneclawrevolver_quickshot";
 })
-add("Peppermint Sheriff", "rbxassetid://95859403750768", "rbxassetid://71229586558137", nil, nil, nil, CFrame.new(0.25, -0.125, -0.375) * CFrame.Angles(0, 0.08726646259971647, -0.17453292519943295), "revolver_peppermintsheriff_equip", "revolver_peppermintsheriff_idle", "revolver_peppermintsheriff_sprint", "revolver_peppermintsheriff_inspect", nil, {
+add_viewmodel("Peppermint Sheriff", "rbxassetid://95859403750768", "rbxassetid://71229586558137", nil, nil, nil, CFrame.new(0.25, -0.125, -0.375) * CFrame.Angles(0, 0.08726646259971647, -0.17453292519943295), "revolver_peppermintsheriff_equip", "revolver_peppermintsheriff_idle", "revolver_peppermintsheriff_sprint", "revolver_peppermintsheriff_inspect", nil, {
 	Shoot1 = "revolver_peppermintsheriff_shoot1";
 	FinalShoot = nil;
 	Reload = "revolver_peppermintsheriff_reload";
 	EmptyReload = "revolver_peppermintsheriff_reload_empty";
 	QuickShot = "revolver_peppermintsheriff_quickshot";
 })
-add("Keyvolver", "rbxassetid://87974031410344", "rbxassetid://73746116648532", nil, nil, nil, CFrame.new(0, -0.125, -0.375), "revolver_keyvolver_equip", "revolver_keyvolver_idle", "revolver_keyvolver_sprint", "revolver_keyvolver_inspect", nil, {
+add_viewmodel("Keyvolver", "rbxassetid://87974031410344", "rbxassetid://73746116648532", nil, nil, nil, CFrame.new(0, -0.125, -0.375), "revolver_keyvolver_equip", "revolver_keyvolver_idle", "revolver_keyvolver_sprint", "revolver_keyvolver_inspect", nil, {
 	Shoot1 = "revolver_keyvolver_shoot1";
 	FinalShoot = "revolver_keyvolver_shoot_final";
 	Reload = "revolver_keyvolver_reload";
@@ -938,97 +1091,126 @@ add("Keyvolver", "rbxassetid://87974031410344", "rbxassetid://73746116648532", n
 	SprintEmpty = "revolver_keyvolver_sprint_empty";
 	InspectEmpty = "revolver_keyvolver_inspect_empty";
 })
-add("Paintball Gun", "rbxassetid://17160853798", "rbxassetid://16560547676", nil, "rbxassetid://82789508344248", 2, CFrame.new(0, -0.25, -0.375), "paintballgun_equip", "paintballgun_idle", "paintballgun_sprint", "paintballgun_inspect", nil, {
+add_viewmodel("Peppergun", "rbxassetid://124178691056979", "rbxassetid://112311707478578", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "revolver_peppergun_equip", "revolver_peppergun_idle", "revolver_peppergun_sprint", "revolver_peppergun_inspect", nil, {
+	Shoot1 = "revolver_peppergun_shoot1";
+	FinalShoot = "revolver_peppergun_shoot_final";
+	Reload = "revolver_peppergun_reload";
+	EmptyReload = "revolver_peppergun_reload_empty";
+	QuickShot = "revolver_peppergun_quickshot";
+	EquipEmpty = "revolver_peppergun_equip_empty";
+	IdleEmpty = "revolver_peppergun_idle_empty";
+	SprintEmpty = "revolver_peppergun_sprint_empty";
+	InspectEmpty = "revolver_peppergun_inspect_empty";
+})
+add_viewmodel("Paintball Gun", "rbxassetid://17160853798", "rbxassetid://16560547676", nil, "rbxassetid://82789508344248", 2, CFrame.new(0, -0.25, -0.375), "paintballgun_equip", "paintballgun_idle", "paintballgun_sprint", "paintballgun_inspect", nil, {
 	Shoot1 = "paintballgun_shoot1";
 	FinalShoot = nil;
 	Reload = "paintballgun_reload";
 	EmptyReload = nil;
 })
-add("Slime Gun", "rbxassetid://17672062472", "rbxassetid://17672087561", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "paintballgun_equip", "paintballgun_idle", "paintballgun_sprint", "paintballgun_inspect", nil, {
+add_viewmodel("Slime Gun", "rbxassetid://17672062472", "rbxassetid://17672087561", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "paintballgun_equip", "paintballgun_idle", "paintballgun_sprint", "paintballgun_inspect", nil, {
 	Shoot1 = "paintballgun_slimegun_shoot1";
 	FinalShoot = nil;
 	Reload = "paintballgun_reload";
 	EmptyReload = nil;
 })
-add("Boba Gun", "rbxassetid://18768830660", "rbxassetid://18768828072", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "paintballgun_equip", "paintballgun_idle", "paintballgun_sprint", "paintballgun_inspect", nil, {
+add_viewmodel("Boba Gun", "rbxassetid://18768830660", "rbxassetid://18768828072", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "paintballgun_equip", "paintballgun_idle", "paintballgun_sprint", "paintballgun_inspect", nil, {
 	Shoot1 = "paintballgun_bobagun_shoot1";
 	FinalShoot = nil;
 	Reload = "paintballgun_reload";
 	EmptyReload = nil;
 })
-add("Brain Gun", "rbxassetid://83888520351203", "rbxassetid://112274098862665", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "paintballgun_equip", "paintballgun_idle", "paintballgun_sprint", "paintballgun_inspect", nil, {
+add_viewmodel("Brain Gun", "rbxassetid://83888520351203", "rbxassetid://112274098862665", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "paintballgun_equip", "paintballgun_idle", "paintballgun_sprint", "paintballgun_inspect", nil, {
 	Shoot1 = "paintballgun_slimegun_shoot1";
 	FinalShoot = nil;
 	Reload = "paintballgun_reload";
 	EmptyReload = nil;
 })
-add("Snowball Gun", "rbxassetid://113685354916533", "rbxassetid://78161595959189", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "paintballgun_equip", "paintballgun_idle", "paintballgun_sprint", "paintballgun_inspect", nil, {
+add_viewmodel("Snowball Gun", "rbxassetid://113685354916533", "rbxassetid://78161595959189", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "paintballgun_equip", "paintballgun_idle", "paintballgun_sprint", "paintballgun_inspect", nil, {
 	Shoot1 = "paintballgun_snowballgun_shoot1";
 	FinalShoot = nil;
 	Reload = "paintballgun_reload";
 	EmptyReload = nil;
 })
-add("Slingshot", "rbxassetid://17160799888", "rbxassetid://17095306079", nil, "rbxassetid://75643870124560", 1.25, CFrame.new(0, -0.375, -0.5), "slingshot_equip", "slingshot_idle", "slingshot_sprint", "slingshot_inspect", nil, {
+add_viewmodel("Ketchup Gun", "rbxassetid://76083615050939", "rbxassetid://130402361506639", nil, nil, nil, CFrame.new(0, -0.25, -0.375), "paintballgun_equip", "paintballgun_idle", "paintballgun_sprint", "paintballgun_inspect", nil, {
+	Shoot1 = "paintballgun_shoot1";
+	FinalShoot = nil;
+	Reload = "paintballgun_reload";
+	EmptyReload = nil;
+})
+add_viewmodel("Slingshot", "rbxassetid://17160799888", "rbxassetid://17095306079", nil, "rbxassetid://75643870124560", 1.25, CFrame.new(0, -0.375, -0.5), "slingshot_equip", "slingshot_idle", "slingshot_sprint", "slingshot_inspect", nil, {
 	Shoot1 = "slingshot_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
 	EmptyReload = nil;
 })
-add("Goalpost", "rbxassetid://17672063165", "rbxassetid://17672086378", nil, nil, nil, CFrame.new(0, -0.375, -0.5), "slingshot_equip", "slingshot_idle", "slingshot_sprint", "slingshot_inspect", nil, {
+add_viewmodel("Goalpost", "rbxassetid://17672063165", "rbxassetid://17672086378", nil, nil, nil, CFrame.new(0, -0.375, -0.5), "slingshot_equip", "slingshot_idle", "slingshot_sprint", "slingshot_inspect", nil, {
 	Shoot1 = "slingshot_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
 	EmptyReload = nil;
 })
-add("Stick", "rbxassetid://17672063048", "rbxassetid://17672086502", nil, nil, nil, CFrame.new(0, -0.375, -0.5), "slingshot_equip", "slingshot_idle", "slingshot_sprint", "slingshot_inspect", nil, {
+add_viewmodel("Stick", "rbxassetid://17672063048", "rbxassetid://17672086502", nil, nil, nil, CFrame.new(0, -0.375, -0.5), "slingshot_equip", "slingshot_idle", "slingshot_sprint", "slingshot_inspect", nil, {
 	Shoot1 = "slingshot_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
 	EmptyReload = nil;
 })
-add("Boneshot", "rbxassetid://86606957688341", "rbxassetid://103283614012077", nil, nil, nil, CFrame.new(0, -0.375, -0.5), "slingshot_equip", "slingshot_idle", "slingshot_sprint", "slingshot_inspect", nil, {
+add_viewmodel("Boneshot", "rbxassetid://86606957688341", "rbxassetid://103283614012077", nil, nil, nil, CFrame.new(0, -0.375, -0.5), "slingshot_equip", "slingshot_idle", "slingshot_sprint", "slingshot_inspect", nil, {
 	Shoot1 = "slingshot_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
 	EmptyReload = nil;
 })
-add("Reindeer Slingshot", "rbxassetid://121612921203624", "rbxassetid://106406735551091", nil, nil, nil, CFrame.new(0, -0.375, -0.5), "slingshot_equip", "slingshot_idle", "slingshot_sprint", "slingshot_inspect", nil, {
+add_viewmodel("Reindeer Slingshot", "rbxassetid://121612921203624", "rbxassetid://106406735551091", nil, nil, nil, CFrame.new(0, -0.375, -0.5), "slingshot_equip", "slingshot_idle", "slingshot_sprint", "slingshot_inspect", nil, {
 	Shoot1 = "slingshot_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
 	EmptyReload = nil;
 })
-add("Grenade Launcher", "rbxassetid://17250453814", "rbxassetid://17250456230", nil, "rbxassetid://96911371491753", 2.75, CFrame.new(0, -0.125, -0.125) * CFrame.Angles(0.08726646259971647, 0, 0), "grenadelauncher_equip", "grenadelauncher_idle", "grenadelauncher_sprint", "grenadelauncher_inspect", nil, {
+add_viewmodel("Harp", "rbxassetid://80850043664453", "rbxassetid://89702051394732", nil, nil, nil, CFrame.new(0, -0.375, -0.5), "slingshot_harp_equip", "slingshot_harp_idle", "slingshot_harp_sprint", "slingshot_harp_inspect", nil, {
+	Shoot1 = "slingshot_harp_shoot1";
+	FinalShoot = nil;
+	Reload = nil;
+	EmptyReload = nil;
+})
+add_viewmodel("Grenade Launcher", "rbxassetid://17250453814", "rbxassetid://17250456230", nil, "rbxassetid://96911371491753", 2.75, CFrame.new(0, -0.125, -0.125) * CFrame.Angles(0.08726646259971647, 0, 0), "grenadelauncher_equip", "grenadelauncher_idle", "grenadelauncher_sprint", "grenadelauncher_inspect", nil, {
 	Shoot1 = "grenadelauncher_shoot1";
 	FinalShoot = nil;
 	Reload = "grenadelauncher_reload";
 	EmptyReload = nil;
 })
-add("Swashbuckler", "rbxassetid://17821233828", "rbxassetid://17821265007", nil, nil, nil, CFrame.new(0, -0.25, -0.5) * CFrame.Angles(0.08726646259971647, 0, 0), "grenadelauncher_equip", "grenadelauncher_idle", "grenadelauncher_sprint", "grenadelauncher_inspect", nil, {
+add_viewmodel("Swashbuckler", "rbxassetid://17821233828", "rbxassetid://17821265007", nil, nil, nil, CFrame.new(0, -0.25, -0.5) * CFrame.Angles(0.08726646259971647, 0, 0), "grenadelauncher_equip", "grenadelauncher_idle", "grenadelauncher_sprint", "grenadelauncher_inspect", nil, {
 	Shoot1 = "grenadelauncher_shoot1";
 	FinalShoot = nil;
 	Reload = "grenadelauncher_reload";
 	EmptyReload = nil;
 })
-add("Uranium Launcher", "rbxassetid://18766860114", "rbxassetid://18766902983", nil, nil, nil, CFrame.new(0, -0.125, -0.125) * CFrame.Angles(0.08726646259971647, 0, 0), "grenadelauncher_equip", "grenadelauncher_idle", "grenadelauncher_sprint", "grenadelauncher_inspect", nil, {
+add_viewmodel("Uranium Launcher", "rbxassetid://18766860114", "rbxassetid://18766902983", nil, nil, nil, CFrame.new(0, -0.125, -0.125) * CFrame.Angles(0.08726646259971647, 0, 0), "grenadelauncher_equip", "grenadelauncher_idle", "grenadelauncher_sprint", "grenadelauncher_inspect", nil, {
 	Shoot1 = "grenadelauncher_shoot1";
 	FinalShoot = nil;
 	Reload = "grenadelauncher_reload";
 	EmptyReload = nil;
 })
-add("Skull Launcher", "rbxassetid://75499823012112", "rbxassetid://108501515576455", nil, nil, nil, CFrame.new(0, -0.25, -0.5) * CFrame.Angles(0.08726646259971647, 0, 0), "grenadelauncher_equip", "grenadelauncher_idle", "grenadelauncher_sprint", "grenadelauncher_inspect", nil, {
+add_viewmodel("Skull Launcher", "rbxassetid://75499823012112", "rbxassetid://108501515576455", nil, nil, nil, CFrame.new(0, -0.25, -0.5) * CFrame.Angles(0.08726646259971647, 0, 0), "grenadelauncher_equip", "grenadelauncher_idle", "grenadelauncher_sprint", "grenadelauncher_inspect", nil, {
 	Shoot1 = "grenadelauncher_shoot1";
 	FinalShoot = nil;
 	Reload = "grenadelauncher_reload";
 	EmptyReload = nil;
 })
-add("Snowball Launcher", "rbxassetid://112349955391111", "rbxassetid://136762406657736", nil, nil, nil, CFrame.new(0, -0.25, -0.5) * CFrame.Angles(0.08726646259971647, 0, 0), "grenadelauncher_snowballlauncher_equip", "grenadelauncher_idle", "grenadelauncher_sprint", "grenadelauncher_inspect", nil, {
+add_viewmodel("Snowball Launcher", "rbxassetid://112349955391111", "rbxassetid://136762406657736", nil, nil, nil, CFrame.new(0, -0.25, -0.5) * CFrame.Angles(0.08726646259971647, 0, 0), "grenadelauncher_snowballlauncher_equip", "grenadelauncher_idle", "grenadelauncher_sprint", "grenadelauncher_inspect", nil, {
 	Shoot1 = "grenadelauncher_shoot1";
 	FinalShoot = nil;
 	Reload = "grenadelauncher_reload";
 	EmptyReload = nil;
 })
-add("Minigun", "rbxassetid://17250458611", "rbxassetid://17250457775", nil, "rbxassetid://139259875015340", 3.25, CFrame.new(0, -0.375, -0.375) * CFrame.Angles(0.08726646259971647, 0.03490658503988659, 0), "minigun_equip", "minigun_idle", "minigun_sprint", "minigun_inspect", nil, {
+add_viewmodel("Gearnade Launcher", "rbxassetid://133756750612042", "rbxassetid://91208130484582", nil, nil, nil, CFrame.new(0, -0.375, -0.375) * CFrame.Angles(0.08726646259971647, 0, 0), "grenadelauncher_gearnadelauncher_equip", "grenadelauncher_idle", "grenadelauncher_sprint", "grenadelauncher_gearnadelauncher_inspect", nil, {
+	Shoot1 = "grenadelauncher_gearnadelauncher_shoot1";
+	FinalShoot = nil;
+	Reload = "grenadelauncher_gearnadelauncher_reload";
+	EmptyReload = nil;
+})
+add_viewmodel("Minigun", "rbxassetid://17250458611", "rbxassetid://17250457775", nil, "rbxassetid://139259875015340", 3.25, CFrame.new(0, -0.375, -0.375) * CFrame.Angles(0.08726646259971647, 0.03490658503988659, 0), "minigun_equip", "minigun_idle", "minigun_sprint", "minigun_inspect", nil, {
 	Shoot1 = nil;
 	FinalShoot = nil;
 	Reload = nil;
@@ -1037,7 +1219,7 @@ add("Minigun", "rbxassetid://17250458611", "rbxassetid://17250457775", nil, "rbx
 	ChargeLoop = "minigun_charge_loop";
 	ChargeFinish = "minigun_charge_finish";
 })
-add("Lasergun 3000", "rbxassetid://103437974285778", "rbxassetid://116040043955852", nil, nil, nil, CFrame.new(0, -0.5, -0.5) * CFrame.Angles(0.08726646259971647, 0.03490658503988659, 0), "minigun_equip", "minigun_idle", "minigun_sprint", "minigun_inspect", nil, {
+add_viewmodel("Lasergun 3000", "rbxassetid://103437974285778", "rbxassetid://116040043955852", nil, nil, nil, CFrame.new(0, -0.5, -0.5) * CFrame.Angles(0.08726646259971647, 0.03490658503988659, 0), "minigun_equip", "minigun_idle", "minigun_sprint", "minigun_inspect", nil, {
 	Shoot1 = nil;
 	FinalShoot = nil;
 	Reload = nil;
@@ -1046,7 +1228,7 @@ add("Lasergun 3000", "rbxassetid://103437974285778", "rbxassetid://1160400439558
 	ChargeLoop = "minigun_charge_loop";
 	ChargeFinish = "minigun_charge_finish";
 })
-add("Pixel Minigun", "rbxassetid://18766861798", "rbxassetid://18769001642", nil, nil, nil, CFrame.new(0, -0.375, -0.375) * CFrame.Angles(0.08726646259971647, 0.03490658503988659, 0), "minigun_pixelminigun_equip", "minigun_pixelminigun_idle", "minigun_pixelminigun_sprint", "minigun_pixelminigun_inspect", nil, {
+add_viewmodel("Pixel Minigun", "rbxassetid://18766861798", "rbxassetid://18769001642", nil, nil, nil, CFrame.new(0, -0.375, -0.375) * CFrame.Angles(0.08726646259971647, 0.03490658503988659, 0), "minigun_pixelminigun_equip", "minigun_pixelminigun_idle", "minigun_pixelminigun_sprint", "minigun_pixelminigun_inspect", nil, {
 	Shoot1 = nil;
 	FinalShoot = nil;
 	Reload = nil;
@@ -1058,7 +1240,7 @@ add("Pixel Minigun", "rbxassetid://18766861798", "rbxassetid://18769001642", nil
 	FramesPerSecond = 2;
 	PlayAnimationsInstantly = true;
 })
-add("Pumpkin Minigun", "rbxassetid://77388785880854", "rbxassetid://101609024294564", nil, nil, nil, CFrame.new(0, -0.375, -0.375) * CFrame.Angles(0.08726646259971647, 0.03490658503988659, 0), "minigun_equip", "minigun_idle", "minigun_sprint", "minigun_inspect", nil, {
+add_viewmodel("Pumpkin Minigun", "rbxassetid://77388785880854", "rbxassetid://101609024294564", nil, nil, nil, CFrame.new(0, -0.375, -0.375) * CFrame.Angles(0.08726646259971647, 0.03490658503988659, 0), "minigun_equip", "minigun_idle", "minigun_sprint", "minigun_inspect", nil, {
 	Shoot1 = nil;
 	FinalShoot = nil;
 	Reload = nil;
@@ -1067,7 +1249,7 @@ add("Pumpkin Minigun", "rbxassetid://77388785880854", "rbxassetid://101609024294
 	ChargeLoop = "minigun_charge_loop";
 	ChargeFinish = "minigun_charge_finish";
 })
-add("Wrapped Minigun", "rbxassetid://127077702465909", "rbxassetid://77902572458498", nil, nil, nil, CFrame.new(0, -0.375, -0.375) * CFrame.Angles(0.08726646259971647, 0.03490658503988659, 0), "minigun_wrappedminigun_equip", "minigun_idle", "minigun_sprint", "minigun_inspect", nil, {
+add_viewmodel("Wrapped Minigun", "rbxassetid://127077702465909", "rbxassetid://77902572458498", nil, nil, nil, CFrame.new(0, -0.375, -0.375) * CFrame.Angles(0.08726646259971647, 0.03490658503988659, 0), "minigun_wrappedminigun_equip", "minigun_idle", "minigun_sprint", "minigun_inspect", nil, {
 	Shoot1 = nil;
 	FinalShoot = nil;
 	Reload = nil;
@@ -1076,82 +1258,106 @@ add("Wrapped Minigun", "rbxassetid://127077702465909", "rbxassetid://77902572458
 	ChargeLoop = "minigun_charge_loop";
 	ChargeFinish = "minigun_charge_finish";
 })
-add("Exogun", "rbxassetid://17344796376", "rbxassetid://17344797370", nil, "rbxassetid://88192617023871", 1.5, CFrame.new(0, -0.25, 0) * CFrame.Angles(0.08726646259971647, 0, 0), "exogun_equip", "exogun_idle", "exogun_sprint", "exogun_inspect", nil, {
+add_viewmodel("Fighter Jet", "rbxassetid://70780739230558", "rbxassetid://95650502925488", nil, nil, nil, CFrame.new(0, -0.375, -0.375) * CFrame.Angles(0.08726646259971647, 0.03490658503988659, 0), "minigun_fighterjet_equip", "minigun_fighterjet_idle", "minigun_fighterjet_sprint", "minigun_fighterjet_inspect", nil, {
+	Shoot1 = nil;
+	FinalShoot = nil;
+	Reload = nil;
+	EmptyReload = nil;
+	ChargeStart = "minigun_fighterjet_charge_start";
+	ChargeLoop = "minigun_fighterjet_charge_loop";
+	ChargeFinish = "minigun_fighterjet_charge_finish";
+})
+add_viewmodel("Exogun", "rbxassetid://17344796376", "rbxassetid://17344797370", nil, "rbxassetid://88192617023871", 1.5, CFrame.new(0, -0.25, 0) * CFrame.Angles(0.08726646259971647, 0, 0), "exogun_equip", "exogun_idle", "exogun_sprint", "exogun_inspect", nil, {
 	Shoot1 = "exogun_shoot1";
 	FinalShoot = nil;
 	Reload = "exogun_reload";
 	EmptyReload = nil;
 })
-add("Wondergun", "rbxassetid://17672060360", "rbxassetid://17672086052", nil, nil, nil, CFrame.new(0, -0.25, 0) * CFrame.Angles(0.08726646259971647, 0, 0), "exogun_equip", "exogun_idle", "exogun_sprint", "exogun_inspect", nil, {
+add_viewmodel("Wondergun", "rbxassetid://17672060360", "rbxassetid://17672086052", nil, nil, nil, CFrame.new(0, -0.25, 0) * CFrame.Angles(0.08726646259971647, 0, 0), "exogun_equip", "exogun_idle", "exogun_sprint", "exogun_inspect", nil, {
 	Shoot1 = "exogun_shoot1";
 	FinalShoot = nil;
 	Reload = "exogun_reload";
 	EmptyReload = nil;
 })
-add("Singularity", "rbxassetid://17676876756", "rbxassetid://17676875650", nil, nil, nil, CFrame.new(0, -0.25, 0) * CFrame.Angles(0.08726646259971647, 0, 0), "exogun_singularity_equip", "exogun_idle", "exogun_sprint", "exogun_inspect", nil, {
+add_viewmodel("Singularity", "rbxassetid://17676876756", "rbxassetid://17676875650", nil, nil, nil, CFrame.new(0, -0.25, 0) * CFrame.Angles(0.08726646259971647, 0, 0), "exogun_singularity_equip", "exogun_idle", "exogun_sprint", "exogun_inspect", nil, {
 	Shoot1 = "exogun_singularity_shoot1";
 	FinalShoot = nil;
 	Reload = "exogun_singularity_reload";
 	EmptyReload = nil;
 })
-add("Ray Gun", "rbxassetid://18766861454", "rbxassetid://18766905089", nil, nil, nil, CFrame.new(0, -0.25, 0) * CFrame.Angles(0.08726646259971647, 0, 0), "exogun_equip", "exogun_idle", "exogun_sprint", "exogun_inspect", nil, {
+add_viewmodel("Ray Gun", "rbxassetid://18766861454", "rbxassetid://18766905089", nil, nil, nil, CFrame.new(0, -0.25, 0) * CFrame.Angles(0.08726646259971647, 0, 0), "exogun_equip", "exogun_idle", "exogun_sprint", "exogun_inspect", nil, {
 	Shoot1 = "exogun_shoot1";
 	FinalShoot = nil;
 	Reload = "exogun_reload";
 	EmptyReload = nil;
 })
-add("Exogourd", "rbxassetid://137140750597688", "rbxassetid://125880131168138", nil, nil, nil, CFrame.new(0, -0.25, 0) * CFrame.Angles(0.08726646259971647, 0, 0), "exogun_equip", "exogun_idle", "exogun_sprint", "exogun_inspect", nil, {
+add_viewmodel("Exogourd", "rbxassetid://137140750597688", "rbxassetid://125880131168138", nil, nil, nil, CFrame.new(0, -0.25, 0) * CFrame.Angles(0.08726646259971647, 0, 0), "exogun_equip", "exogun_idle", "exogun_sprint", "exogun_inspect", nil, {
 	Shoot1 = "exogun_shoot1";
 	FinalShoot = nil;
 	Reload = "exogun_reload";
 	EmptyReload = nil;
 })
-add("Midnight Festive Exogun", "rbxassetid://127612442529810", "rbxassetid://80015495064851", nil, nil, nil, CFrame.new(0, -0.25, 0) * CFrame.Angles(0.08726646259971647, 0, 0), "exogun_equip", "exogun_idle", "exogun_sprint", "exogun_inspect", nil, {
+add_viewmodel("Midnight Festive Exogun", "rbxassetid://127612442529810", "rbxassetid://80015495064851", nil, nil, nil, CFrame.new(0, -0.25, 0) * CFrame.Angles(0.08726646259971647, 0, 0), "exogun_equip", "exogun_idle", "exogun_sprint", "exogun_inspect", nil, {
 	Shoot1 = "exogun_shoot1";
 	FinalShoot = nil;
 	Reload = "exogun_reload";
 	EmptyReload = nil;
 })
-add("Freeze Ray", "rbxassetid://18429552328", "rbxassetid://18429549331", nil, "rbxassetid://72287797030544", 1.5, nil, "freezeray_equip", "freezeray_idle", "freezeray_sprint", "freezeray_inspect", nil, {
+add_viewmodel("Repulsor", "rbxassetid://109263387714628", "rbxassetid://130472229545721", nil, nil, nil, CFrame.new(0, -0.25, -0.25) * CFrame.Angles(0.08726646259971647, 0, 0), "exogun_repulsor_equip", "exogun_repulsor_idle", "exogun_repulsor_sprint", "exogun_repulsor_inspect", nil, {
+	Shoot1 = "exogun_repulsor_shoot1";
+	FinalShoot = nil;
+	Reload = "exogun_repulsor_reload";
+	EmptyReload = nil;
+})
+add_viewmodel("Freeze Ray", "rbxassetid://18429552328", "rbxassetid://18429549331", nil, "rbxassetid://72287797030544", 1.5, nil, "freezeray_equip", "freezeray_idle", "freezeray_sprint", "freezeray_inspect", nil, {
 	Shoot1 = "freezeray_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
 	EmptyReload = nil;
 })
-add("Temporal Ray", "rbxassetid://18429552503", "rbxassetid://18429549663", nil, nil, nil, nil, "freezeray_equip", "freezeray_idle", "freezeray_sprint", "freezeray_inspect", nil, {
+add_viewmodel("Temporal Ray", "rbxassetid://18429552503", "rbxassetid://18429549663", nil, nil, nil, nil, "freezeray_equip", "freezeray_idle", "freezeray_sprint", "freezeray_inspect", nil, {
 	Shoot1 = "freezeray_temporalray_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
 	EmptyReload = nil;
 })
-add("Bubble Ray", "rbxassetid://18766865819", "rbxassetid://18769002868", nil, nil, nil, nil, "freezeray_bubbleray_equip", "freezeray_idle", "freezeray_sprint", "freezeray_inspect", nil, {
+add_viewmodel("Bubble Ray", "rbxassetid://18766865819", "rbxassetid://18769002868", nil, nil, nil, nil, "freezeray_bubbleray_equip", "freezeray_idle", "freezeray_sprint", "freezeray_inspect", nil, {
 	Shoot1 = "freezeray_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
 	EmptyReload = nil;
 })
-add("Spider Ray", "rbxassetid://136838810668332", "rbxassetid://92621276006979", nil, nil, nil, nil, "freezeray_spiderray_equip", "freezeray_spiderray_idle", "freezeray_spiderray_sprint", "freezeray_spiderray_inspect", nil, {
+add_viewmodel("Spider Ray", "rbxassetid://136838810668332", "rbxassetid://92621276006979", nil, nil, nil, nil, "freezeray_spiderray_equip", "freezeray_spiderray_idle", "freezeray_spiderray_sprint", "freezeray_spiderray_inspect", nil, {
 	Shoot1 = "freezeray_spiderray_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
 	EmptyReload = nil;
 })
-add("Wrapped Freeze Ray", "rbxassetid://76183738050112", "rbxassetid://77624613843681", nil, nil, nil, nil, "freezeray_wrappedfreezeray_equip", "freezeray_idle", "freezeray_sprint", "freezeray_inspect", nil, {
+add_viewmodel("Wrapped Freeze Ray", "rbxassetid://76183738050112", "rbxassetid://77624613843681", nil, nil, nil, nil, "freezeray_wrappedfreezeray_equip", "freezeray_idle", "freezeray_sprint", "freezeray_inspect", nil, {
 	Shoot1 = "freezeray_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
 	EmptyReload = nil;
 })
-add("War Horn", "rbxassetid://104600246515190", "rbxassetid://97997387092919", nil, "rbxassetid://98364412304002", 1.5, nil, "warhorn_equip", "warhorn_idle", "warhorn_sprint", "warhorn_inspect", nil, {
+add_viewmodel("Gum Ray", "rbxassetid://121504417727123", "rbxassetid://124339207784760", nil, nil, nil, nil, "freezeray_equip", "freezeray_idle", "freezeray_sprint", "freezeray_inspect", nil, {
+	Shoot1 = "freezeray_shoot1";
+	FinalShoot = nil;
+	Reload = nil;
+	EmptyReload = nil;
+})
+add_viewmodel("War Horn", "rbxassetid://104600246515190", "rbxassetid://97997387092919", nil, "rbxassetid://98364412304002", 1.5, nil, "warhorn_equip", "warhorn_idle", "warhorn_sprint", "warhorn_inspect", nil, {
 	Use = "warhorn_use";
 })
-add("Trumpet", "rbxassetid://88975601634708", "rbxassetid://113408430051712", nil, nil, nil, nil, "warhorn_equip", "warhorn_idle", "warhorn_sprint", "warhorn_inspect", nil, {
+add_viewmodel("Trumpet", "rbxassetid://88975601634708", "rbxassetid://113408430051712", nil, nil, nil, nil, "warhorn_equip", "warhorn_idle", "warhorn_sprint", "warhorn_inspect", nil, {
 	Use = "warhorn_trumpet_use";
 })
-add("Mammoth Horn", "rbxassetid://93076834584542", "rbxassetid://107659166723688", nil, nil, nil, nil, "warhorn_equip", "warhorn_idle", "warhorn_sprint", "warhorn_inspect", nil, {
+add_viewmodel("Mammoth Horn", "rbxassetid://93076834584542", "rbxassetid://107659166723688", nil, nil, nil, nil, "warhorn_equip", "warhorn_idle", "warhorn_sprint", "warhorn_inspect", nil, {
 	Use = "warhorn_mammothhorn_use";
 })
-add("Satchel", "rbxassetid://82237471151891", "rbxassetid://132559258532984", nil, "rbxassetid://99042007892528", 1.5, nil, "satchel_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
+add_viewmodel("Megaphone", "rbxassetid://107074211847347", "rbxassetid://100739584109870", nil, nil, nil, nil, "warhorn_equip", "warhorn_idle", "warhorn_sprint", "warhorn_inspect", nil, {
+	Use = "warhorn_megaphone_use";
+})
+add_viewmodel("Satchel", "rbxassetid://82237471151891", "rbxassetid://132559258532984", nil, "rbxassetid://99042007892528", 1.5, nil, "satchel_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
 	ThrowStart = "grenade_throw_start";
 	ThrowIdle = "grenade_throw_idle";
 	ThrowFinish = "grenade_throw_finish";
@@ -1160,7 +1366,7 @@ add("Satchel", "rbxassetid://82237471151891", "rbxassetid://132559258532984", ni
 	LobFinish = "grenade_lob_finish";
 	Detonate = "satchel_detonate";
 })
-add("Advanced Satchel", "rbxassetid://113860326910548", "rbxassetid://118684510688617", nil, nil, nil, nil, "satchel_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
+add_viewmodel("Advanced Satchel", "rbxassetid://113860326910548", "rbxassetid://118684510688617", nil, nil, nil, nil, "satchel_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
 	ThrowStart = "grenade_throw_start";
 	ThrowIdle = "grenade_throw_idle";
 	ThrowFinish = "grenade_throw_finish";
@@ -1169,7 +1375,7 @@ add("Advanced Satchel", "rbxassetid://113860326910548", "rbxassetid://1186845106
 	LobFinish = "grenade_lob_finish";
 	Detonate = "satchel_advancedsatchel_detonate";
 })
-add("Suspicious Gift", "rbxassetid://76209303162814", "rbxassetid://131542627171282", nil, nil, nil, nil, "satchel_suspiciousgift_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
+add_viewmodel("Suspicious Gift", "rbxassetid://76209303162814", "rbxassetid://131542627171282", nil, nil, nil, nil, "satchel_suspiciousgift_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
 	ThrowStart = "grenade_throw_start";
 	ThrowIdle = "grenade_throw_idle";
 	ThrowFinish = "grenade_throw_finish";
@@ -1178,34 +1384,52 @@ add("Suspicious Gift", "rbxassetid://76209303162814", "rbxassetid://131542627171
 	LobFinish = "grenade_lob_finish";
 	Detonate = "satchel_detonate";
 })
-add("Battle Axe", "rbxassetid://93390542043222", "rbxassetid://78364101927650", nil, "rbxassetid://89974468602998", 2, nil, "battleaxe_equip", "battleaxe_idle", "battleaxe_sprint", "battleaxe_inspect", nil, {
+add_viewmodel("Notebook Satchel", "rbxassetid://124817464748150", "rbxassetid://85589408404069", nil, nil, nil, nil, "satchel_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
+	ThrowStart = "grenade_throw_start";
+	ThrowIdle = "grenade_throw_idle";
+	ThrowFinish = "grenade_throw_finish";
+	LobStart = "grenade_lob_start";
+	LobIdle = "grenade_lob_idle";
+	LobFinish = "grenade_lob_finish";
+	Detonate = "satchel_detonate";
+})
+add_viewmodel("Battle Axe", "rbxassetid://93390542043222", "rbxassetid://78364101927650", nil, "rbxassetid://89974468602998", 2, nil, "battleaxe_equip", "battleaxe_idle", "battleaxe_sprint", "battleaxe_inspect", nil, {
 	Attack1 = "battleaxe_attack1";
 	Attack2 = "battleaxe_attack2";
 	SpinAttack = "battleaxe_spinattack";
 })
-add("The Shred", "rbxassetid://71234381808727", "rbxassetid://95922136476180", nil, nil, nil, nil, "battleaxe_equip", "battleaxe_idle", "battleaxe_sprint", "battleaxe_theshred_inspect", nil, {
+add_viewmodel("The Shred", "rbxassetid://71234381808727", "rbxassetid://95922136476180", nil, nil, nil, nil, "battleaxe_equip", "battleaxe_idle", "battleaxe_sprint", "battleaxe_theshred_inspect", nil, {
 	Attack1 = "battleaxe_theshred_attack1";
 	Attack2 = "battleaxe_theshred_attack2";
 	SpinAttack = "battleaxe_theshred_spinattack";
 })
-add("Nordic Axe", "rbxassetid://80052264197135", "rbxassetid://86476943038006", nil, nil, nil, nil, "battleaxe_equip", "battleaxe_idle", "battleaxe_sprint", "battleaxe_inspect", nil, {
+add_viewmodel("Nordic Axe", "rbxassetid://80052264197135", "rbxassetid://86476943038006", nil, nil, nil, nil, "battleaxe_equip", "battleaxe_idle", "battleaxe_sprint", "battleaxe_inspect", nil, {
 	Attack1 = "battleaxe_attack1";
 	Attack2 = "battleaxe_attack2";
 	SpinAttack = "battleaxe_spinattack";
 })
-add("Riot Shield", "rbxassetid://121172272442833", "rbxassetid://126785276332335", nil, "rbxassetid://97178934256596", 1.75, nil, "riotshield_equip", "riotshield_idle", "riotshield_sprint", "riotshield_inspect", nil, {
+add_viewmodel("Ban Axe", "rbxassetid://111046431576859", "rbxassetid://100159715604530", nil, nil, nil, nil, "battleaxe_equip", "battleaxe_idle", "battleaxe_sprint", "battleaxe_inspect", nil, {
+	Attack1 = "battleaxe_attack1";
+	Attack2 = "battleaxe_attack2";
+	SpinAttack = "battleaxe_spinattack";
+})
+add_viewmodel("Riot Shield", "rbxassetid://121172272442833", "rbxassetid://126785276332335", nil, "rbxassetid://97178934256596", 1.75, nil, "riotshield_equip", "riotshield_idle", "riotshield_sprint", "riotshield_inspect", nil, {
 	Attack1 = "riotshield_attack1";
 	Attack2 = "riotshield_attack2";
 })
-add("Door", "rbxassetid://79242603995428", "rbxassetid://137027368393353", nil, nil, nil, nil, "riotshield_equip", "riotshield_idle", "riotshield_sprint", "riotshield_inspect", nil, {
+add_viewmodel("Door", "rbxassetid://79242603995428", "rbxassetid://137027368393353", nil, nil, nil, nil, "riotshield_equip", "riotshield_idle", "riotshield_sprint", "riotshield_inspect", nil, {
 	Attack1 = "riotshield_attack1";
 	Attack2 = "riotshield_attack2";
 })
-add("Sled", "rbxassetid://73881731607231", "rbxassetid://127016476735322", nil, nil, nil, nil, "riotshield_equip", "riotshield_idle", "riotshield_sprint", "riotshield_inspect", nil, {
+add_viewmodel("Sled", "rbxassetid://73881731607231", "rbxassetid://127016476735322", nil, nil, nil, nil, "riotshield_equip", "riotshield_idle", "riotshield_sprint", "riotshield_inspect", nil, {
 	Attack1 = "riotshield_attack1";
 	Attack2 = "riotshield_attack2";
 })
-add("Daggers", "rbxassetid://91885384580845", "rbxassetid://138508026547275", nil, "rbxassetid://112790625455883", 2, CFrame.new(0, -0.125, -0.125), "daggers_equip", "daggers_idle", "daggers_sprint", "daggers_inspect", nil, {
+add_viewmodel("Energy Shield", "rbxassetid://90215439337413", "rbxassetid://127037252186171", nil, nil, nil, nil, "riotshield_energyshield_equip", "riotshield_idle", "riotshield_sprint", "riotshield_inspect", nil, {
+	Attack1 = "riotshield_energyshield_attack1";
+	Attack2 = "riotshield_energyshield_attack2";
+})
+add_viewmodel("Daggers", "rbxassetid://91885384580845", "rbxassetid://138508026547275", nil, "rbxassetid://112790625455883", 2, CFrame.new(0, -0.125, -0.125), "daggers_equip", "daggers_idle", "daggers_sprint", "daggers_inspect", nil, {
 	Shoot1 = "daggers_shoot1";
 	FinalShoot = "daggers_shoot2";
 	Reload = "daggers_reload";
@@ -1214,7 +1438,7 @@ add("Daggers", "rbxassetid://91885384580845", "rbxassetid://138508026547275", ni
 	EmptyIdle = "fists_idle";
 	EmptyInspect = "fists_inspect";
 })
-add("Aces", "rbxassetid://139089881483398", "rbxassetid://78850921968876", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "daggers_equip", "daggers_idle", "daggers_sprint", "daggers_inspect", nil, {
+add_viewmodel("Aces", "rbxassetid://139089881483398", "rbxassetid://78850921968876", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "daggers_equip", "daggers_idle", "daggers_sprint", "daggers_inspect", nil, {
 	Shoot1 = "daggers_aces_shoot1";
 	FinalShoot = "daggers_aces_shoot2";
 	Reload = "daggers_aces_reload";
@@ -1223,7 +1447,7 @@ add("Aces", "rbxassetid://139089881483398", "rbxassetid://78850921968876", nil, 
 	EmptyIdle = "fists_idle";
 	EmptyInspect = "fists_inspect";
 })
-add("Cookies", "rbxassetid://114482325531769", "rbxassetid://112581667413176", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "daggers_equip", "daggers_idle", "daggers_sprint", "daggers_inspect", nil, {
+add_viewmodel("Cookies", "rbxassetid://114482325531769", "rbxassetid://112581667413176", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "daggers_equip", "daggers_idle", "daggers_sprint", "daggers_inspect", nil, {
 	Shoot1 = "daggers_shoot1";
 	FinalShoot = "daggers_shoot2";
 	Reload = "daggers_cookies_reload";
@@ -1232,7 +1456,7 @@ add("Cookies", "rbxassetid://114482325531769", "rbxassetid://112581667413176", n
 	EmptyIdle = "fists_idle";
 	EmptyInspect = "fists_inspect";
 })
-add("Crystal Daggers", "rbxassetid://126221748659600", "rbxassetid://92405854307880", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "daggers_crystaldaggers_equip", "daggers_idle", "daggers_sprint", "daggers_crystaldaggers_inspect", nil, {
+add_viewmodel("Crystal Daggers", "rbxassetid://126221748659600", "rbxassetid://92405854307880", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "daggers_crystaldaggers_equip", "daggers_idle", "daggers_sprint", "daggers_crystaldaggers_inspect", nil, {
 	Shoot1 = "daggers_crystaldaggers_shoot1";
 	FinalShoot = "daggers_crystaldaggers_shoot2";
 	Reload = "daggers_crystaldaggers_reload";
@@ -1241,79 +1465,106 @@ add("Crystal Daggers", "rbxassetid://126221748659600", "rbxassetid://92405854307
 	EmptyIdle = "fists_idle";
 	EmptyInspect = "fists_inspect";
 })
-add("Energy Pistols", "rbxassetid://79471670126710", "rbxassetid://125338509278840", nil, "rbxassetid://110320793833810", 2.5, CFrame.new(0, -0.375, -0.375) * CFrame.Angles(0.17453292519943295, 0, 0), "energypistols_equip", "energypistols_idle", "energypistols_sprint", "energypistols_inspect", nil, {
+add_viewmodel("Paper Planes", "rbxassetid://84003122595879", "rbxassetid://90572065167686", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "daggers_equip", "daggers_idle", "daggers_sprint", "daggers_inspect", nil, {
+	Shoot1 = "daggers_shoot1";
+	FinalShoot = "daggers_shoot2";
+	Reload = "daggers_paperplanes_reload";
+	EmptyReload = nil;
+	EmptyEquip = "fists_equip";
+	EmptyIdle = "fists_idle";
+	EmptyInspect = "fists_inspect";
+})
+add_viewmodel("Energy Pistols", "rbxassetid://79471670126710", "rbxassetid://125338509278840", nil, "rbxassetid://110320793833810", 2.5, CFrame.new(0, -0.375, -0.375) * CFrame.Angles(0.17453292519943295, 0, 0), "energypistols_equip", "energypistols_idle", "energypistols_sprint", "energypistols_inspect", nil, {
 	Shoot1 = "energypistols_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
 	EmptyReload = nil;
 })
-add("Hacker Pistols", "rbxassetid://140621407555872", "rbxassetid://105705939354438", nil, nil, nil, CFrame.new(0, -0.375, -0.375) * CFrame.Angles(0.17453292519943295, 0, 0), "energypistols_equip", "energypistols_idle", "energypistols_sprint", "energypistols_inspect", nil, {
+add_viewmodel("Hacker Pistols", "rbxassetid://140621407555872", "rbxassetid://105705939354438", nil, nil, nil, CFrame.new(0, -0.375, -0.375) * CFrame.Angles(0.17453292519943295, 0, 0), "energypistols_equip", "energypistols_idle", "energypistols_sprint", "energypistols_inspect", nil, {
 	Shoot1 = "energypistols_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
 	EmptyReload = nil;
 })
-add("Apex Pistols", "rbxassetid://136156057859453", "rbxassetid://132394469151873", nil, nil, nil, CFrame.new(0, -0.375, -0.375) * CFrame.Angles(0.17453292519943295, 0, 0), "energypistols_equip", "energypistols_idle", "energypistols_sprint", "energypistols_inspect", nil, {
+add_viewmodel("Apex Pistols", "rbxassetid://136156057859453", "rbxassetid://132394469151873", nil, nil, nil, CFrame.new(0, -0.375, -0.375) * CFrame.Angles(0.17453292519943295, 0, 0), "energypistols_equip", "energypistols_idle", "energypistols_sprint", "energypistols_inspect", nil, {
 	Shoot1 = "energypistols_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
 	EmptyReload = nil;
 })
-add("2025 Energy Pistols", "rbxassetid://126589959779039", "rbxassetid://88240834599421", nil, nil, nil, CFrame.new(0, -0.375, -0.375) * CFrame.Angles(0.17453292519943295, 0, 0), "energypistols_equip", "energypistols_idle", "energypistols_sprint", "energypistols_inspect", nil, {
+add_viewmodel("2025 Energy Pistols", "rbxassetid://126589959779039", "rbxassetid://88240834599421", nil, nil, nil, CFrame.new(0, -0.375, -0.375) * CFrame.Angles(0.17453292519943295, 0, 0), "energypistols_equip", "energypistols_idle", "energypistols_sprint", "energypistols_inspect", nil, {
 	Shoot1 = "energypistols_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
 	EmptyReload = nil;
 })
-add("Energy Rifle", "rbxassetid://110259279810005", "rbxassetid://103736834693278", nil, "rbxassetid://129961481216137", 2.5, CFrame.new(0, -0.125, -0.125), "energyrifle_equip", "energyrifle_idle", "energyrifle_sprint", "energyrifle_inspect", nil, {
+add_viewmodel("Void Pistols", "rbxassetid://111278471262300", "rbxassetid://114821885011907", nil, nil, nil, CFrame.new(0, -0.375, -0.375) * CFrame.Angles(0.17453292519943295, 0, 0), "energypistols_voidpistols_equip", "energypistols_idle", "energypistols_sprint", "energypistols_voidpistols_inspect", nil, {
+	Shoot1 = "energypistols_voidpistols_shoot1";
+	FinalShoot = nil;
+	Reload = nil;
+	EmptyReload = nil;
+})
+add_viewmodel("Energy Rifle", "rbxassetid://110259279810005", "rbxassetid://103736834693278", nil, "rbxassetid://129961481216137", 2.5, CFrame.new(0, -0.125, -0.125), "energyrifle_equip", "energyrifle_idle", "energyrifle_sprint", "energyrifle_inspect", nil, {
 	Shoot1 = "energyrifle_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
 	EmptyReload = nil;
 })
-add("Hacker Rifle", "rbxassetid://122816271917525", "rbxassetid://89213922790170", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "energyrifle_equip", "energyrifle_idle", "energyrifle_sprint", "energyrifle_inspect", nil, {
+add_viewmodel("Hacker Rifle", "rbxassetid://122816271917525", "rbxassetid://89213922790170", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "energyrifle_equip", "energyrifle_idle", "energyrifle_sprint", "energyrifle_inspect", nil, {
 	Shoot1 = "energyrifle_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
 	EmptyReload = nil;
 })
-add("Apex Rifle", "rbxassetid://88144772234151", "rbxassetid://111748806401551", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "energyrifle_equip", "energyrifle_idle", "energyrifle_sprint", "energyrifle_inspect", nil, {
+add_viewmodel("Apex Rifle", "rbxassetid://88144772234151", "rbxassetid://111748806401551", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "energyrifle_equip", "energyrifle_idle", "energyrifle_sprint", "energyrifle_inspect", nil, {
 	Shoot1 = "energyrifle_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
 	EmptyReload = nil;
 })
-add("2025 Energy Rifle", "rbxassetid://111446782522703", "rbxassetid://101868484686291", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "energyrifle_equip", "energyrifle_idle", "energyrifle_sprint", "energyrifle_inspect", nil, {
+add_viewmodel("2025 Energy Rifle", "rbxassetid://111446782522703", "rbxassetid://101868484686291", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "energyrifle_equip", "energyrifle_idle", "energyrifle_sprint", "energyrifle_inspect", nil, {
 	Shoot1 = "energyrifle_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
 	EmptyReload = nil;
 })
-add("Spray", "rbxassetid://92882887485248", "rbxassetid://87291726953666", nil, "rbxassetid://100057833634628", 2.25, CFrame.new(0, -0.2, -0.15), "spray_equip", "spray_idle", "spray_sprint", "spray_inspect", nil, {
+add_viewmodel("Hydro Rifle", "rbxassetid://73690448730060", "rbxassetid://101984348353475", nil, nil, nil, CFrame.new(0, -0.125, -0.125), "energyrifle_equip", "energyrifle_idle", "energyrifle_sprint", "energyrifle_inspect", nil, {
+	Shoot1 = "energyrifle_hydrorifle_shoot1";
+	FinalShoot = nil;
+	Reload = nil;
+	EmptyReload = nil;
+})
+add_viewmodel("Spray", "rbxassetid://92882887485248", "rbxassetid://87291726953666", nil, "rbxassetid://100057833634628", 2.25, CFrame.new(0, -0.2, -0.15), "spray_equip", "spray_idle", "spray_sprint", "spray_inspect", nil, {
 	Shoot1 = "spray_shoot1";
 	FinalShoot = "spray_shoot_final";
 	Reload = "spray_reload";
 	EmptyReload = "spray_reload_empty";
 })
-add("Lovely Spray", "rbxassetid://131203015026683", "rbxassetid://138177960576401", nil, nil, nil, CFrame.new(0, -0.2, -0.3), "spray_equip", "spray_idle", "spray_sprint", "spray_inspect", nil, {
+add_viewmodel("Lovely Spray", "rbxassetid://131203015026683", "rbxassetid://138177960576401", nil, nil, nil, CFrame.new(0, -0.2, -0.3), "spray_equip", "spray_idle", "spray_sprint", "spray_inspect", nil, {
 	Shoot1 = "spray_shoot1";
 	FinalShoot = "spray_shoot_final";
 	Reload = "spray_reload";
 	EmptyReload = "spray_reload_empty";
 })
-add("Pine Spray", "rbxassetid://128285758736343", "rbxassetid://79010014206302", nil, nil, nil, CFrame.new(0, -0.2, -0.3), "spray_equip", "spray_idle", "spray_sprint", "spray_inspect", nil, {
+add_viewmodel("Pine Spray", "rbxassetid://128285758736343", "rbxassetid://79010014206302", nil, nil, nil, CFrame.new(0, -0.2, -0.3), "spray_equip", "spray_idle", "spray_sprint", "spray_inspect", nil, {
 	Shoot1 = "spray_shoot1";
 	FinalShoot = "spray_shoot_final";
 	Reload = "spray_reload";
 	EmptyReload = "spray_reload_empty";
 })
-add("Crossbow", "rbxassetid://140211832612284", "rbxassetid://130065160832422", nil, "rbxassetid://120023204894177", 3, CFrame.new(0.25, -0.375, -0.125) * CFrame.Angles(0.08726646259971647, 0, 0), "crossbow_equip", "crossbow_idle", "crossbow_sprint", "crossbow_inspect", nil, {
+add_viewmodel("Nail Gun", "rbxassetid://110577809934251", "rbxassetid://79527532659144", nil, nil, nil, CFrame.new(0.125, -0.2, -0.15), "spray_equip", "spray_idle", "spray_sprint", "spray_inspect", nil, {
+	Shoot1 = "spray_nailgun_shoot1";
+	FinalShoot = "spray_nailgun_shoot_final";
+	Reload = "spray_reload";
+	EmptyReload = "spray_nailgun_reload_empty";
+})
+add_viewmodel("Crossbow", "rbxassetid://140211832612284", "rbxassetid://130065160832422", nil, "rbxassetid://120023204894177", 3, CFrame.new(0.25, -0.375, -0.125) * CFrame.Angles(0.08726646259971647, 0, 0), "crossbow_equip", "crossbow_idle", "crossbow_sprint", "crossbow_inspect", nil, {
 	Shoot1 = "crossbow_shoot1";
 	FinalShoot = nil;
 	Reload = "crossbow_reload";
 	EmptyReload = nil;
 })
-add("Pixel Crossbow", "rbxassetid://115931961841903", "rbxassetid://129836248906904", nil, nil, nil, CFrame.new(0.25, -0.375, -0.125) * CFrame.Angles(0.08726646259971647, 0, 0), "crossbow_pixelcrossbow_equip", "crossbow_pixelcrossbow_idle", "crossbow_pixelcrossbow_sprint", "crossbow_pixelcrossbow_inspect", nil, {
+add_viewmodel("Pixel Crossbow", "rbxassetid://115931961841903", "rbxassetid://129836248906904", nil, nil, nil, CFrame.new(0.25, -0.375, -0.125) * CFrame.Angles(0.08726646259971647, 0, 0), "crossbow_pixelcrossbow_equip", "crossbow_pixelcrossbow_idle", "crossbow_pixelcrossbow_sprint", "crossbow_pixelcrossbow_inspect", nil, {
 	Shoot1 = "crossbow_pixelcrossbow_shoot1";
 	FinalShoot = nil;
 	Reload = "crossbow_pixelcrossbow_reload";
@@ -1322,13 +1573,19 @@ add("Pixel Crossbow", "rbxassetid://115931961841903", "rbxassetid://129836248906
 	FramesPerSecond = 2;
 	PlayAnimationsInstantly = true;
 })
-add("Frostbite Crossbow", "rbxassetid://101536997945363", "rbxassetid://116171878456521", nil, nil, nil, CFrame.new(0.25, -0.375, -0.125) * CFrame.Angles(0.08726646259971647, 0, 0), "crossbow_frostbitecrossbow_equip", "crossbow_idle", "crossbow_sprint", "crossbow_inspect", nil, {
+add_viewmodel("Frostbite Crossbow", "rbxassetid://101536997945363", "rbxassetid://116171878456521", nil, nil, nil, CFrame.new(0.25, -0.375, -0.125) * CFrame.Angles(0.08726646259971647, 0, 0), "crossbow_frostbitecrossbow_equip", "crossbow_idle", "crossbow_sprint", "crossbow_inspect", nil, {
 	Shoot1 = "crossbow_frostbitecrossbow_shoot1";
 	FinalShoot = nil;
 	Reload = "crossbow_frostbitecrossbow_reload";
 	EmptyReload = nil;
 })
-add("Gunblade", "rbxassetid://131231034374465", "rbxassetid://131462750179690", nil, "rbxassetid://79528657538147", 3, CFrame.new(0.125, 0, 0) * CFrame.Angles(0, 0.04363323129985824, 0), "gunblade_equip", "gunblade_idle", "gunblade_sprint", "gunblade_inspect", nil, {
+add_viewmodel("Harpoon Crossbow", "rbxassetid://107460405492001", "rbxassetid://127546301627893", nil, nil, nil, CFrame.new(0.25, -0.375, -0.125) * CFrame.Angles(0.08726646259971647, 0, 0), "crossbow_harpooncrossbow_equip", "crossbow_harpooncrossbow_idle", "crossbow_harpooncrossbow_sprint", "crossbow_harpooncrossbow_inspect", nil, {
+	Shoot1 = "crossbow_harpooncrossbow_shoot1";
+	FinalShoot = nil;
+	Reload = "crossbow_harpooncrossbow_reload";
+	EmptyReload = nil;
+})
+add_viewmodel("Gunblade", "rbxassetid://131231034374465", "rbxassetid://131462750179690", nil, "rbxassetid://79528657538147", 3, CFrame.new(0.125, 0, 0) * CFrame.Angles(0, 0.04363323129985824, 0), "gunblade_equip", "gunblade_idle", "gunblade_sprint", "gunblade_inspect", nil, {
 	Shoot1 = "gunblade_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
@@ -1340,11 +1597,11 @@ add("Gunblade", "rbxassetid://131231034374465", "rbxassetid://131462750179690", 
 	BladeInspect = "gunblade_inspect_blade";
 	BladeAttack1 = "gunblade_attack1_blade";
 	BladeAttack2 = "gunblade_attack2_blade";
+	BladeAttackOnHit = "gunblade_attack_blade_onhit";
 	ToGun1 = "gunblade_to_gun";
 	ToGun2 = "gunblade_to_gun2";
 })
-
-add("Hyper Gunblade", "rbxassetid://134415898983004", "rbxassetid://134499903901922", nil, nil, nil, CFrame.new(0.125, 0, 0) * CFrame.Angles(0, 0.04363323129985824, 0), "gunblade_equip", "gunblade_idle", "gunblade_sprint", "gunblade_inspect", nil, {
+add_viewmodel("Hyper Gunblade", "rbxassetid://134415898983004", "rbxassetid://134499903901922", nil, nil, nil, CFrame.new(0.125, 0, 0) * CFrame.Angles(0, 0.04363323129985824, 0), "gunblade_equip", "gunblade_idle", "gunblade_sprint", "gunblade_inspect", nil, {
 	Shoot1 = "gunblade_hypergunblade_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
@@ -1356,11 +1613,11 @@ add("Hyper Gunblade", "rbxassetid://134415898983004", "rbxassetid://134499903901
 	BladeInspect = "gunblade_inspect_blade";
 	BladeAttack1 = "gunblade_hypergunblade_attack1_blade";
 	BladeAttack2 = "gunblade_hypergunblade_attack2_blade";
+	BladeAttackOnHit = "gunblade_hypergunblade_attack_blade_onhit";
 	ToGun1 = "gunblade_to_gun";
 	ToGun2 = "gunblade_to_gun2";
 })
-
-add("Elf's Gunblade", "rbxassetid://114103306647123", "rbxassetid://81214817732179", nil, nil, nil, CFrame.new(0.125, 0, 0) * CFrame.Angles(0, 0.04363323129985824, 0), "gunblade_equip", "gunblade_idle", "gunblade_sprint", "gunblade_inspect", nil, {
+add_viewmodel("Elf's Gunblade", "rbxassetid://114103306647123", "rbxassetid://81214817732179", nil, nil, nil, CFrame.new(0.125, 0, 0) * CFrame.Angles(0, 0.04363323129985824, 0), "gunblade_equip", "gunblade_idle", "gunblade_sprint", "gunblade_inspect", nil, {
 	Shoot1 = "gunblade_shoot1";
 	FinalShoot = nil;
 	Reload = nil;
@@ -1372,16 +1629,34 @@ add("Elf's Gunblade", "rbxassetid://114103306647123", "rbxassetid://812148177321
 	BladeInspect = "gunblade_inspect_blade";
 	BladeAttack1 = "gunblade_attack1_blade";
 	BladeAttack2 = "gunblade_attack2_blade";
+	BladeAttackOnHit = "gunblade_attack_blade_onhit";
 	ToGun1 = "gunblade_to_gun";
 	ToGun2 = "gunblade_to_gun2";
 })
-
-add("Scepter", "rbxassetid://99183402177823", "rbxassetid://89220212871603", nil, "rbxassetid://102084909464865", 3, nil, "katana_equip", "katana_idle", "katana_sprint2", "katana_inspect", "katana_inspect_rare", {
+add_viewmodel("Crude Gunblade", "rbxassetid://126996645502136", "rbxassetid://111573250598753", nil, nil, nil, CFrame.new(0.125, 0, 0) * CFrame.Angles(0, 0.04363323129985824, 0), "gunblade_equip", "gunblade_idle", "gunblade_sprint", "gunblade_inspect", nil, {
+	Shoot1 = "gunblade_shoot1";
+	FinalShoot = nil;
+	Reload = nil;
+	EmptyReload = nil;
+	ToBlade = "gunblade_to_blade";
+	BladeEquip = "gunblade_equip_blade";
+	BladeIdle = "gunblade_idle_blade";
+	BladeSprint = "gunblade_sprint_blade";
+	BladeInspect = "gunblade_inspect_blade";
+	BladeAttack1 = "gunblade_attack1_blade";
+	BladeAttack2 = "gunblade_attack2_blade";
+	BladeAttackOnHit = "gunblade_attack_blade_onhit";
+	ToGun1 = "gunblade_to_gun";
+	ToGun2 = "gunblade_to_gun2";
+})
+add_viewmodel("Jump Pad", "rbxassetid://79459600453621", "rbxassetid://102532564314723", nil, "rbxassetid://113965546523164", 1.5, nil, "medkit_equip", "medkit_idle", "medkit_sprint", "medkit_inspect", nil)
+add_viewmodel("Trampoline", "rbxassetid://103567857194140", "rbxassetid://92310435035049", nil, nil, nil, nil, "medkit_equip", "medkit_idle", "medkit_sprint", "medkit_inspect", nil)
+add_viewmodel("Bounce House", "rbxassetid://71226436012588", "rbxassetid://79326657484315", nil, nil, nil, nil, "medkit_equip", "medkit_idle", "medkit_sprint", "medkit_inspect", nil)
+add_viewmodel("Scepter", "rbxassetid://99183402177823", "rbxassetid://89220212871603", nil, "rbxassetid://102084909464865", 3, nil, "katana_equip", "katana_idle", "katana_sprint2", "katana_inspect", "katana_inspect_rare", {
 	Shoot1 = "katana_attack1";
 	Shoot2 = "katana_attack2";
 })
-
-add("Elixir", "rbxassetid://123677194704684", "rbxassetid://96734141776078", nil, "rbxassetid://106686303136827", 1, nil, "elixir_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
+add_viewmodel("Elixir", "rbxassetid://123677194704684", "rbxassetid://96734141776078", nil, "rbxassetid://106686303136827", 1, nil, "elixir_equip", "grenade_idle", "grenade_sprint", "grenade_inspect", nil, {
 	ThrowStart = "grenade_throw_start";
 	ThrowIdle = "grenade_throw_idle";
 	ThrowFinish = "grenade_throw_finish";
