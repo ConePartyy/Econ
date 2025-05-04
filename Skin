@@ -28,11 +28,21 @@ local function add_viewmodel(name, icon, iconhigh, imagecenter, elimImg, elimImg
 		animsReverse = {},
 	}
 	
-	itbl.animsReverse[_equip] = 'equip'
-	itbl.animsReverse[_idle] = 'idle'
-	itbl.animsReverse[_sprint] = 'sprint'
-	itbl.animsReverse[_inspect] = 'inspect'
-	itbl.animsReverse[_rareinspect] = 'rareinspect'
+	if _equip then
+		itbl.animsReverse[_equip] = 'equip'
+	end
+	if _idle then
+		itbl.animsReverse[_idle] = 'idle'
+	end
+	if _sprint then
+		itbl.animsReverse[_sprint] = 'sprint'
+	end
+	if _inspect then
+		itbl.animsReverse[_inspect] = 'inspect'
+	end
+	if _rareinspect then
+		itbl.animsReverse[_rareinspect] = 'rareinspect'
+	end
 
 	-- // Adding Item-Specific Animations (Shooting, Reload, etc)
 	
