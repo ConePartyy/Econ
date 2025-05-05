@@ -15,9 +15,11 @@ local plr = game:GetService('Players').LocalPlayer
 local scripts = plr.PlayerScripts
 local weaponSounds = scripts.Modules.ClientReplicatedClasses.ClientFighter.ClientItem
 
+_G.durr = .5
+
 function ut:_AnimationWait(name, anim, dur)
 	if anim then
-		task.wait(dur)
+		task.wait(dur*_G.durr)
 		return anim and anim.IsPlaying
 	end
 end
