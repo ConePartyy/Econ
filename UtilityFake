@@ -16,8 +16,6 @@ local scripts = plr.PlayerScripts
 local weaponSounds = scripts.Modules.ClientReplicatedClasses.ClientFighter.ClientItem
 
 function ut:_AnimationWait(name, anim, dur)
-	local id = animlib.Info[name].AnimationID
-
 	if anim then
 		task.wait(dur)
 		return anim and anim.IsPlaying
