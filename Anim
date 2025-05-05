@@ -49,8 +49,8 @@ local at = 0
 local max = 0
 
 local function add_animation(name, id, length, speed, idkserver, stamp, extraInfo) 
-	max += 1
-	task.spawn(function()
+	--max += 1
+	--task.spawn(function()
 		speed = speed or 1
 
 		local rel = relAnim:FindFirstChild(name)
@@ -75,8 +75,8 @@ local function add_animation(name, id, length, speed, idkserver, stamp, extraInf
 			}
 		end
 		
-		at += 1
-	end)
+	--	at += 1
+	--end)
 end
 
 add_animation("fists_equip", "rbxassetid://12557487419", 0.55, nil, true)
@@ -795,6 +795,6 @@ add_animation("gunblade_hypergunblade_attack_blade_onhit", "rbxassetid://7656602
 --	end
 --end)
 
-repeat wait() until max == at
+--repeat wait() until max == at
 
 return mod
