@@ -52,6 +52,8 @@ function ut:CreateSound(id, vol, speed, pos, play, dur, mind, maxd, soundserv, e
 		p.Parent = workspace
 		pos = p
 		debris(p, dur or 60)
+	else
+		pos = weaponSounds
 	end
 
 	pos = pos or weaponSounds
