@@ -45,11 +45,15 @@ local function isskin(name)
 	end
 end
 
+local at = 0
+local max = 0
+
 local function add_animation(name, id, length, speed, idkserver, stamp, extraInfo) 
+	max += 1
 	task.spawn(function()
 		speed = speed or 1
 
-		local rel = relAnim:FindFirstChild(name) or nil
+		local rel = relAnim:FindFirstChild(name)
 
 		mod.Info[name] = {
 			AnimationID = id,
@@ -70,6 +74,8 @@ local function add_animation(name, id, length, speed, idkserver, stamp, extraInf
 				ExtraInformation = extraInfo
 			}
 		end
+		
+		at += 1
 	end)
 end
 
@@ -788,5 +794,7 @@ task.spawn(function()
 		end)
 	end
 end)
+
+repeat wait() until max == at
 
 return mod
