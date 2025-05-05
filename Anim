@@ -3,14 +3,15 @@ local mod = {
 	InfoReverse = {}
 }
 
-local relAnim = game:GetService('ReplicatedStorage').Modules.AnimationLibrary
-
 local skinsb = {}
 
 local plr = game:GetService('Players').LocalPlayer
 
 local scripts = plr.PlayerScripts
 local skins = scripts.Assets.ViewModels
+
+local rep = game:GetService('ReplicatedStorage')
+local relAnim = rep.Modules.AnimationLibrary
 
 local function rem(inputString, charToRemove)
 	if type(inputString) ~= "string" or type(charToRemove) ~= "string" then
@@ -57,7 +58,7 @@ local function add_animation(name, id, length, speed, idkserver, stamp, extraInf
 		ExtraInformation = extraInfo
 	}
 	
-	if not isskin(name) then
+	if not mod.InfoReverse[id] then--not isskin(name) then
 		mod.InfoReverse[id] = {
 			Name = name,
 			Speed = speed,
