@@ -14,13 +14,15 @@ local skins = scripts.Assets.ViewModels
 local rep = game:GetService('ReplicatedStorage')
 local relAnim = rep.Modules.AnimationLibrary
 
-for _, v in pairs(relAnim:GetChildren()) do
-	task.spawn(function()
-		local scr = decompile(v, nil, 0)
-		scr = string.gsub(scr, ('script.Name'), 'arg2')
-		mod.AnimToSoundCallbackScript[v.Name] = loadstring(scr)
-	end)
-end
+task.spawn(function()
+	for _, v in pairs(relAnim:GetChildren()) do
+		task.spawn(function()
+			local scr = decompile(v, nil, 0)
+			scr = string.gsub(scr, ('script.Name'), 'arg2')
+			mod.AnimToSoundCallbackScript[v.Name] = loadstring(scr)
+		end)
+	end
+end)
 
 local function rem(inputString, charToRemove)
 	if type(inputString) ~= "string" or type(charToRemove) ~= "string" then
