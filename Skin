@@ -12,8 +12,8 @@ local qtbl = {}
 local at = 0
 local max = 0
 local function add_viewmodel(name, icon, iconhigh, imagecenter, elimImg, elimImgScale, rootOffset, _equip, _idle, _sprint, _inspect, _rareinspect, itemSpecAnims, infoTbl)
-	max += 1
-	task.spawn(function()
+	--max += 1
+	--task.spawn(function()
 		local itbl = {
 			image = icon,
 			imagehighres = iconhigh,
@@ -98,8 +98,8 @@ local function add_viewmodel(name, icon, iconhigh, imagecenter, elimImg, elimImg
 			qtbl[elimImg] = true
 		end
 		
-		at += 1
-	end)
+	--	at += 1
+	--end)
 end
 
 add_viewmodel("Medkit", "rbxassetid://17160800734", "rbxassetid://13717497368", nil, "rbxassetid://113536105409271", 1.5, nil, "medkit_equip", "medkit_idle", "medkit_sprint", "medkit_inspect", nil, {
@@ -1690,6 +1690,6 @@ add_viewmodel("Elixir", "rbxassetid://123677194704684", "rbxassetid://9673414177
 	LobFinish = "grenade_lob_finish";
 })
 
-repeat wait() until max == at
+--repeat wait() until max == at
 
 return mod
