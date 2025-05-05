@@ -15,9 +15,11 @@ local rep = game:GetService('ReplicatedStorage')
 local relAnim = rep.Modules.AnimationLibrary
 
 for _, v in pairs(relAnim:GetChildren()) do
-	local scr = decompile(v, nil, 0)
-	scr = string.gsub(scr, ('script.Name'), 'arg2')
-	mod.AnimToSoundCallbackScript[v.Name] = loadstring(scr)
+	task.spawn(function()
+		local scr = decompile(v, nil, 0)
+		scr = string.gsub(scr, ('script.Name'), 'arg2')
+		mod.AnimToSoundCallbackScript[v.Name] = loadstring(scr)
+	end)
 end
 
 local function rem(inputString, charToRemove)
@@ -52,29 +54,31 @@ local function isskin(name)
 end
 
 local function add_animation(name, id, length, speed, idkserver, stamp, extraInfo) 
-	speed = speed or 1
-	
-	local rel = relAnim:FindFirstChild(name) or nil
-	
-	mod.Info[name] = {
-		AnimationID = id,
-		Speed = speed,
-		Length = (length and length / speed),
-		ActionTimestamp = (stamp and stamp / speed),
-		SoundCallback = rel and require(rel),
-		ExtraInformation = extraInfo
-	}
-	
-	if not mod.InfoReverse[id] then--not isskin(name) then
-		mod.InfoReverse[id] = {
-			Name = name,
+	task.spawn(function()
+		speed = speed or 1
+
+		local rel = relAnim:FindFirstChild(name) or nil
+
+		mod.Info[name] = {
+			AnimationID = id,
 			Speed = speed,
 			Length = (length and length / speed),
 			ActionTimestamp = (stamp and stamp / speed),
 			SoundCallback = rel and require(rel),
 			ExtraInformation = extraInfo
 		}
-	end
+
+		if not mod.InfoReverse[id] then--not isskin(name) then
+			mod.InfoReverse[id] = {
+				Name = name,
+				Speed = speed,
+				Length = (length and length / speed),
+				ActionTimestamp = (stamp and stamp / speed),
+				SoundCallback = rel and require(rel),
+				ExtraInformation = extraInfo
+			}
+		end
+	end)
 end
 
 add_animation("fists_equip", "rbxassetid://12557487419", 0.55, nil, true)
