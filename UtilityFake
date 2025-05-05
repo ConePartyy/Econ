@@ -10,8 +10,13 @@ function debris(thing, dur)
 end
 
 local animlib = _G.animLib
+
+local plr = game:GetService('Players').LocalPlayer
+local scripts = plr.PlayerScripts
+local weaponSounds = scripts.Modules.ClientReplicatedClasses.ClientFighter.ClientItem
+
 function ut:_AnimationWait(name, idk, dur)
-	local id = animlib.Info[name]
+	local id = animlib.Info[name].AnimationID
 	
 	local plr = game:GetService('Players').LocalPlayer
 	local char = plr.Character
@@ -49,7 +54,7 @@ function ut:CreateSound(id, vol, speed, pos, play, dur, mind, maxd, soundserv, e
 		debris(p, dur or 60)
 	end
 
-	pos = pos or game:GetService('CoreGui')
+	pos = pos or weaponSounds
 
 	local s = Instance.new("Sound")
 	s.SoundId = id
