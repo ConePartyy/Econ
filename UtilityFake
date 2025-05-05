@@ -15,26 +15,12 @@ local plr = game:GetService('Players').LocalPlayer
 local scripts = plr.PlayerScripts
 local weaponSounds = scripts.Modules.ClientReplicatedClasses.ClientFighter.ClientItem
 
-function ut:_AnimationWait(name, idk, dur)
+function ut:_AnimationWait(name, anim, dur)
 	local id = animlib.Info[name].AnimationID
-	
-	local plr = game:GetService('Players').LocalPlayer
-	local char = plr.Character
-	if not char then return end
-	
-	local hum = char:FindFirstChild('Humanoid') :: Humanoid
-	if hum then
-		local anim
-		for _, v : AnimationTrack in pairs(hum:GetPlayingAnimationTracks()) do
-			if v.Animation.AnimationId == id then
-				anim = v
-			end
-		end
-		
-		if anim then
-			task.wait(dur)
-			return anim.IsPlaying
-		end
+
+	if anim then
+		task.wait(dur)
+		return anim and anim.IsPlaying
 	end
 end
 
