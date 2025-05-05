@@ -39,24 +39,24 @@ function ut:_AnimationWait(name, idk, dur)
 end
 
 function ut:CreateSound(id, vol, speed, pos, play, dur, mind, maxd, soundserv, extra)
-	if typeof(pos) == "Vector3" then
-		local p = Instance.new("Part")
-		p.CFrame = CFrame.new(pos)
-		p.Size = Vector3.one
-		p.Transparency = 1
-		p.CastShadow = false
-		p.CanCollide = false
-		p.CanTouch = false
-		p.CanQuery = false
-		p.Anchored = true
-		p.Parent = workspace
-		pos = p
-		debris(p, dur or 60)
-	else
-		pos = weaponSounds
-	end
+	--if typeof(pos) == "Vector3" then
+	--	local p = Instance.new("Part")
+	--	p.CFrame = CFrame.new(pos)
+	--	p.Size = Vector3.one
+	--	p.Transparency = 1
+	--	p.CastShadow = false
+	--	p.CanCollide = false
+	--	p.CanTouch = false
+	--	p.CanQuery = false
+	--	p.Anchored = true
+	--	p.Parent = workspace
+	--	pos = p
+	--	debris(p, dur or 60)
+	--else
+	--	pos = weaponSounds
+	--end
 
-	pos = pos or weaponSounds
+	--pos = pos or weaponSounds
 
 	local s = Instance.new("Sound")
 	s.SoundId = id
@@ -73,15 +73,24 @@ function ut:CreateSound(id, vol, speed, pos, play, dur, mind, maxd, soundserv, e
 		end
 	end
 
-	s.Parent = pos
+	s.Parent = weaponSounds
 
 	if play then
 		s:Play()
 	end
-
-	if dur then
-		debris(s, dur)
-	end
+	
+	s.Ended:Once(function()
+		wait(1)
+		s:Destroy()
+	end)
+	
+	--if dur then
+	--	s.Ended:Once(function()
+	--		wait(1)
+	--		s:Destroy()
+	--	end)
+	--	--debris(s, dur)
+	--end
 
 	return s
 end
