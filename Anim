@@ -784,16 +784,16 @@ add_animation("gunblade_hypergunblade_attack1_blade", "rbxassetid://785838153207
 add_animation("gunblade_hypergunblade_attack2_blade", "rbxassetid://137119092277962")
 add_animation("gunblade_hypergunblade_attack_blade_onhit", "rbxassetid://76566021425065", nil, 1.5, nil, 0.38)
 
-task.spawn(function()
-	for i, v in pairs(relAnim:GetChildren()) do
-		task.spawn(function()
-			local scr = decompile(v, nil, 0)
-			scr = string.gsub(scr, ('script.Name'), 'arg2')
-			mod.AnimToSoundCallbackScript[v.Name] = loadstring(scr)
-			warn(i .. ' / '..#relAnim:GetChildren())
-		end)
-	end
-end)
+--task.spawn(function()
+--	for i, v in pairs(relAnim:GetChildren()) do
+--		task.spawn(function()
+--			local scr = decompile(v, nil, 0)
+--			scr = string.gsub(scr, ('script.Name'), 'arg2')
+--			mod.AnimToSoundCallbackScript[v.Name] = loadstring(scr)
+--			warn(i .. ' / '..#relAnim:GetChildren())
+--		end)
+--	end
+--end)
 
 repeat wait() until max == at
 
