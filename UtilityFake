@@ -72,13 +72,11 @@ function ut:CreateSound(id, vol, speed, pos, play, dur, mind, maxd, soundserv, e
 			s[i] = v
 		end
 	end
-
+	
+	s:AddTag('IsOurs')
 	s.Parent = weaponSounds
 
-	--if play then
-	    s:AddTag('IsOurs')
-		s:Play()
-	--end
+    s:Play()
 	
 	s.Ended:Once(function()
 		wait(1)
