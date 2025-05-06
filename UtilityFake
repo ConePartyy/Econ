@@ -72,14 +72,35 @@ function ut:CreateSound(id, vol, speed, pos, play, dur, mind, maxd, soundserv, e
 		wait(1)
 		s:Destroy()
 	end)
-	
-	--if dur then
-	--	s.Ended:Once(function()
-	--		wait(1)
-	--		s:Destroy()
-	--	end)
-	--	--debris(s, dur)
-	--end
+
+	return s
+end
+
+function ut:CreateSpectatorSound(id, vol, speed, pos, play, dur, mind, maxd, soundserv, extra)
+	local s = Instance.new("Sound")
+	s.SoundId = id
+	s.Volume = vol or 1
+	s.PlaybackSpeed = speed or 1
+	s.RollOffMinDistance = mind or 50
+	s.RollOffMaxDistance = maxd or 400
+	s.RollOffMode = Enum.RollOffMode.Inverse
+	s.SoundGroup = SoundService_upvr[soundserv or 'Other']
+
+	if extra then
+		for i, v in pairs(extra) do
+			s[i] = v
+		end
+	end
+
+	s:AddTag('IsOurs')
+	s.Parent = weaponSounds
+
+	s:Play()
+
+	s.Ended:Once(function()
+		wait(1)
+		s:Destroy()
+	end)
 
 	return s
 end
