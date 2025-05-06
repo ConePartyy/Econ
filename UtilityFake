@@ -25,7 +25,7 @@ _G.ffunc = function(name, anim, dur)
 end
 
 function ut:_AnimationWait(name, anim, dur)
-	_G.ffunc(name, anim, dur)
+	return _G.ffunc(name, anim, dur)
 end
 
 function ut:CreateSound(id, vol, speed, pos, play, dur, mind, maxd, soundserv, extra)
