@@ -15,7 +15,7 @@ local plr = game:GetService('Players').LocalPlayer
 local scripts = plr.PlayerScripts
 local weaponSounds = scripts.Modules.ClientReplicatedClasses.ClientFighter.ClientItem
 
-_G.durr = .95
+_G.durr = .92
 
 _G.ffunc = function(name, anim, dur)
 	if anim then
@@ -26,6 +26,14 @@ end
 
 function ut:_AnimationWait(name, anim, dur)
 	return _G.ffunc(name, anim, dur)
+end
+
+if not _G.si then
+	_G.si = {}
+end
+
+if not _G.soundToWeapon then
+	_G.soundToWeapon = {}
 end
 
 function ut:CreateSound(id, vol, speed, pos, play, dur, mind, maxd, soundserv, extra)
@@ -49,10 +57,10 @@ function ut:CreateSound(id, vol, speed, pos, play, dur, mind, maxd, soundserv, e
 	--pos = pos or weaponSounds
 
 	local s = Instance.new("Sound")
-	s.SoundId = id
+	s.SoundId = id.id
 	s.Volume = vol or 1
 	s.PlaybackSpeed = speed or 1
-	s.RollOffMinDistance = mind or 50
+	s.RollOffMinDistance = mind and typeof(mind) == 'number' and mind or 50
 	s.RollOffMaxDistance = maxd or 400
 	s.RollOffMode = Enum.RollOffMode.Inverse
 	s.SoundGroup = SoundService_upvr[soundserv or 'Other']
@@ -62,6 +70,8 @@ function ut:CreateSound(id, vol, speed, pos, play, dur, mind, maxd, soundserv, e
 			s[i] = v
 		end
 	end
+	
+	_G.soundToWeapon[s] = id.model
 	
 	s:AddTag('IsOurs')
 	s.Parent = weaponSounds
