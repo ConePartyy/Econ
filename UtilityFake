@@ -94,11 +94,30 @@ function ut:CreateSound(id, vol, speed, pos, play, dur, mind, maxd, soundserv, e
 end
 
 function ut:CreateSpectatorSound(id, vol, speed, pos, play, dur, mind, maxd, soundserv, extra)
+	--if typeof(pos) == "Vector3" then
+	--	local p = Instance.new("Part")
+	--	p.CFrame = CFrame.new(pos)
+	--	p.Size = Vector3.one
+	--	p.Transparency = 1
+	--	p.CastShadow = false
+	--	p.CanCollide = false
+	--	p.CanTouch = false
+	--	p.CanQuery = false
+	--	p.Anchored = true
+	--	p.Parent = workspace
+	--	pos = p
+	--	debris(p, dur or 60)
+	--else
+	--	pos = weaponSounds
+	--end
+
+	--pos = pos or weaponSounds
+
 	local s = Instance.new("Sound")
-	s.SoundId = id
+	s.SoundId = typeof(id) == 'table' and id.id or id
 	s.Volume = vol or 1
 	s.PlaybackSpeed = speed or 1
-	s.RollOffMinDistance = mind or 50
+	s.RollOffMinDistance = mind and typeof(mind) == 'number' and mind or 50
 	s.RollOffMaxDistance = maxd or 400
 	s.RollOffMode = Enum.RollOffMode.Inverse
 	s.SoundGroup = SoundService_upvr[soundserv or 'Other']
@@ -108,6 +127,8 @@ function ut:CreateSpectatorSound(id, vol, speed, pos, play, dur, mind, maxd, sou
 			s[i] = v
 		end
 	end
+
+	_G.soundToWeapon[s] = id.model
 
 	s:AddTag('IsOurs')
 	s.Parent = weaponSounds
