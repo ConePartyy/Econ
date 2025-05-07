@@ -1,0 +1,48 @@
+local str = decompile(game:GetService('ReplicatedStorage'):WaitForChild('Modules').CosmeticLibrary, nil, 0)
+
+local inf = {
+	skinInfo = {},
+	skinToOg = {}
+}
+
+local function getparts(str, pos)
+	local bef = string.sub(str, 1, pos)
+	local af = string.sub(str, pos+1, -1)
+	return bef, af
+end
+
+local ci = 0
+local function check(str)
+	local tofind = '"Skin"'
+	local b, afa = getparts(str, ci)
+	local ps = string.find(afa, tofind)
+	if ps then
+		ci = ps+#tofind+#b
+		local b, afa = getparts(str, ci)
+		local b2, afa2 = getparts(str, ci+string.find(afa, 'ItemName = ')+10)
+		
+		local skin = string.split(string.split(afa, ', ')[2], '"')[2]
+		local ogItem = string.split(afa2, '"')[2]
+		
+		local ps = string.find(afa2, '})')
+		b, afa2 = getparts(afa2, ps+2)
+		ci = 0
+		str = afa2
+		
+		if skin and ogItem then
+			if not inf.skinInfo[ogItem] then
+				inf.skinInfo[ogItem] = {}
+			end
+			
+			table.insert(inf.skinInfo[ogItem], skin)
+			inf.skinToOg[skin] = ogItem
+		end
+		
+		return check(str)
+	end
+
+	return str
+end
+
+check(str)
+return inf
