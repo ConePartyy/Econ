@@ -19,8 +19,15 @@ _G.durr = .92
 
 _G.ffunc = function(name, anim, dur)
 	if anim then
+		local stopped = false
+		
+		local z = anim.Stopped:Once(function()
+			stopped = true
+		end)
+		
 		task.wait(dur*_G.durr)
-		return anim and anim.IsPlaying
+		if z then z:Disconnect() end
+		return anim and anim.IsPlaying and not stopped
 	end
 end
 
@@ -57,7 +64,7 @@ function ut:CreateSound(id, vol, speed, pos, play, dur, mind, maxd, soundserv, e
 	--pos = pos or weaponSounds
 
 	local s = Instance.new("Sound")
-	s.SoundId = id.id
+	s.SoundId = typeof(id) == 'table' and id.id or id
 	s.Volume = vol or 1
 	s.PlaybackSpeed = speed or 1
 	s.RollOffMinDistance = mind and typeof(mind) == 'number' and mind or 50
