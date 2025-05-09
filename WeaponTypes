@@ -1,0 +1,477 @@
+local str = [=[
+add_custom("Prime", "Utility", "Medkit", false, 0.9, nil, "Default", {
+	Inspect = false;
+	Shoot = false;
+	Aim = false;
+}, 0, 0, {"StartAiming"}, nil, {
+	Cooldown = 90;
+	LongHeal = 75;
+	QuickHeal = 30;
+})
+add_custom("Prime", "Utility", "Subspace Tripmine", true, 1, nil, "Default", {
+	Inspect = false;
+	Shoot = false;
+}, 0, 0, {"StartShooting"}, nil, {
+	Cooldown = 0.5;
+	AmmoType = "Tripmine";
+	MaxAmmo = 2;
+	MaxReach = 3;
+	HitboxDelay = 1;
+	ExplosionRadius = 12;
+	ExplosionDamage = 149;
+	ExplosionKnockback = 1.5;
+})
+add_custom("Prime", "Primary", "Flamethrower", true, 1, nil, "Default", {
+	Inspect = false;
+	Shoot = false;
+	Aim = false;
+}, 0, 0, {"StartAiming"}, nil, {
+	AmmoType = "Fuel";
+	DamagePerSecond = 85;
+	DamageTicksPerSecond = 10;
+	AfterburnDamage = 25;
+	AfterburnDuration = 4;
+	AfterburnTicks = 8;
+	Reach = 26;
+	MaxAmmo = 100;
+	MaxAmmoReserve = 0;
+	AirblastCooldown = 4;
+	AirblastKnockback = 1.5;
+	AirblastRecoilKnockback = 1.5;
+})
+add_custom("Standard", "Utility", "War Horn", false, 1, nil, "Default", {
+	Inspect = false;
+	Shoot = false;
+	Aim = false;
+}, 0, 0, {"StartShooting"}, nil, {
+	Cooldown = 45;
+	SpeedBoost = 0.35;
+	SpeedBoostDuration = 5;
+})
+add_custom("Standard", "Utility", "Jump Pad", false, 1, nil, "Default", {
+	Inspect = false;
+	Shoot = false;
+}, 0, 0, {"StartShooting"}, nil, {
+	Cooldown = 0.5;
+	AmmoType = "Jump Pad";
+	MaxAmmo = 1;
+	MaxReach = 32;
+	HitboxSize = Vector3.new(11, 11, 2);
+})
+local function add_throwable(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16, arg17, arg18, arg19, arg20) -- Line 551
+	--[[ Upvalues[1]:
+		[1]: add_item_upvr (readonly)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	local tbl_10 = {
+		CriticalMultiplier = 2;
+	}
+	local var371 = arg8 or 0
+	tbl_10.DirectHitDamage = var371
+	tbl_10.Cooldown = arg9
+	tbl_10.Lifetime = arg10
+	tbl_10.MaxAmmo = arg11
+	if arg11 then
+		var371 = "Grenade"
+	else
+		var371 = nil
+	end
+	tbl_10.AmmoType = var371
+	tbl_10.ThrowMaxChargeTime = arg12
+	tbl_10.ThrowForceMin = arg13
+	tbl_10.ThrowForceMax = arg13
+	tbl_10.ThrowGravity = arg15
+	tbl_10.LobMaxChargeTime = arg16
+	tbl_10.LobForceMin = arg17
+	tbl_10.LobForceMax = arg17
+	tbl_10.LobGravity = arg19
+	local var372 = arg20
+	if not var372 then
+		var372 = {}
+	end
+	for i_8, v_7 in pairs(var372) do
+		tbl_10[i_8] = v_7
+	end
+	add_item_upvr("Throwable", arg1, arg2, arg3, arg4, arg5, arg6, arg7, {
+		Inspect = false;
+		Shoot = false;
+		Aim = false;
+	}, 0.1, 0.1, {"StartShooting", "FinishShooting"}, nil, tbl_10)
+end
+add_throwable("Standard", "Utility", "Grenade", true, 1, nil, "Default", 1, 30, 10, nil, 4, 100, 300, 0.375, 4, 50, 150, 0.75, {
+	CanCook = true;
+	DetonateDelay = 2;
+	ExplosionRadius = 16;
+	ExplosionDamage = 75;
+	ExplosionKnockback = 1.5;
+})
+add_throwable("Standard", "Utility", "Molotov", true, 1, nil, "Default", 1, 30, 10, nil, 4, 100, 300, 0.375, 4, 50, 150, 0.75, {
+	FireRadius = 16;
+	FireDuration = 5;
+	SplashDamage = 10;
+	DamagePerSecond = 25;
+	DamageTicksPerSecond = 10;
+	AfterburnDamage = 25;
+	AfterburnDuration = 4;
+	AfterburnTicks = 8;
+})
+add_throwable("Standard", "Utility", "Flashbang", false, 1, nil, "Default", 1, 0.5, 10, 2, 4, 100, 300, 0.375, 4, 50, 150, 0.75, {
+	DetonateDelay = 1.5;
+	BlindDuration = 4;
+})
+add_throwable("Standard", "Utility", "Smoke Grenade", false, 1, nil, "Default", 1, 0.5, 10, 3, 4, 100, 300, 0.375, 4, 50, 150, 0.75, {
+	SmokeRadius = 24;
+	SmokeDuration = 15;
+})
+add_throwable("Standard", "Utility", "Elixir", true, 1, nil, "Default", 1, 30, 10, nil, 4, 100, 300, 0.375, 4, 50, 150, 0.75, {
+	SplashRadius = 16;
+	Heal = 25;
+	HealDuration = 4;
+	Damage = 50;
+	DamageDuration = 4;
+})
+add_throwable("Standard", "Utility", "Satchel", true, 1, nil, "Default", nil, 0.5, 90, 3, 4, 100, 300, 0.375, 4, 50, 150, 0.75, {
+	ExplosionRadius = 16;
+	ExplosionDamage = 25;
+	ExplosionKnockback = 1.5;
+})
+local function add_melee(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14) -- Line 589
+	--[[ Upvalues[1]:
+		[1]: add_item_upvr (readonly)
+	]]
+	if not arg8 then
+	end
+	local var387 = arg12
+	if not var387 then
+		var387 = {}
+		var387[1] = "StartShooting"
+	end
+	local tbl_17 = {}
+	tbl_17.AttackCooldown = arg9
+	tbl_17.AttackDamage = arg10
+	tbl_17.AttackReach = arg11
+	tbl_17.AttackMaxHits = math.huge
+	local var389 = arg14
+	if not var389 then
+		var389 = {}
+	end
+	for i_9, v_8 in pairs(var389) do
+		tbl_17[i_9] = v_8
+		local var393
+	end
+	add_item_upvr("Melee", arg1, arg2, arg3, arg4, arg5, arg6, arg7, {
+		Inspect = false;
+		Shoot = false;
+	}, 0, 0, var387, arg13, var393)
+end
+add_melee("Standard", "Melee", "Fists", true, 1.05, 1, "Default", nil, 0.35, 30, 6, nil, nil)
+add_melee("Standard", "Melee", "Knife", true, 1.1, nil, "Default", {
+	Inspect = false;
+	Shoot = false;
+	Aim = false;
+}, 0.6, 40, 6, {"StartAiming"}, nil, {
+	HeavyAttackCooldown = 1.25;
+	HeavyAttackDamage = 40;
+	HeavyAttackReach = 7;
+	HeavyBackstabEnabled = true;
+	CriticalMultiplier = 3.75;
+})
+add_melee("Standard", "Melee", "Chainsaw", true, 0.9, nil, "Default", {
+	Inspect = false;
+	Shoot = false;
+	Aim = false;
+}, 0.6, 60, 6, nil, nil, {
+	AmmoType = "Fuel";
+	MaxAmmo = 100;
+	MaxAmmoReserve = 0;
+	HoldSpeedBoostMin = 0.25;
+	HoldSpeedBoostMax = 0.75;
+	HoldSpeedBoostRampTime = 0.5;
+	HoldDamageMultiplier = 3;
+})
+add_melee("Standard", "Melee", "Katana", true, 1, nil, "Default", {
+	Inspect = false;
+	Shoot = false;
+	Aim = false;
+}, 0.7, 45, 6, nil, {"StartAiming"}, {
+	DeflectDuration = 1;
+	DeflectCooldown = 4;
+	DeflectDamageMultiplier = 1;
+})
+add_melee("Standard", "Melee", "Scythe", true, 1, nil, "Default", {
+	Inspect = false;
+	Shoot = false;
+	Aim = false;
+}, 0.7, 35, 6, nil, {"StartAiming"}, {
+	DashCooldown = 4;
+	DashDuration = 0.25;
+	DashSpeed = 100;
+})
+add_melee("Prime", "Melee", "Trowel", true, 1.1, nil, "Default", {
+	Inspect = false;
+	Shoot = false;
+	Aim = false;
+}, 0.6, 50, 6, nil, {"StartAiming"}, {
+	BuildCooldown = 4;
+	BuildReach = 50;
+	MaxBricks = 25;
+	BrickLifetime = 30;
+})
+add_melee("Standard", "Melee", "Battle Axe", true, 0.9, nil, "Default", {
+	Inspect = false;
+	Shoot = false;
+	Aim = false;
+}, 0.7, 55, 6, {"StartAiming"}, nil, {
+	SpinCooldown = 4;
+	SpinDuration = 0.25;
+	SpinSpeed = 75;
+	SpinRadius = 10;
+	SpinDamage = 40;
+})
+add_melee("Standard", "Melee", "Riot Shield", true, 0.9, nil, "Default", {
+	Inspect = false;
+	Shoot = false;
+	Aim = false;
+}, 0.7, 25, 7)
+local function add_gun(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16, arg17, arg18, arg19, arg20, arg21, arg22, arg23, arg24, arg25, arg26, arg27, arg28, arg29, arg30, arg31, arg32, arg33, arg34, arg35, arg36, arg37, arg38, arg39, arg40, arg41, arg42, arg43, arg44, arg45, arg46, arg47, arg48, arg49, arg50, arg51) -- Line 617
+	--[[ Upvalues[1]:
+		[1]: add_item_upvr (readonly)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	local var420
+	if not arg49 then
+		local tbl_14 = {}
+		var420 = false
+		tbl_14.Inspect = var420
+		var420 = false
+		tbl_14.Shoot = var420
+		var420 = true
+		tbl_14.Aim = var420
+		var420 = false
+		tbl_14.Reload = var420
+	end
+	if arg10 == nil then
+		var420 = 0
+	else
+		var420 = arg10
+	end
+	if arg11 == nil then
+	else
+	end
+	if not arg50 then
+		({})[1] = "StartShooting"
+	end
+	local tbl_7 = {}
+	tbl_7.CriticalMultiplier = arg8
+	tbl_7.DisableTraditionalCrits = arg9
+	tbl_7.ShootBurst = arg12 or 1
+	tbl_7.ShootBurstCooldown = arg13 or 0
+	tbl_7.ShootCooldown = arg14
+	tbl_7.ShootDamage = arg15
+	tbl_7.ShootRecoil = arg16
+	tbl_7.ShootAccuracy = arg17
+	tbl_7.ShootExplosionRadius = arg18 or 0
+	tbl_7.ShootExplosionKnockback = arg19 or 1
+	tbl_7.ShootPellets = arg20 or 1
+	tbl_7.ShootSpread = arg21 or 0.5
+	tbl_7.ShootSpreadConsistent = arg22 or false
+	tbl_7.IsRaycast = not arg31
+	tbl_7.RaycastGrabSmallHitboxes = arg23 or false
+	tbl_7.RaycastBounceCount = arg24 or 0
+	tbl_7.RaycastBounceAlwaysCrits = arg25
+	tbl_7.RaycastBounceRedirectionAngle = math.rad(arg26 or 0) / 2
+	tbl_7.RaycastPierceCount = arg27 or 0
+	tbl_7.RaycastDamageDropoffMultiplier = arg28
+	tbl_7.RaycastDamageDropoffStartDistance = arg29
+	tbl_7.RaycastDamageDropoffEndDistance = arg30
+	tbl_7.IsProjectile = arg31 or false
+	tbl_7.ProjectileClientSided = arg32 or false
+	tbl_7.ProjectileSpeed = arg33 or 300
+	tbl_7.ProjectileGravity = arg34 or 0
+	tbl_7.ProjectileMaxHits = arg35 or 1
+	local var423 = arg36
+	if not var423 then
+		var423 = CFrame.new(0, 0, -3)
+	end
+	tbl_7.ProjectileSpawnOffset = var423
+	tbl_7.ProjectileGrowthSpeed = arg37 or 0
+	tbl_7.ProjectileGrowthLimit = arg38 or 1
+	tbl_7.ProjectileLifetime = arg39 or 5
+	local var424 = arg40
+	if not var424 then
+		if 0 < (arg18 or 0) then
+			var424 = "Splash"
+		elseif arg31 then
+			var424 = "Projectile"
+		else
+			var424 = "Bullet"
+		end
+	end
+	tbl_7.DamageType = var424
+	tbl_7.AmmoType = arg41
+	tbl_7.MaxAmmo = arg42
+	tbl_7.MaxAmmoReserve = arg43
+	tbl_7.AimFOVOffset = arg47 or -50
+	tbl_7.AimSpeed = arg44 or 1
+	tbl_7.AimScopePercent = arg45
+	tbl_7.AimSpreadMultiplier = arg46 or 0
+	tbl_7.DisableTracerEffects = arg48
+	local var425 = arg51
+	if not var425 then
+		var425 = {}
+	end
+	for i_10, v_9 in pairs(var425) do
+		tbl_7[i_10] = v_9
+		local var429
+	end
+	-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+	add_item_upvr("Gun", arg1, arg2, arg3, arg4, arg5, arg6, arg7, tbl_14, var420, arg11, {}, nil, var429)
+end
+add_gun("Standard", "Secondary", "Flare Gun", true, 1.1, nil, "Default", nil, nil, false, nil, nil, nil, 0.25, nil, 2.5, 0.75, 8, 0, nil, 0, nil, nil, nil, nil, nil, nil, nil, nil, nil, true, nil, 150, 0.5, nil, CFrame.new(1, -1, -3) * CFrame.Angles(0.06981317007977318, 0, 0), nil, nil, 30, nil, "Shells", 1, 1, nil, nil, nil, -40, nil, nil, nil, {
+	DamagePerSecond = 40;
+	DamageTicksPerSecond = 10;
+	AfterburnDamage = 25;
+	AfterburnDuration = 4;
+	AfterburnTicks = 8;
+})
+add_gun("Standard", "Primary", "Assault Rifle", true, 0.9, nil, "Default", 1.25, nil, nil, nil, nil, nil, 0.11, 13, 1, 1, nil, nil, nil, 1, nil, nil, nil, nil, nil, nil, 0.25, 50, 200, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, "Medium", 20, 100, nil, nil, nil, nil, nil, nil, nil, nil)
+add_gun("Standard", "Secondary", "Handgun", true, 1, nil, "Default", 1.25, nil, false, nil, nil, nil, 0.13, 13, 1, 1, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, 0.25, 50, 125, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, "Light", 15, 90, nil, nil, nil, -40, nil, nil, nil, nil)
+add_gun("Standard", "Primary", "Burst Rifle", true, 0.9, nil, "Default", 1.25, nil, nil, nil, 3, 0.07, 0.5, 20, 1.5, 0.75, nil, nil, nil, 2, nil, nil, nil, nil, nil, nil, 0.25, 50, 200, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, "Medium", 21, 63, nil, nil, nil, nil, nil, nil, nil, nil)
+add_gun("Standard", "Primary", "Sniper", true, 0.85, nil, "Default", 3, nil, nil, false, nil, nil, 1.5, 50, 10, 0.2, nil, nil, nil, 15, nil, true, nil, nil, nil, 9, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, "Heavy", 5, 10, 0.55, 0.925, nil, nil, nil, nil, nil, nil)
+add_gun("Standard", "Primary", "RPG", true, 0.8, nil, "Default", 2, nil, nil, nil, nil, nil, 0.25, 50, 5, 0.4, 16, 1.5, nil, 0, nil, nil, nil, nil, nil, nil, nil, nil, nil, true, nil, 75, nil, nil, CFrame.new(1, -1, -3), nil, nil, nil, nil, "Rockets", 1, 14, 0.625, nil, nil, nil, nil, nil, nil, nil)
+add_gun("Standard", "Secondary", "Shorty", true, 1, nil, "SpreadH", 1.5, nil, false, nil, nil, nil, 0.125, 75, 5, 0.25, nil, nil, 10, 15, true, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, "Shells", 2, 4, nil, nil, 0.875, -40, nil, nil, nil, nil)
+add_gun("Standard", "Primary", "Shotgun", true, 1, nil, "Spread", 1.5, nil, nil, nil, nil, nil, 0.8, 75, 2.5, 0.75, nil, nil, 10, 10, true, nil, nil, nil, nil, 9, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, "Shells", 7, 35, nil, nil, 0.75, -20, nil, nil, nil, nil)
+add_gun("Standard", "Primary", "Bow", true, 1.05, 1, "Default", 1.6667, nil, nil, nil, nil, nil, 0.25, 30, 0, 1, nil, nil, nil, 0, nil, nil, nil, nil, nil, nil, nil, nil, nil, true, true, 300, 0.25, nil, CFrame.new(0, -1, -2), 5, 7.5, nil, nil, "Arrows", 1, 30, nil, nil, nil, nil, nil, {
+	Inspect = false;
+	Shoot = false;
+	Aim = false;
+	Reload = false;
+}, nil, {
+	ChargeLevelDamageMultipliers = {0.5, 1, 1.5, 2.4};
+})
+add_gun("Standard", "Secondary", "Uzi", true, 1, nil, "Default", 1.25, nil, nil, nil, nil, nil, 0.075, 8, 1, 0.8, nil, nil, nil, 3, nil, nil, nil, nil, nil, nil, 0.25, 50, 125, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, "Light", 24, 96, 1.5, nil, nil, -40, nil, nil, nil, nil)
+add_gun("Standard", "Secondary", "Revolver", true, 0.95, nil, "Default", 1.3334, nil, nil, nil, nil, nil, 0.4, 30, 2, 3, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, 0.25, 50, 200, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, "Light", 6, 36, nil, nil, nil, -40, nil, {
+	Inspect = false;
+	Shoot = false;
+	Aim = false;
+	Reload = false;
+}, nil, {
+	QuickShotCooldown = 0.15;
+	QuickShotSpread = 10;
+})
+add_gun("Prime", "Primary", "Paintball Gun", true, 0.9, nil, "Default", nil, nil, nil, nil, nil, nil, 0.15, 18.5, 0.5, 2, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, 0.25, 50, 200, false, nil, 300, nil, nil, CFrame.new(1, -1, -3), nil, nil, nil, nil, "Ball", 20, 20, nil, nil, nil, -20, nil, nil, nil, nil)
+add_gun("Prime", "Secondary", "Slingshot", true, 1.05, nil, "Default", nil, true, nil, nil, nil, nil, 0.1, 6, 0.5, 1.5, nil, nil, nil, 0, nil, nil, nil, nil, nil, nil, nil, nil, nil, true, true, 300, 1, 3, CFrame.new(0, -2, -3) * CFrame.Angles(0.06981317007977318, 0, 0), 100, 6.667, nil, nil, "Ball", 75, 0, nil, nil, nil, -10, nil, nil, nil, nil)
+add_gun("Prime", "Primary", "Grenade Launcher", true, 0.9, nil, "Default", 2.2858, nil, nil, nil, nil, nil, 0.6, 35, 4, 0.75, 12, 1.25, nil, 0, nil, nil, nil, nil, nil, nil, nil, nil, nil, true, nil, 75, 0.25, nil, CFrame.new(0.5, -1, -3) * CFrame.Angles(0.06981317007977318, 0, 0), nil, nil, nil, nil, "Shells", 6, 18, 0.75, nil, nil, -15, nil, nil, nil, nil)
+add_gun("Prime", "Primary", "Minigun", true, 0.75, nil, "Default", 1.25, nil, nil, nil, nil, nil, 0.05, 8, 1, 1, nil, nil, nil, 1.5, nil, nil, nil, nil, nil, nil, 0.5, 50, 200, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, "Heavy", 300, 0, 0.15, nil, nil, -5, nil, nil, nil, {
+	ChargingSpeedBoost = -0.5;
+})
+add_gun("Prime", "Secondary", "Exogun", true, 1, nil, "Default", 2, nil, nil, nil, nil, nil, 0.28, 10, 2, 1, 6.28, 0, nil, nil, nil, nil, nil, nil, nil, nil, 0.2143, 60, 280, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, "Ball", 6, 28, nil, nil, nil, -30, nil, nil, nil, nil)
+add_gun("Standard", "Utility", "Freeze Ray", false, 1, nil, "Default", nil, nil, nil, nil, nil, nil, 0.5, 0, 2, 1, 16, 0, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, true, nil, 75, 0.25, nil, CFrame.new(0.5, -0.5, -3) * CFrame.Angles(0.06981317007977318, 0, 0), nil, nil, nil, nil, "Ball", 1, 0, nil, nil, nil, -30, nil, nil, {"StartShooting"}, {
+	FreezeDuration = 3;
+})
+add_gun("Standard", "Secondary", "Scepter", true, 1, nil, "Default", 1, nil, nil, nil, nil, nil, 0.5, 25, 0, 1, 12, 0, nil, 0, nil, nil, nil, nil, nil, nil, nil, nil, nil, true, true, 100, 0, nil, CFrame.new(1, -1, 0), nil, nil, nil, nil, "Ball", 30, 0, nil, nil, nil, nil, nil, nil, nil, {
+	TransformDelay = 1.25;
+})
+add_gun("Standard", "Secondary", "Daggers", true, 1.1, 1, "Default", 2.6667, nil, nil, nil, 2, 0.15, 0.6, 15, 0, 1, nil, nil, nil, 0, nil, nil, nil, nil, nil, nil, nil, nil, nil, true, true, 300, 0.25, nil, CFrame.new(0, -1, -2) * CFrame.Angles(0.06981317007977318, 0, 0), 5, 7.5, nil, nil, "Arrows", 2, 60, nil, nil, nil, nil, nil, {
+	Inspect = false;
+	Shoot = false;
+	Reload = false;
+}, nil, nil)
+add_gun("Prime", "Secondary", "Energy Pistols", true, 1.05, nil, "Default", 1.25, nil, nil, nil, nil, nil, 0.03, 2.4, 0.2, 1, nil, nil, nil, 0, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, "Light", math.huge, 0, nil, nil, nil, -20, true, nil, nil, nil)
+add_gun("Prime", "Primary", "Energy Rifle", true, 1, nil, "Default", 1.25, nil, nil, nil, nil, nil, 0.3, 20, 2, 1, nil, nil, nil, 0, nil, nil, 2, nil, 10, 9, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, "Medium", math.huge, 0, nil, nil, nil, nil, nil, nil, nil, nil)
+add_gun("Standard", "Secondary", "Spray", true, 1.05, nil, "Default", 1.25, nil, nil, nil, 5, 0.04, 0.6, 8, 2, 0.75, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, 0.25, 50, 125, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, "Light", 30, 90, 1.25, nil, nil, -40, nil, nil, nil, {
+	DealsTrueDamage = true;
+})
+add_gun("Standard", "Primary", "Crossbow", true, 1.05, nil, "Default", 1.6667, nil, nil, false, nil, nil, 1, 45, 1, 0.2, nil, nil, nil, 0, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, "Projectile", "Arrows", 1, 30, 0.75, 0.875, nil, nil, nil, nil, nil, nil)
+add_gun("Standard", "Primary", "Gunblade", true, 1, nil, "Default", 1.25, nil, nil, false, nil, nil, 0.75, 40, 3, 1, nil, nil, nil, 0, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, "Medium", 12, 0, nil, nil, nil, nil, nil, {
+	Inspect = false;
+	Shoot = false;
+	Aim = true;
+}, nil, {
+	TransitionCooldown = 0.6;
+	BladeDamage = 35;
+	BladeCriticalDamage = 50;
+	BladeCooldown = 0.5;
+	BladeReach = 8;
+	BladeMaxHits = math.huge;
+	DashCooldown = 1.5;
+	DashDuration = 0.1875;
+	DashSpeed = 100;
+})
+]=]
+
+local function getparts(str, pos)
+	local bef = string.sub(str, 1, pos)
+	local af = string.sub(str, pos+1, -1)
+	return bef, af
+end
+
+local ci = 0
+local tbl = {
+	weaponToType = {},
+	typeToWeapons = {
+		Primary = {},
+		Secondary = {},
+		Melee = {},
+		Utility = {}
+	},
+}
+
+local function check(str, tofind)
+	local b, afa = getparts(str, ci)
+	local ps = string.find(afa, tofind)
+	if ps then
+		ci = ps+#tofind+#b
+		local b, afa = getparts(str, ci-(#tofind-2))
+		local spl = afa:split(', ')
+		
+		local _type = spl[1]:split('"')[2]
+		local _weapon = spl[2]:split('"')[2]
+		
+		tbl.weaponToType[_weapon] = _type
+		table.insert(tbl.typeToWeapons[_type], _weapon)
+		
+		return check(str, tofind)
+	end
+
+	return str
+end
+
+function StringLessThan(arg2, arg3)
+	if arg2 == arg3 then
+		return false
+	end
+	
+	for i_15 = 1, math.min(#arg2, #arg3) do
+		local string_byte_result1_2 = string.byte(string.sub(arg2, i_15, i_15))
+		local string_sub_result1_2 = string.sub(arg3, i_15, i_15)
+		local string_byte_result1 = string.byte(string_sub_result1_2)
+		if string_byte_result1_2 ~= string_byte_result1 then
+			if string_byte_result1_2 >= string_byte_result1 then
+				string_sub_result1_2 = false
+			else
+				string_sub_result1_2 = true
+			end
+			return string_sub_result1_2
+		end
+	end
+
+	return true
+end
+
+local finds = {'", "Primary", "', '", "Secondary", "', '", "Melee", "', '", "Utility", "'}
+str = check(str, finds[1])
+ci = 0
+str = check(str, finds[2])
+ci = 0
+str = check(str, finds[3])
+ci = 0
+str = check(str, finds[4])
+
+for _, v in pairs(tbl.typeToWeapons) do
+	table.sort(v, function(arg1, arg2)
+		return StringLessThan(string.lower(arg1), string.lower(arg2))
+	end)
+end
+
+return tbl
