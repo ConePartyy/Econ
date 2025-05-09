@@ -424,13 +424,13 @@ local function check(str, tofind)
 		ci = ps+#tofind+#b
 		local b, afa = getparts(str, ci-(#tofind-2))
 		local spl = afa:split(', ')
-		
+
 		local _type = spl[1]:split('"')[2]
 		local _weapon = spl[2]:split('"')[2]
-		
+
 		tbl.weaponToType[_weapon] = _type
 		table.insert(tbl.typeToWeapons[_type], _weapon)
-		
+
 		return check(str, tofind)
 	end
 
@@ -441,7 +441,7 @@ function StringLessThan(arg2, arg3)
 	if arg2 == arg3 then
 		return false
 	end
-	
+
 	for i_15 = 1, math.min(#arg2, #arg3) do
 		local string_byte_result1_2 = string.byte(string.sub(arg2, i_15, i_15))
 		local string_sub_result1_2 = string.sub(arg3, i_15, i_15)
@@ -473,5 +473,12 @@ for _, v in pairs(tbl.typeToWeapons) do
 		return StringLessThan(string.lower(arg1), string.lower(arg2))
 	end)
 end
+
+tbl.typeToWeapons = {
+	tbl.typeToWeapons.Primary,
+	tbl.typeToWeapons.Secondary,
+	tbl.typeToWeapons.Melee,
+	tbl.typeToWeapons.Utility
+}
 
 return tbl
