@@ -404,9 +404,9 @@ task.spawn(function()
 	end
 end)
 
-local function car(right)
+local function car(right, needs)
 	local weapon = getWeapon()
-	if (spactivate or silactive) and weapon and not table.find(carRight, weapon) then
+	if (spactivate or silactive or needs) and weapon and (not table.find(carRight, weapon) or needs) then
 		local targetHead = f or getNearestHead()
 		if targetHead then
 			f = nil
@@ -505,6 +505,27 @@ local legtrek = homeTab:CreateToggle({
 		write()
 		if not nosound then
 			playSound(spactivate and 1 or .8)
+		end
+	end,
+})
+
+local keytrack = nil
+local is = false
+local Keybind = homeTab:CreateKeybind({
+	Name = 'Trackbot Hold Keybind',
+	CurrentKeybind = 'Q',
+	HoldToInteract = false,
+	Flag = 'tkey',
+	Callback = function(x, nosound)
+		is = not is
+		if is then
+			local a = RunService.RenderStepped:Connect(function()
+				car(true, true)
+			end)
+			
+			keytrack = a
+		elseif keytrack then
+			keytrack:Disconnect()
 		end
 	end,
 })
