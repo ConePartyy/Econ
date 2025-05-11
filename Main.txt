@@ -471,9 +471,12 @@ local function car(right, needs)
 	end
 end
 
+local curr = false
+
 table.insert(initConnections, m.Button2Down:Connect(function()
 	down2 = true
 	if spactivate then
+		curr = true
 		local a = RunService.RenderStepped:Connect(car)
 		table.insert(cons, a)
 	end
@@ -481,6 +484,7 @@ end))
 
 table.insert(initConnections, m.Button2Up:Connect(function()
 	down2 = false
+	curr = false
 	for _, v in pairs(cons) do
 		v:Disconnect()
 	end
@@ -520,7 +524,9 @@ local Keybind = homeTab:CreateKeybind({
 		is = not is
 		if is then
 			local a = RunService.RenderStepped:Connect(function()
-				car(true, true)
+				if not curr then
+					car(true, true)
+				end
 			end)
 			
 			keytrack = a
