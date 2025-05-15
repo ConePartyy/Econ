@@ -287,6 +287,8 @@ local function gt()
 	wrapper:wrapThis(cw, (inf and inf.wrap or 'None'), (inf and inf.inverted), ps.ViewModels, ps.WrapTextures)
 end
 
+_G.gt = gt
+
 local function check(v)
 	if string.find(v.Name, plr.Name) then
 		local rest = string.split(v.Name, ' - ')
