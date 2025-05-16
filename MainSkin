@@ -1002,6 +1002,6 @@ _G.ac = applySkin
 
 ui.LoadConfiguration()
 
---queue_on_teleport(game:HttpGet(z..'Main.txt'))
+queue_on_teleport(game:HttpGet(z..'MainSkin'))
 
 return module
