@@ -1,0 +1,1007 @@
+local module = {
+	canPlay = {
+		'rbxassetid://13158735106', 
+		'rbxassetid://13158734943', 
+		'rbxassetid://13158735037',
+		'rbxassetid://13159969353'
+	}
+}
+
+--[[
+
+ADDING NEW SKINS:
+
+- Copying rivals ItemLibrary to WeaponTypes 'str'
+- Run Clipboard script and pasting to Github
+- Put new add_animations from AnimLib to Github
+- Put add_viewmodel from CosmeticLibrary to Github
+
+ADDING NEW ITEMS:
+
+- Primary, Secondary, Melee, Utility from ItemLib to WeaponTypes 'str'
+
+]]
+
+local plr = game:GetService('Players').LocalPlayer
+
+local run = game:GetService('RunService')
+local ss = game:GetService('SoundService')
+local uis = game:GetService('CoreGui')
+local rep = game:GetService('ReplicatedStorage')
+
+local scripts = plr.PlayerScripts
+local misc = scripts.Assets.Misc
+local skins = scripts.Assets.ViewModels
+local vms = game:GetService'Workspace'.ViewModels.FirstPerson
+
+local muzzles = misc.MuzzleFlashes
+local deflectiveactive = misc.DeflectActiveEffects
+local deflecthit = misc.DeflectHitEffects
+
+local weaponSounds = scripts.Modules.ClientReplicatedClasses.ClientFighter.ClientItem
+
+local load = false
+local load2 = false
+local load3 = false
+local load4 = false
+local load5 = false
+
+_G.lt = tick()
+
+local skinmodx = not load and _G.skinmod or loadstring(game:HttpGet('https://raw.githubusercontent.com/ConePartyy/Econ/refs/heads/main/Skin'))()
+local utility = not load2 and _G.utility or loadstring(game:HttpGet('https://raw.githubusercontent.com/ConePartyy/Econ/refs/heads/main/UtilityFake'))()
+local skinfo = not load3 and _G.skinfo or loadstring(game:HttpGet('https://raw.githubusercontent.com/ConePartyy/Econ/refs/heads/main/SkinInfo'))()
+local bakedSoundInfo = not load4 and _G.bakeds or loadstring(game:HttpGet('https://raw.githubusercontent.com/ConePartyy/Econ/refs/heads/main/AnimSound'))()
+local weapontypes = not load5 and _G.wpt or loadstring(game:HttpGet('https://raw.githubusercontent.com/ConePartyy/Econ/refs/heads/main/WeaponTypes'))()
+
+local z = 'https://raw.githubusercontent.com/ConePartyy/Econ/refs/heads/main/'
+local ui = loadstring(game:HttpGet(z..'Econ%20UI.txt'))()
+
+local Window = ui:CreateWindow({
+	Name = 'Econ Skinchanger',
+	Icon = nil,
+	LoadingTitle = '',
+	LoadingSubtitle = "by ConePartyy",
+	Theme = "AmberGlow", 
+
+	DisableEconFieldPrompts = true,
+	DisableBuildWarnings = true,
+
+	ConfigurationSaving = {
+		Enabled = true,
+		FolderName = 'cone',
+		FileName = "econ"
+	},
+
+	Discord = {
+		Enabled = false,
+		Invite = "acv8tdb8",
+		RememberJoins = true
+	},
+
+	KeySystem = false,
+	KeySettings = {
+		Title = 'Econ | Password',
+		Subtitle = '',
+		Note = nil,
+		FileName = 'econK',
+		SaveKey = true,
+		GrabKeyFromSite = true,
+		Key = {}
+	}
+})
+
+-- // WRAP CHANGER CONTROL
+
+local wrapSkinInfo = {}
+
+local wrapper = loadstring(game:HttpGet(z..'Wrapper.txt'))()
+
+function readSkinFile()
+	local rf = isfile('cSkin') 
+	if rf then
+		local splits = string.split(readfile('cSkin'), '.')
+		for _, v in pairs(splits) do
+			local inf = string.split(v, '-')
+			wrapSkinInfo[inf[1]] = {
+				wrap = inf[2],
+				inverted = inf[3] == 'true'
+			}
+		end
+	else
+		writefile('cSkin', '')
+	end
+end
+
+function writeSkinFile()
+	local str = ''
+	for skin, inf in pairs(wrapSkinInfo) do
+		str..=skin..'-'..(inf.wrap or 'None')..'-'..tostring(inf.inverted)..'.'
+	end
+	writefile('cSkin', str)
+end
+
+readSkinFile()
+
+local ps = plr.PlayerScripts:WaitForChild('Assets')
+
+local function gt()
+	local inf = wrapSkinInfo[string.split(cw.Name, ' - ')[3]]
+	wrapper:wrapThis(cw, (inf and inf.wrap or 'None'), (inf and inf.inverted), ps.ViewModels, ps.WrapTextures)
+end
+
+local function check(v)
+	if string.find(v.Name, plr.Name) then
+		local rest = string.split(v.Name, ' - ')
+
+		cw = v
+		gt()
+	end
+end
+
+if vms:GetChildren()[1] then
+	check(vms:GetChildren()[1])
+end
+
+-- // REST
+
+local to = {
+	'Primary', 'Secondary', 'Melee', 'Utility'
+}
+
+local toskin = {}
+
+local initConnections = {}
+
+for t, weapons in pairs(weapontypes.typeToWeapons) do
+	local gameplayTab = Window:CreateTab(to[t], nil)
+	
+	if t == 1 then
+		local visualSection = gameplayTab:CreateSection('Wrap Changer - Hold a weapon')
+
+		local selectedWrap = 'None'
+		local selectedWeapon = 'Assault Rifle'
+		local wrapsX = {'None'}
+		local inverted = false
+
+		for wrap, v in pairs(wrapper:getAll()) do
+			table.insert(wrapsX, wrap)
+		end
+
+		function updateSkin()
+			local name = string.split(cw.Name, ' - ')[3]
+			wrapSkinInfo[name] = {
+				wrap = selectedWrap,
+				inverted = inverted,
+			}
+
+			writeSkinFile()
+
+			gt()
+		end
+
+		local typeWrap
+		local wrapDropdown = gameplayTab:CreateDropdown({
+			Name = 'Wrap',
+			Options = wrapsX,
+			CurrentOption = {selectedWrap},
+			MultipleOptions = false,
+			Ext = true,
+			Flag = 'wcwcdropdown',
+			Callback = function(Options, nosound)
+				selectedWrap = Options[1]
+
+				if not nosound and not (not vms or #vms:GetChildren() == 0) then
+					updateSkin()
+				elseif not nosound then
+					ui:Notify({
+						Title = 'Error',
+						Content = 'Hold a weapon to change your wrap', 
+						Image = 6026568210,
+						Duration = 2,
+					})
+				end
+			end,
+		})
+
+		local wrapz = {'none'}
+		for wrap, v in pairs(wrapper:getAll()) do
+			table.insert(wrapz, string.lower(wrap))
+		end
+
+		typeWrap = gameplayTab:CreateInput({
+			Name = 'Type Wrap',
+			CurrentValue = selectedWrap,
+			PlaceholderText = selectedWrap,
+			RemoveTextAfterFocusLost = true,
+			Ext = true,
+			Flag = 'wcwcinput',
+			Callback = function(Text, nosound)
+				if table.find(wrapz, string.lower(Text)) then
+					local realWrap = 'None'
+					for w, v in pairs(wrapper:getAll()) do
+						if string.lower(w) == string.lower(Text) then
+							realWrap = w
+						end
+					end
+
+					if not (not vms or #vms:GetChildren() == 0) then
+						wrapDropdown:Set({realWrap}, nosound)
+					end
+
+					selectedWrap = realWrap
+
+					if not nosound and not (not vms or #vms:GetChildren() == 0) then
+					elseif not nosound then
+						ui:Notify({
+							Title = 'Error',
+							Content = 'Hold a weapon to change your wrap', 
+							Image = 6026568210,
+							Duration = 2,
+						})
+					end
+				end
+			end,
+		})
+
+		local invertedToggle = gameplayTab:CreateToggle({
+			Name = 'Inverted',
+			CurrentValue = false,
+			Ext = true,
+			Flag = "invtoggle",
+			Callback = function(Value, nosound)
+				inverted = Value
+
+				if not nosound and not (not vms or #vms:GetChildren() == 0) then
+					updateSkin()
+				elseif not nosound then
+					ui:Notify({
+						Title = 'Error',
+						Content = 'Hold a weapon to change your wrap', 
+						Image = 6026568210,
+						Duration = 2,
+					})
+				end
+			end,
+		})
+
+		table.insert(initConnections, vms.ChildAdded:Connect(function(v)
+			check(v)
+			
+			if not v:HasTag('Changed') then
+				for _, v in pairs(toskin) do
+					_G.ac(v)
+				end
+			end
+
+			local n = string.split(cw.Name, ' - ')[3]
+			local inf = wrapSkinInfo[n]
+			visualSection:Set(n and 'Wrap Changer - '..n or 'Wrap Changer - Hold a weapon')
+			task.spawn(function()
+				typeWrap:Set(inf and inf.wrap or 'None', 1)
+			end)
+
+			task.spawn(function()
+				invertedToggle:Set(inf and inf.inverted, 1)	
+			end)
+		end))
+
+		table.insert(initConnections, vms.ChildRemoved:Connect(function(v)
+			if not vms or #vms:GetChildren() == 0 then
+				visualSection:Set('Wrap Changer - Hold a weapon')
+				task.spawn(function()
+					typeWrap:Set('None', 1)
+				end)
+
+				task.spawn(function()
+					invertedToggle:Set(false, 1)	
+				end)
+			end
+		end))
+		
+		local function frcheck()
+			local v = vms:GetChildren()[1]
+			if v then
+				check(v)
+
+				local n = string.split(cw.Name, ' - ')[3]
+				local inf = wrapSkinInfo[n]
+				visualSection:Set(n and 'Wrap Changer - '..n or 'Wrap Changer - Hold a weapon')
+				task.spawn(function()
+					typeWrap:Set(inf and inf.wrap or 'None', 1)
+				end)
+
+				task.spawn(function()
+					invertedToggle:Set(inf and inf.inverted, 1)	
+				end)
+			end
+		end
+		
+		_G.frr = frcheck
+	end
+	
+	local visualSection = gameplayTab:CreateSection('Weapons')
+	
+	for skin, v in pairs(weapons) do
+		skin = v
+		v = skinfo.skinInfo[v]
+		
+		if v then
+			local ov = table.clone(v)
+			v = {'Dont Change'}
+			for _, v2 in pairs(ov) do
+				table.insert(v, v2)
+			end
+
+			local selectedSkin = [[Dont Change]]
+			local drop = gameplayTab:CreateDropdown({
+				Name = skin,
+				Options = v,
+				CurrentOption = {[[Dont Change]]},
+				MultipleOptions = false,
+				--Ext = true,
+				Flag = skin,
+				Callback = function(Options, nosound)
+					selectedSkin = Options[1]
+					
+					toskin[skin] = Options[1]
+
+					if not nosound then
+						_G.ac(selectedSkin)
+					end
+				end,
+			})
+		end
+	end
+end
+
+local going = true
+
+if plr:GetAttribute('OriginalPositionb') then 
+	plr:SetAttribute('OriginalPositionb', nil)		
+end
+
+plr:SetAttribute('OriginalPositionb', true)
+
+table.insert(initConnections, plr:GetAttributeChangedSignal('OriginalPositionb'):Connect(function()
+	for _, v in pairs(initConnections) do
+		v:Disconnect()
+	end
+
+	going = false
+	return
+end))
+
+local relAnim = rep.Modules.AnimationLibrary
+
+local soundGroup = ss:FindFirstChild('Zero') or Instance.new('SoundGroup', ss)
+soundGroup.Name = 'Zero'
+
+local animStorage = uis:FindFirstChild('AnimsEcon') or Instance.new('Folder', uis)
+animStorage.Name = 'AnimsEcon'
+
+local soundOn = true
+
+if _G.soundCon then
+	_G.soundCon:Disconnect()
+end
+
+if _G.volumeC then
+	_G.volumeC:Disconnect()
+end
+
+if not _G.skinanim then
+	_G.skinanim = {}
+end
+
+if not _G.applied then
+	_G.applied = {}
+end
+
+_G.volumeC = ss.Other:GetPropertyChangedSignal('Volume'):Connect(function()
+	if soundOn then
+		soundGroup.Volume = ss.Other.Volume
+	end
+end)
+
+_G.soundCon = weaponSounds.ChildAdded:Connect(function(s)
+	if (not table.find(module.canPlay, s.SoundId) or s.PlaybackSpeed == .5) and not s:HasTag('IsOurs') then
+		s.SoundGroup = soundGroup
+	end
+end)
+
+_G.wpt = weapontypes
+_G.skinfo = skinfo
+_G.skinmod = skinmodx
+_G.utility = utility
+
+local toMuzzle = {
+	Minigun = 'Minigun',
+	Spray = 'Spray',
+}
+
+for _, v in pairs(skins.Weapons:GetChildren()) do
+	if not toMuzzle[v.Name] then
+		toMuzzle[v.Name] = 'Default'
+	end
+end
+
+if not _G.ourAnims then
+	_G.ourAnims = {}
+end
+
+if not _G.skinToAnimCon then
+	_G.skinToAnimCon = {}
+end
+
+function special(name)
+	if name then 
+		local keywords = {'sprint', 'idle', 'reload'}
+		for _, v in pairs(keywords) do
+			if string.find(name, v) then
+				return true
+			end
+		end
+	end
+end
+
+function test(v, skinName, spl, vm)
+	local prim = v:FindFirstChild('Primary')
+	if prim then
+		local _muzzle = prim:FindFirstChild('_muzzle')
+		local other = vm.ItemVisual:FindFirstChild('_muzzle', true)
+
+		local function replaceAtt(att : Attachment)
+			att = v:FindFirstChild(att, true)
+			if att then
+				local otherAtt = vm.ItemVisual:FindFirstChild(att.Name, true) :: Attachment
+				if otherAtt then
+					otherAtt.Parent = att.Parent
+					otherAtt.WorldCFrame = att.WorldCFrame
+					att:Destroy()
+				end
+			end
+		end
+
+		replaceAtt('_aim_lookat')
+		replaceAtt('_aim_position')
+		replaceAtt('_center')
+		replaceAtt('_grip')
+
+		if _muzzle and other then
+			local p = _muzzle.Position
+			_muzzle:Destroy()
+
+			other.Position = p
+			other:ClearAllChildren()
+
+			local ogk = muzzles:FindFirstChild(spl[2]) or muzzles[toMuzzle[spl[2]]]
+			local muzzleClone = muzzles:FindFirstChild(skinName) or ogk
+			for _, v in pairs((muzzleClone:FindFirstChild('Attachment') or muzzleClone):GetChildren()) do
+				v:Clone().Parent = other
+			end
+
+			if not other:FindFirstChildWhichIsA('Light', true) then
+				for _, v in pairs(ogk:GetDescendants()) do
+					if v:IsA('Light') then
+						v:Clone().Parent = other
+					end
+				end 
+			end
+
+			other.Parent = prim
+		end
+
+		local funcs = {
+			Katana = function()
+
+			end,
+		}
+
+		if funcs[spl[2]] then
+			funcs[spl[2]]()
+		end
+	end
+end
+
+function findSkin(name)
+	for _, v in pairs(skins:GetChildren()) do
+		for _, v in pairs(v:GetChildren()) do
+			if v.Name == name then return v end
+		end
+	end
+end
+
+function applySkin(skinName, cs)
+	task.spawn(function()
+		if not skinfo.skinToOg[skinName] then skinName = skinfo.lowerToOg[string.lower(skinName)] end
+
+		local ogitem = skinfo.skinToOg[skinName]
+		if not ogitem then return end
+
+		local char = plr.Character
+		local hum = char and char:FindFirstChild('Humanoid')
+
+		local main = plr.PlayerGui.MainGui.MainFrame
+		local ui = main.FighterInterfaces:FindFirstChild(plr.Name)
+
+		if not hum or not ui then return end
+
+		for _, v in pairs(ui.Items.Container:GetChildren()) do
+			if v.Name == ogitem then
+				local icon = v.Icon :: ImageLabel
+				icon.ResampleMode = Enum.ResamplerMode[string.find(skinName, 'Pixel') and 'Pixelated' or 'Default'] 
+				icon.Image = skinmodx.viewmodels[skinName].image
+			end
+		end
+
+		local function apl(vm)
+			task.spawn(function()
+				local skin = findSkin(skinName)
+				local vm = vm or vms:GetChildren()[1]
+				local root = vm and vm.PrimaryPart
+				
+				if skin and root and not vm:HasTag'Changed' then
+					local clone = skin:Clone()
+					
+					vm:AddTag'Changed'
+					
+					local ca = clone:FindFirstChild('_charm_attachment_model', true)
+					if ca then
+						ca:Destroy()
+					end
+
+					local ca = clone:FindFirstChild('_charm_pivot_attachment', true)
+					if ca then
+						ca:Destroy()
+					end
+
+					-- // ANIMATIONS | CLEANI
+
+					local last = vm.Name
+					local spl = string.split(vm.Name, ' - ')
+					local ogWeapon = skins:FindFirstChild(spl[2], true)
+
+					if not vm:GetAttribute('OGItem') then
+						vm:SetAttribute('OGItem', spl[2])
+					end
+
+					local ig = vm:GetAttribute('OGItem')
+
+					vm.Name = spl[1]..' - '..spl[2].. ' - '..skinName
+
+					local itemint = plr.PlayerGui.MainGui.MainFrame.ItemInterfaces[plr.Name.. ' - '..spl[2]]
+
+					local name = vm.name
+
+					local clean = _G.skinToAnimCon[name] or _G.skinToAnimCon[last]
+					if clean then
+						for _, v in pairs(clean) do
+							v:Disconnect()
+						end
+					end
+
+					-- // AIMING CHECK
+
+					local vig = itemint.AimingVignette
+
+					local last = vig.ImageTransparency
+					local aiming = false
+
+					local function aimingCallback(v)
+						local funcs = {
+							['AKEY-47'] = function()
+								local var5
+								if v then
+									var5 = 0.1
+								else
+									var5 = 0
+								end
+
+								utility:CreateSound("rbxassetid://96253147006478", 0.375, 2 + var5, true, var5)
+							end,
+						}
+
+						if funcs[skinName] then
+							funcs[skinName]()
+						end
+					end
+
+					vig:GetPropertyChangedSignal('ImageTransparency'):Connect(function()
+						local _c = aiming
+						if vig.ImageTransparency > last and aiming then
+							aiming = false
+						elseif vig.ImageTransparency < last and not aiming then
+							aiming = true
+						end
+
+						if aiming ~= _c and math.abs(last-vig.ImageTransparency) < .8 then aimingCallback(aiming) end
+
+						last = vig.ImageTransparency
+					end)
+
+					-- // ANIMATIONS TABLE
+
+					local econAnim = vm:FindFirstChild('Anims') or Instance.new('Folder', vm)
+					econAnim:ClearAllChildren()
+					econAnim.Name = 'Anims'
+
+					local animator = vm.AnimationController.Animator :: Animator
+
+					local animtbl = {}
+					local toname = {}
+					local prs = {}
+
+					local sn = _G.skinanim[name] or _G.skinanim[last]
+					if sn then
+						for _, v in pairs(sn) do
+							if v.anim then
+								v.anim:Stop(0)
+							end
+						end
+					end
+
+					local zx = 0
+					local mx = 0
+
+					for _, name in pairs(skinmodx.viewmodels[ig].anims) do
+						local vmi = skinmodx.viewmodels[ig]
+
+						local id = _G.animLib.Info[name].AnimationID
+						local animType = vmi.animsReverse[name]
+
+						local new = skinmodx.viewmodels[skinName]
+						local typeToReal = new.anims[animType]
+
+						local nowid = _G.animLib.Info[typeToReal]
+
+						if nowid then
+							local anim = Instance.new('Animation', econAnim) :: AnimationTrack
+							anim.AnimationId = nowid.AnimationID
+
+							anim = animator:LoadAnimation(anim)
+							--anim:Play(0, .001, 10)
+
+							table.insert(_G.ourAnims, anim)
+
+							local v = relAnim:FindFirstChild(typeToReal, true)
+							local scr = v and bakedSoundInfo[v.Name]
+							if v and not scr then
+								scr = decompile(v, nil, 0)
+
+								task.spawn(function()
+									for i = 1, 10 do
+										local cg = game:GetService('StarterGui')
+										cg:SetCore('SendNotification', {
+											Title = 'NEW SKIN/SKIN ANIMATIONS ADDED',
+											Text = 'SPAM ME @CONEPARTEA ON DISCORD. ENTERING MANUAL MODE!',
+											Duration = 5
+										})
+
+										task.wait(.5)
+									end
+								end)
+
+								local function getparts(str, pos)
+									local bef = string.sub(str, 1, pos)
+									local af = string.sub(str, pos+1, -1)
+									return bef, af
+								end
+
+								local ci = 0
+								local function check(str)
+									local tofind = ':CreateSound'
+									local b, afa = getparts(str, ci)
+									local ps = string.find(afa, tofind)
+									if ps then
+										ci = ps+#tofind+#b
+										local b, afa = getparts(str, ci)
+										local firstArg = string.split(afa, ',')[1]
+										local b2, afaId = getparts(str, ci+#firstArg)
+
+										str = b.. '{id = ('..firstArg..'), model = vm}'..afaId
+
+										return check(str)
+									end
+
+									return str
+								end
+
+								scr = check(scr)
+
+								local ci = 0
+								local function check2(str)
+									local tofind = ':CreateSpectatorSound'
+									local b, afa = getparts(str, ci)
+									local ps = string.find(afa, tofind)
+									if ps then
+										ci = ps+#tofind+#b
+										local b, afa = getparts(str, ci)
+										local firstArg = string.split(afa, ',')[1]
+										local b2, afaId = getparts(str, ci+#firstArg)
+
+										str = b.. '{id = ('..firstArg..'), model = vm}'..afaId
+
+										return check2(str)
+									end
+
+									return str
+								end
+
+								scr = check2(scr)
+
+								scr = string.gsub(scr, ('arg2'), 'arg4')
+								scr = string.gsub(scr, ('arg1, arg4, arg3'), 'arg1, arg2, arg3, arg4, vm')
+								scr = string.gsub(scr, ('script.Name'), 'arg2')
+								--scr = string.gsub(string.gsub(string.split(scr, 'seconds')[2], '_upvr', ''), "^\n", "")
+							end
+
+							toname[nowid.AnimationID] = name
+
+							local ls = scr and loadstring(scr)
+
+							task.spawn(function()
+								repeat wait() until anim.Length > 0
+								zx += 1
+							end)
+
+							mx += 1
+
+							animtbl[id] = {
+								anim = anim,
+								name = typeToReal,
+								relinfo = nowid,
+								soundcall = ls and ls()
+							}
+						end
+					end
+
+					-- // REST
+
+					clone:PivotTo(root:GetPivot())
+					for _, v in pairs(clone:GetChildren()) do
+						v.PrimaryPart = v:FindFirstChild('Primary')
+						for _, p : BasePart in pairs(v:GetChildren()) do
+							if p:IsA('MeshPart') then
+								p.Massless = true
+
+								local newWeld = Instance.new('WeldConstraint', (v.PrimaryPart or v:FindFirstChild('Primary')))
+								newWeld.Part0 = v.PrimaryPart or v:FindFirstChild('Primary')
+								newWeld.Part1 = p
+							end
+						end
+					end
+
+					for _, v in pairs(clone:GetDescendants()) do
+						if v:IsA('BasePart') then
+							v.CanQuery = false
+							v.CanTouch = false
+							v.Anchored = false
+							v.CastShadow = false
+
+							if v:IsA('MeshPart') then
+								v.CollisionFidelity = Enum.CollisionFidelity.Box
+							end
+						end
+					end
+
+					for _, v in pairs(root:GetChildren()) do
+						if v.Name ~= 'RightArm' and v.Name ~= 'LeftArm' then
+							if v:HasTag('IsChanged') then
+								v:Destroy()
+							else
+								v.Name = 'a'
+							end
+						end
+					end
+
+					local was = {}
+					for _, v in pairs(vm.ItemVisual:GetChildren()) do
+						if v:HasTag('IsChanged') then
+							table.insert(was, v)
+						end
+					end
+
+					local dontDestroy = {'_katana'}
+
+					local function inTbl(str)
+						local no = false
+						for _ , v in pairs(dontDestroy) do
+							if string.find(str, v) then
+								no = true
+							end
+						end
+						return no
+					end
+
+					for _, v : Instance in pairs(vm.ItemVisual:GetDescendants()) do
+						if v:IsA('MeshPart') then
+							v.Size = Vector3.zero
+							v.Transparency = 1
+						elseif (v:IsA('ParticleEmitter') or v:IsA('RopeConstraint') or v:IsA('Beam')) and not inTbl(v.Parent.Name) then
+							v:Destroy()
+						end
+					end
+
+					repeat wait() until mx == zx
+
+					for _, v in pairs(clone:GetChildren()) do
+						if v:FindFirstChild("Primary") then
+							test(v, skinName, spl, vm)
+
+							v:AddTag('IsChanged')
+
+							local newMotor = Instance.new('Motor6D', root)
+							newMotor.Name = 'ItemVisual["'..v.Name..'"]'
+							newMotor.Part0 = root
+							newMotor.Part1 = v.PrimaryPart or v:FindFirstChild('Primary')
+							newMotor:AddTag('IsChanged')
+
+							local prim = (v.PrimaryPart or v:FindFirstChild('Primary')) 
+							prim.Name = v.Name..'Primary'
+
+							newMotor.C0 = v:GetAttribute('C0') or CFrame.new()
+							newMotor.C1 = v:GetAttribute('C1') or CFrame.new()
+
+							v.Parent = vm.ItemVisual
+						end
+					end
+
+					for _, v in pairs(was) do
+						v:Destroy()
+					end
+
+					clone:Destroy()
+
+					-- // ANIMATIONS
+
+					local playing = {}
+
+					local function ct(track : AnimationTrack)
+						if not table.find(_G.ourAnims, track) then
+							local pr = track.Priority
+							track:AdjustWeight(0.0001, 0)
+							track:AdjustSpeed(0)
+							track.Priority = Enum.AnimationPriority.Core
+
+							local b = animtbl[track.Animation.AnimationId]
+							if b then
+								local loaded = b.anim
+								loaded.Priority = prs[loaded] or pr
+								loaded.TimePosition = track.TimePosition				
+								loaded:Play()
+								loaded:AdjustSpeed(b.relinfo.Speed)
+
+								if not special(b.name) then
+									for _, v : AnimationTrack in pairs(animator:GetPlayingAnimationTracks()) do
+										if table.find(_G.ourAnims, v) and v ~= loaded and not special(toname[v.Animation.AnimationId]) then
+											v:Stop()
+										end
+									end
+								end
+
+								local norm = loaded.Speed
+
+								prs[loaded] = loaded.Priority
+
+								--local function upd()
+								--	loaded:AdjustSpeed(track.Speed)
+								--end
+
+								-- // SOUNDS
+
+								if b then
+									if b.soundcall then
+										task.spawn(function()
+											b.soundcall(utility, b.name, loaded.Speed, loaded, vm)
+										end)
+									end
+
+									-- // REST
+
+									table.insert(_G.skinToAnimCon[name], track.Stopped:Once(function()
+										loaded:Stop()
+									end))
+
+									local function upd()
+										local no = {'Water', 'Air'}
+										if string.find(b.name, 'sprint') then
+											loaded:AdjustSpeed(table.find(no, hum.FloorMaterial.Name) and .15 or norm)
+										end
+									end
+
+									local con = hum:GetPropertyChangedSignal('FloorMaterial'):Connect(upd)
+									upd()
+
+									table.insert(_G.skinToAnimCon[name], con)
+
+									loaded.Stopped:Once(function()
+										con:Disconnect()
+									end)
+
+									--upd()
+									--local z = run.RenderStepped:Connect(upd)
+								end
+							end
+						end
+					end
+
+					table.insert(_G.applied, vm)
+
+					local function pt(p)
+						local c = vms:GetChildren()[1]
+
+						if p ~= vms then
+							for _, v in pairs(weaponSounds:GetChildren()) do
+								if (not v:GetAttribute('DontClearSound') and _G.soundToWeapon[v] == vm) then
+									v:Destroy()
+								end
+							end
+						end
+
+						if not c or c == vm or not table.find(_G.applied, c) then
+							soundOn = p ~= vms
+							soundGroup.Volume = soundOn and ss.Other.Volume or 0
+
+							if soundOn then
+								for _, v in pairs(animtbl) do
+									v.anim:Stop()
+								end
+							end
+						end
+					end
+
+					_G.skinanim[name] = animtbl
+					_G.skinToAnimCon[name] = {}
+					_G.skinToAnimCon[name][1] = animator.AnimationPlayed:Connect(ct)
+					for _, v in pairs(animator:GetPlayingAnimationTracks()) do
+						ct(v)
+					end
+
+					_G.skinToAnimCon[name][3] = vm:GetPropertyChangedSignal('Parent'):Connect(function()
+						pt(vm.Parent)
+					end)
+
+					pt(vm.Parent)
+
+					-- // REMOVING
+
+					_G.skinToAnimCon[name][2] = vm:GetPropertyChangedSignal('Parent'):Once(function()
+						if not vm.Parent then
+							pt()
+							for _, v in pairs(_G.skinToAnimCon[name]) do
+								v:Disconnect()
+							end
+							_G.skinToAnimCon[name] = nil
+						end
+					end)
+					
+					if vm == vms:GetChildren()[1] and _G.frr then
+						_G.frr()
+					end
+				end
+			end)
+		end
+
+		local first = vms:GetChildren()[1]
+		local z = first and string.split(first.Name, ' - ')
+		if first and z[1] == plr.Name and z[2] == ogitem then
+			apl(first)
+		end
+
+		for _, v in pairs(game:GetService('ReplicatedStorage').Assets.Temp.ViewModels:GetChildren()) do
+			local z = string.split(v.Name, ' - ')
+			if v and z[1] == plr.Name and z[2] == ogitem then
+				apl(v)
+			end
+		end
+	end)
+end
+
+_G.ac = applySkin
+
+ui.LoadConfiguration()
+
+--queue_on_teleport(game:HttpGet(z..'Main.txt'))
+
+return module
