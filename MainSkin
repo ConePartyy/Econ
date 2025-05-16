@@ -790,17 +790,20 @@ function applySkin(skinName, cs)
 						end
 					end
 					
-					if spl[2] == 'Fists' then
-						vm.LeftArm.Massless = false
+					if clone:FindFirstChild('_right_arm') then
 						vm.RightArm.Massless = false
 
-						local nw = Instance.new('Weld', vm.LeftArm)
-						local nw2 = Instance.new('Weld', vm.RightArm)
-						nw.Part0 = vm.LeftArm
-						nw2.Part0 = vm.RightArm
+						local nw = Instance.new('Weld', vm.RightArm)
+						nw.Part0 = vm.RightArm
+						nw.Part1 = clone._right_arm.PrimaryPart
+					end
+					
+					if clone:FindFirstChild('_left_arm') then
+						vm.LeftArm.Massless = false
 
+						local nw = Instance.new('Weld', vm.LeftArm)
+						nw.Part0 = vm.LeftArm
 						nw.Part1 = clone._left_arm.PrimaryPart
-						nw2.Part1 = clone._right_arm.PrimaryPart
 					end
 
 					for _, v in pairs(clone:GetDescendants()) do
