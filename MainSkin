@@ -826,7 +826,7 @@ function applySkin(skinName, cs)
 						end
 					end
 
-					repeat wait() until mx == zx
+					--repeat wait() until mx == zx
 
 					for _, v in pairs(clone:GetChildren()) do
 						if v:FindFirstChild("Primary") then
