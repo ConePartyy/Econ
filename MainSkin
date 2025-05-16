@@ -26,7 +26,7 @@ local plr = game:GetService('Players').LocalPlayer
 
 -- // PREVENT NOLOAD
 
-if _G.loadAfter then
+--if _G.loadAfter then
 	local ui = plr:WaitForChild('PlayerGui')
 	
 	wait(1)
@@ -34,7 +34,7 @@ if _G.loadAfter then
 	if ui:FindFirstChild('LoadingScreen') then
 		ui.LoadingScreen:GetPropertyChangedSignal('Parent'):Wait()
 	end
-end
+--end
 
 -- // MAIN
 
