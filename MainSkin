@@ -30,6 +30,9 @@ local uis = game:GetService('CoreGui')
 local rep = game:GetService('ReplicatedStorage')
 
 local scripts = plr.PlayerScripts
+
+scripts:WaitForChild('Assets')
+
 local misc = scripts.Assets.Misc
 local skins = scripts.Assets.ViewModels
 local vms = game:GetService'Workspace'.ViewModels.FirstPerson
@@ -155,7 +158,7 @@ local initConnections = {}
 
 for t, weapons in pairs(weapontypes.typeToWeapons) do
 	local gameplayTab = Window:CreateTab(to[t], nil)
-	
+
 	if t == 1 then
 		local visualSection = gameplayTab:CreateSection('Wrap Changer - Hold a weapon')
 
@@ -267,7 +270,7 @@ for t, weapons in pairs(weapontypes.typeToWeapons) do
 
 		table.insert(initConnections, vms.ChildAdded:Connect(function(v)
 			check(v)
-			
+
 			if not v:HasTag('Changed') then
 				for _, v in pairs(toskin) do
 					_G.ac(v)
@@ -298,7 +301,7 @@ for t, weapons in pairs(weapontypes.typeToWeapons) do
 				end)
 			end
 		end))
-		
+
 		local function frcheck()
 			local v = vms:GetChildren()[1]
 			if v then
@@ -316,16 +319,16 @@ for t, weapons in pairs(weapontypes.typeToWeapons) do
 				end)
 			end
 		end
-		
+
 		_G.frr = frcheck
 	end
-	
+
 	local visualSection = gameplayTab:CreateSection('Weapons')
-	
+
 	for skin, v in pairs(weapons) do
 		skin = v
 		v = skinfo.skinInfo[v]
-		
+
 		if v then
 			local ov = table.clone(v)
 			v = {'Dont Change'}
@@ -343,7 +346,7 @@ for t, weapons in pairs(weapontypes.typeToWeapons) do
 				Flag = skin,
 				Callback = function(Options, nosound)
 					selectedSkin = Options[1]
-					
+
 					toskin[skin] = Options[1]
 
 					if not nosound then
@@ -540,12 +543,12 @@ function applySkin(skinName, cs)
 				local skin = findSkin(skinName)
 				local vm = vm or vms:GetChildren()[1]
 				local root = vm and vm.PrimaryPart
-				
+
 				if skin and root and not vm:HasTag'Changed' then
 					local clone = skin:Clone()
-					
+
 					vm:AddTag'Changed'
-					
+
 					local ca = clone:FindFirstChild('_charm_attachment_model', true)
 					if ca then
 						ca:Destroy()
@@ -975,7 +978,7 @@ function applySkin(skinName, cs)
 							_G.skinToAnimCon[name] = nil
 						end
 					end)
-					
+
 					if vm == vms:GetChildren()[1] and _G.frr then
 						_G.frr()
 					end
