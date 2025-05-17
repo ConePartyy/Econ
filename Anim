@@ -49,34 +49,29 @@ local at = 0
 local max = 0
 
 local function add_animation(name, id, length, speed, idkserver, stamp, extraInfo) 
-	--max += 1
-	--task.spawn(function()
-		speed = speed or 1
+	speed = speed or 1
 
-		local rel = relAnim:FindFirstChild(name)
+	local rel = relAnim:FindFirstChild(name)
 
-		mod.Info[name] = {
-			AnimationID = id,
+	mod.Info[name] = {
+		AnimationID = id,
+		Speed = speed,
+		Length = (length and length / speed),
+		ActionTimestamp = (stamp and stamp / speed),
+		SoundCallback = rel, --and require(rel),
+		ExtraInformation = extraInfo
+	}
+
+	if not mod.InfoReverse[id] then
+		mod.InfoReverse[id] = {
+			Name = name,
 			Speed = speed,
 			Length = (length and length / speed),
 			ActionTimestamp = (stamp and stamp / speed),
-			SoundCallback = rel and require(rel),
+			SoundCallback = rel, --and require(rel),
 			ExtraInformation = extraInfo
 		}
-
-		if not mod.InfoReverse[id] then--not isskin(name) then
-			mod.InfoReverse[id] = {
-				Name = name,
-				Speed = speed,
-				Length = (length and length / speed),
-				ActionTimestamp = (stamp and stamp / speed),
-				SoundCallback = rel and require(rel),
-				ExtraInformation = extraInfo
-			}
-		end
-		
-	--	at += 1
-	--end)
+	end
 end
 
 add_animation("fists_equip", "rbxassetid://12557487419", 0.55, nil, true)
@@ -783,18 +778,5 @@ add_animation("gunblade_hypergunblade_shoot1", "rbxassetid://123114191854550")
 add_animation("gunblade_hypergunblade_attack1_blade", "rbxassetid://78583815320764")
 add_animation("gunblade_hypergunblade_attack2_blade", "rbxassetid://137119092277962")
 add_animation("gunblade_hypergunblade_attack_blade_onhit", "rbxassetid://76566021425065", nil, 1.5, nil, 0.38)
-
---task.spawn(function()
---	for i, v in pairs(relAnim:GetChildren()) do
---		task.spawn(function()
---			local scr = decompile(v, nil, 0)
---			scr = string.gsub(scr, ('script.Name'), 'arg2')
---			mod.AnimToSoundCallbackScript[v.Name] = loadstring(scr)
---			warn(i .. ' / '..#relAnim:GetChildren())
---		end)
---	end
---end)
-
---repeat wait() until max == at
 
 return mod
