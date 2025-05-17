@@ -24,18 +24,6 @@ ADDING NEW ITEMS:
 
 local plr = game:GetService('Players').LocalPlayer
 
--- // PREVENT NOLOAD
-
---local ui = plr:WaitForChild('PlayerGui')
-
---wait(1)
-
---if ui:FindFirstChild('LoadingScreen') then
---	ui.LoadingScreen:GetPropertyChangedSignal('Parent'):Wait()
---end
-
--- // MAIN
-
 local run = game:GetService('RunService')
 local ss = game:GetService('SoundService')
 local uis = game:GetService('CoreGui')
@@ -68,6 +56,8 @@ local utility = not load2 and _G.utility or loadstring(game:HttpGet('https://raw
 local skinfo = not load3 and _G.skinfo or loadstring(game:HttpGet('https://raw.githubusercontent.com/ConePartyy/Econ/refs/heads/main/SkinInfo'))()
 local bakedSoundInfo = not load4 and _G.bakeds or loadstring(game:HttpGet('https://raw.githubusercontent.com/ConePartyy/Econ/refs/heads/main/AnimSound'))()
 local weapontypes = not load5 and _G.wpt or loadstring(game:HttpGet('https://raw.githubusercontent.com/ConePartyy/Econ/refs/heads/main/WeaponTypes'))()
+
+local icoToSikn = skinmodx.its
 
 local z = 'https://raw.githubusercontent.com/ConePartyy/Econ/refs/heads/main/'
 local ui = loadstring(game:HttpGet(z..'Econ%20UI.txt'))()
@@ -449,6 +439,110 @@ if not _G.skinToAnimCon then
 	_G.skinToAnimCon = {}
 end
 
+task.spawn(function()
+	local prelo = {}
+	for _, v in pairs(toskin) do
+		table.insert(prelo, skinmodx.viewmodels[v].image)
+	end
+	game:GetService('ContentProvider'):PreloadAsync(prelo)
+end)
+
+-- // Weapon Selection Changer
+
+task.spawn(function()
+	local function checkfor(v)
+		task.spawn(function()
+			if v.Name == 'PickWeapons' and not v:HasTag('Econ') then
+				local chosen = v:WaitForChild('ChosenWeapons')
+				local list = v:WaitForChild('List')
+				
+				v:AddTag'Econ'
+				
+				local cons = {}
+
+				if chosen and list then
+					list = list.Container
+					
+					-- // LIST
+
+					local function handle(v)
+						task.spawn(function()
+							local b = v.Name == 'PickWeaponSlot' and v:WaitForChild('Button')
+							if b and b:FindFirstChild('Icon') and b.Icon:FindFirstChild('Picture') then
+								b = b.Icon.Picture
+								b.Name = 'OPic'
+
+								local function calc()
+									local ts = icoToSikn[b.Image]
+									local tog = skinfo.skinToOg[ts] or ts
+									local tocur = toskin[tog]
+									if tocur and tocur ~= 'Dont Change' then
+										b.Image = skinmodx.viewmodels[tocur].image
+									end
+								end
+
+								calc()
+								table.insert(cons, b:GetPropertyChangedSignal('Image'):Connect(calc))
+							end
+						end)
+					end
+
+					for _, v in pairs(list:GetChildren()) do
+						handle(v)
+					end
+					
+					local con = list.ChildAdded:Connect(handle)
+					table.insert(cons, con)
+					
+					-- // MAIN SELECTION
+					
+					local function handle2(v)
+						task.spawn(function()
+							if v.Name == 'PickWeaponChosenSlot' then
+								local b = v.Button.Picture
+								local function calc()
+									local ts = icoToSikn[b.Image]
+									local tog = skinfo.skinToOg[ts] or ts
+									local tocur = toskin[tog]
+									if tocur and tocur ~= 'Dont Change' then
+										b.Image = skinmodx.viewmodels[tocur].image
+									end
+								end
+
+								calc()
+								table.insert(cons, b:GetPropertyChangedSignal('Image'):Connect(calc))
+							end
+						end)
+					end
+
+					for _, v in pairs(chosen:GetChildren()) do
+						handle2(v)
+					end
+					
+					table.insert(cons, chosen.ChildAdded:Connect(handle2))
+
+					-- // FINISH
+					
+					for _, v in pairs(cons) do
+						table.insert(initConnections, v)
+					end
+				end
+			end
+		end)
+	end
+	
+	local ui = plr.PlayerGui:WaitForChild('MainGui')
+	local pages = ui.MainFrame.Pages
+	
+	if pages:FindFirstChild('PickWeapons') then
+		checkfor(pages.PickWeapons)
+	end
+	
+	table.insert(initConnections, pages.ChildAdded:Connect(checkfor))
+end)
+
+-- // Rest
+
 function special(name)
 	if name then 
 		local keywords = {'sprint', 'idle', 'reload'}
@@ -529,6 +623,7 @@ end
 
 function applySkin(skinName, cs)
 	task.spawn(function()
+		if skinName == 'Dont Change' then return end
 		if not skinfo.skinToOg[skinName] then skinName = skinfo.lowerToOg[string.lower(skinName)] end
 
 		local ogitem = skinfo.skinToOg[skinName]
