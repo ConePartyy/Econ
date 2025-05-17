@@ -26,14 +26,12 @@ local plr = game:GetService('Players').LocalPlayer
 
 -- // PREVENT NOLOAD
 
---if _G.loadAfter then
-	local ui = plr:WaitForChild('PlayerGui')
-	
-	wait(1)
-	
-	if ui:FindFirstChild('LoadingScreen') then
-		ui.LoadingScreen:GetPropertyChangedSignal('Parent'):Wait()
-	end
+--local ui = plr:WaitForChild('PlayerGui')
+
+--wait(1)
+
+--if ui:FindFirstChild('LoadingScreen') then
+--	ui.LoadingScreen:GetPropertyChangedSignal('Parent'):Wait()
 --end
 
 -- // MAIN
@@ -789,7 +787,7 @@ function applySkin(skinName, cs)
 							end
 						end
 					end
-					
+
 					if clone:FindFirstChild('_right_arm') then
 						vm.RightArm.Massless = false
 
@@ -797,7 +795,7 @@ function applySkin(skinName, cs)
 						nw.Part0 = vm.RightArm
 						nw.Part1 = clone._right_arm.PrimaryPart
 					end
-					
+
 					if clone:FindFirstChild('_left_arm') then
 						vm.LeftArm.Massless = false
 
