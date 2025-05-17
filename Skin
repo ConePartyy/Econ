@@ -3,7 +3,8 @@ local animlib = loadstring(game:HttpGet('https://raw.githubusercontent.com/ConeP
 
 local mod = {
 	viewmodels = {},
-	viewmodelorder = {}
+	viewmodelorder = {},
+	its = {},
 }
 
 _G.animLib = animlib
@@ -12,94 +13,91 @@ local qtbl = {}
 local at = 0
 local max = 0
 local function add_viewmodel(name, icon, iconhigh, imagecenter, elimImg, elimImgScale, rootOffset, _equip, _idle, _sprint, _inspect, _rareinspect, itemSpecAnims, infoTbl)
-	--max += 1
-	--task.spawn(function()
-		local itbl = {
-			image = icon,
-			imagehighres = iconhigh,
-			imagecentered = imagecenter,
-			elimfeedimage = elimImg,
-			elimfeedimagescale = elimImgScale,
-			rootoffset = rootOffset or CFrame.identity,
-			anims = {
-				equip = _equip,
-				idle = _idle,
-				sprint = _sprint,
-				inspect = _inspect,
-				rareinspect = _rareinspect,
-			},
+	local itbl = {
+		image = icon,
+		imagehighres = iconhigh,
+		imagecentered = imagecenter,
+		elimfeedimage = elimImg,
+		elimfeedimagescale = elimImgScale,
+		rootoffset = rootOffset or CFrame.identity,
+		anims = {
+			equip = _equip,
+			idle = _idle,
+			sprint = _sprint,
+			inspect = _inspect,
+			rareinspect = _rareinspect,
+		},
 
-			animsReverse = {},
-		}
+		animsReverse = {},
+	}
+	
+	mod.its[icon] = name
+	
+	if _equip then
+		itbl.animsReverse[_equip] = 'equip'
+	end
+	if _idle then
+		itbl.animsReverse[_idle] = 'idle'
+	end
+	if _sprint then
+		itbl.animsReverse[_sprint] = 'sprint'
+	end
+	if _inspect then
+		itbl.animsReverse[_inspect] = 'inspect'
+	end
+	if _rareinspect then
+		itbl.animsReverse[_rareinspect] = 'rareinspect'
+	end
 
-		if _equip then
-			itbl.animsReverse[_equip] = 'equip'
+	-- // Adding Item-Specific Animations (Shooting, Reload, etc)
+
+	if itemSpecAnims then
+		for name, anim in pairs(itemSpecAnims) do
+			itbl.animsReverse[anim] = name
+			itbl.anims[name] = anim
 		end
-		if _idle then
-			itbl.animsReverse[_idle] = 'idle'
+	end
+
+	-- // Checking Animation Availability
+
+	local p1, p2, p3 = pairs(itbl.anims)
+	for _, anim in pairs(itbl.anims) do
+		local var81 = animlib.Info[anim]
+		assert(var81, 'bro your animation doesnt exist: '..anim)
+	end
+
+	-- // Adding Extra Item Info
+
+	if infoTbl then
+		for set, val in pairs(infoTbl) do
+			itbl[set] = val
 		end
-		if _sprint then
-			itbl.animsReverse[_sprint] = 'sprint'
-		end
-		if _inspect then
-			itbl.animsReverse[_inspect] = 'inspect'
-		end
-		if _rareinspect then
-			itbl.animsReverse[_rareinspect] = 'rareinspect'
-		end
+	end
 
-		-- // Adding Item-Specific Animations (Shooting, Reload, etc)
+	-- // Finish
 
-		if itemSpecAnims then
-			for name, anim in pairs(itemSpecAnims) do
-				itbl.animsReverse[anim] = name
-				itbl.anims[name] = anim
-			end
-		end
+	mod.viewmodels[name] = itbl
+	table.insert(mod.viewmodelorder, name)
 
-		-- // Checking Animation Availability
+	-- // Test Existing
 
-		local p1, p2, p3 = pairs(itbl.anims)
-		for _, anim in pairs(itbl.anims) do
-			local var81 = animlib.Info[anim]
-			assert(var81, 'bro your animation doesnt exist: '..anim)
-		end
+	if qtbl[icon] and not string.find(icon, '_') then
+		warn("Image already exists:", name)
+	end
 
-		-- // Adding Extra Item Info
+	if qtbl[iconhigh] and not string.find(iconhigh, '_') then
+		warn("ImageHighResolution already exists:", name)
+	end
 
-		if infoTbl then
-			for set, val in pairs(infoTbl) do
-				itbl[set] = val
-			end
-		end
+	if elimImg and qtbl[elimImg] and not string.find(elimImg, '_') then
+		warn("EliminationFeedImage already exists:", name)
+	end
 
-		-- // Finish
-
-		mod.viewmodels[name] = itbl
-		table.insert(mod.viewmodelorder, name)
-
-		-- // Test Existing
-
-		if qtbl[icon] and not string.find(icon, '_') then
-			warn("Image already exists:", name)
-		end
-
-		if qtbl[iconhigh] and not string.find(iconhigh, '_') then
-			warn("ImageHighResolution already exists:", name)
-		end
-
-		if elimImg and qtbl[elimImg] and not string.find(elimImg, '_') then
-			warn("EliminationFeedImage already exists:", name)
-		end
-
-		qtbl[icon] = true
-		qtbl[iconhigh] = true
-		if elimImg then
-			qtbl[elimImg] = true
-		end
-		
-	--	at += 1
-	--end)
+	qtbl[icon] = true
+	qtbl[iconhigh] = true
+	if elimImg then
+		qtbl[elimImg] = true
+	end
 end
 
 add_viewmodel("Medkit", "rbxassetid://17160800734", "rbxassetid://13717497368", nil, "rbxassetid://113536105409271", 1.5, nil, "medkit_equip", "medkit_idle", "medkit_sprint", "medkit_inspect", nil, {
