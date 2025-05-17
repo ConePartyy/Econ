@@ -1,5 +1,10 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local tc = tick()
+
 local animlib = loadstring(game:HttpGet('https://raw.githubusercontent.com/ConePartyy/Econ/refs/heads/main/Anim'))()
+warn('AnimLib | '..tick()-tc)
+tc = tick()
 
 local mod = {
 	viewmodels = {},
@@ -1690,6 +1695,7 @@ add_viewmodel("Elixir", "rbxassetid://123677194704684", "rbxassetid://9673414177
 	LobFinish = "grenade_lob_finish";
 })
 
+warn('Skin | '..tick()-tc)
 --repeat wait() until max == at
 
 return mod
