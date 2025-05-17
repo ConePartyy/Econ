@@ -58,7 +58,7 @@ local function add_animation(name, id, length, speed, idkserver, stamp, extraInf
 		Speed = speed,
 		Length = (length and length / speed),
 		ActionTimestamp = (stamp and stamp / speed),
-		SoundCallback = rel, --and require(rel),
+		--SoundCallback = rel, --and require(rel),
 		ExtraInformation = extraInfo
 	}
 
@@ -68,7 +68,7 @@ local function add_animation(name, id, length, speed, idkserver, stamp, extraInf
 			Speed = speed,
 			Length = (length and length / speed),
 			ActionTimestamp = (stamp and stamp / speed),
-			SoundCallback = rel, --and require(rel),
+			--SoundCallback = rel, --and require(rel),
 			ExtraInformation = extraInfo
 		}
 	end
